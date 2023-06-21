@@ -1,5 +1,7 @@
 
 function createNewAgent(csrf_token) {
+
+    console.log('HITTING')
     
     // status to hit the API if all client side validation persist without fail
     is_api_go = false;
@@ -8,6 +10,8 @@ function createNewAgent(csrf_token) {
     email = document.getElementById('email').value;
     password = document.getElementById('password').value;
     conf_password = document.getElementById('conf_password').value;
+
+    employee_id = document.getElementById('employee_id').value;
 
     //alert box DOM
     alertbox = document.getElementById('alertbox');
@@ -21,8 +25,8 @@ function createNewAgent(csrf_token) {
     }
 
 
-    password = document.getElementById('first_name').value;
-    password = document.getElementById('last_name').value;
+    first_name = document.getElementById('first_name').value;
+    last_name = document.getElementById('last_name').value;
     user_group = 'travel_agent';
 
 
@@ -35,12 +39,16 @@ function createNewAgent(csrf_token) {
             "password":password,
             "user_group": user_group,
             "first_name": first_name,
-            "last_name": last_name
+            "last_name": last_name,
+            "employee_id": employee_id
         },
         success: function(data){
-            alertbox.innerHTML = data['message'];
+            console.log('succes sdata', data)
+            alertbox.innerHTML = data['response_message'];
+            window.location.reload();
         },
-        error: function(){
+        error: function(jqXHR, exception){
+            console.log(jqXHR, ' | ', exception);
             alertbox.innerHTML = "It seems server side erro has occured. Try again after some time. Still if problem persist, contact developer@vsbizz.com";
         },        
     });

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.password_validation import validate_password
+from travel.models import VBSEmployeeDetails
 
 class OrgEmployeeCreation:
 
@@ -9,6 +10,7 @@ class OrgEmployeeCreation:
     user_group = None
     first_name = None
     last_name = None
+    employee_id = None
 
     def __init__(self, **kwargs) -> None:
         self.email = kwargs['email']
@@ -16,6 +18,7 @@ class OrgEmployeeCreation:
         self.user_group = kwargs['user_group']
         self.first_name = kwargs['first_name']
         self.last_name = kwargs['last_name']
+        self.employee_id = kwargs['employee_id']
 
     def __generate_pbdkf2_code(self):
         try:
@@ -35,9 +38,9 @@ class OrgEmployeeCreation:
     def add_user_to_db(self):
         if self.__generate_pbdkf2_code():
             try:
-                user_obj = User.objects.create_user(email=self.email, username=self.__generate_username(), password=self.__password, is_active=True)
+                user_obj = User.objects.create_user(email=self.email, username=self.__generate_username(), password=self.__password, is_active=True, first_name=self.first_name, last_name = self.last_name)
 
-                print(user_obj)
+                VBSEmployeeDetails.objects.create(employee_auth_user_ref=user_obj, org_employee_id=self.employee_id)
                 
                 user_obj.groups.set([self.__add_to_group()])
 
