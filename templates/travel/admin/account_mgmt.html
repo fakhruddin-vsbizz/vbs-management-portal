@@ -94,9 +94,11 @@
                 
                 
             {% else %}
-                &nbsp;
+                {% for elem in agents_list %}
+                    {% include 'travel/admin/cards/agentacc__agent_detail.html' with employee_data=elem %}
+                {% endfor %}
             {% endif %}
-            <!-- {% include 'travel/admin/cards/agentacc__agent_detail.html' %} -->
+            
             
         </div>
         {% include 'travel/admin/dialogs/agentacc__agent_edit.html' %}

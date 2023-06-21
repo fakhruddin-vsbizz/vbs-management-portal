@@ -32,10 +32,7 @@ class TravelVISA(TemplateView):
     template_name = 'travel/visa/all_list.html'
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        updated_context = super().get_context_data(**kwargs)
-        updated_context['agents_list'] = User.objects.filter(groups__name='travel_agent')
-
-        return updated_context
+        return super().get_context_data(**kwargs)
 
 
 class TVDetailProcessing(TemplateView):
@@ -158,5 +155,8 @@ class TAdminAgentAccounts(TemplateView):
     template_name = "travel/admin/account_mgmt.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs)
+        updated_context = super().get_context_data(**kwargs)
+        updated_context['agents_list'] = User.objects.filter(groups__name='travel_agent')
+
+        return updated_context
     

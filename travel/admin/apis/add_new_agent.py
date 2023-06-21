@@ -16,7 +16,7 @@ class CreateNewAgentView(APIView):
             user_obj = User.objects.get(email=data.get('email'))
             return Response({'is_success':False, 'response_message':'User is already present in the system.'})
         except ObjectDoesNotExist as e:
-            new_org_employee_creation = OrgEmployeeCreation(email=data.get('email'), password=data.get('password'), user_group = data.get('user_group'), first_name = data.get('first_name'), last_name = data.get('last_name')).add_user_to_db()
+            new_org_employee_creation = OrgEmployeeCreation(email=data.get('email'), password=data.get('password'), user_group = data.get('user_group'), first_name = data.get('first_name'), last_name = data.get('last_name'), employee_id=data.get('employee_id')).add_user_to_db()
             
             if new_org_employee_creation:
                 return Response({'is_success':True, 'response_message':'User created successfully'})
