@@ -1,0 +1,14 @@
+.font-roboto {
+    font-family: 'Roboto';
+}
+
+.login-header {
+    font-size: 200%;
+    font-weight: 700;
+    color: rgb(13, 184, 252);
+}
+
+.input-style {
+    width: 80%
+}
+

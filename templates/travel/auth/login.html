@@ -1,0 +1,41 @@
+{% extends '../header.html' %}
+{% load static %}
+{% block content %}
+
+<center>
+    <div class="uk-card uk-card-secondary uk-card-body font-roboto" style="width: 60%; margin-top: 10%;">
+        <img src="{% static 'img/vbslogo.png' %}" style="width:20%; height:20%;">
+        <br/>
+        <hr color="white" style="width: 50%;">
+        <label class="uk-card-title login-header">Authentication Panel</label>
+        <p>Login using your designated credentials</p>
+        
+        {% if auth_validated is False %}
+            <p style="color: skyblue; padding: 2%; border: 1px solid white;">
+                <span uk-icon="warning"></span>&nbsp;&nbsp;Username and Password Wrong
+            </p>
+        {% elif auth_validated is None %}
+            &nbsp;
+        {% else %}
+            &nbsp;
+        {% endif %}
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div class="uk-inline">
+                <span class="uk-form-icon" uk-icon="icon: user"></span>
+                <input class="uk-input" name="email" type="text" aria-label="Not clickable icon">
+            </div>
+            <div class="uk-inline">
+                <span class="uk-form-icon" uk-icon="icon: eye"></span>
+                <input class="uk-input" name="password" type="password" aria-label="Not clickable icon">
+            </div>
+            <br/><br/>
+            <input class="uk-button uk-button-secondary uk-width-1-3" type="submit" value="Login"/>
+        </form>
+        
+    </div>    
+</center>
+
+
+{% endblock content %}

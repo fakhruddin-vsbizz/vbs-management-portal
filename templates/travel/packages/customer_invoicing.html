@@ -1,0 +1,193 @@
+{% extends '../header.html' %}
+{% load static %}
+{% block content %}
+
+<div style="width: 100%; ">
+
+    <div class="uk-card uk-card-primary uk-card-body">
+        <div uk-grid style="width: 100%;">
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#">Visa</a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#">Packages</a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#">Tickets</a></div>
+                </div>
+            </div>
+            <div class="uk-width-1-4@m">
+                <div class="uk-flex">
+                    <div><a href="#">Insurance</a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#"><span uk-icon="icon:push"></span></a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#"><span uk-icon="icon:user"></span></a></div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <center>
+
+        <br/>
+        <ul class="uk-breadcrumb">
+            <li><a href="#">Hoem</a></li>
+            <li><a href="#">Details Processing</a></li>
+            <li class="uk-disabled"><a>Document Processing</a></li>
+            <li class="uk-disabled"><a>Payment Processing</a></li>
+        </ul>
+
+        <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224);font-family: Roboto; color: black;">
+            <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);">STEP 2: Customer Invoicing</label>
+            <hr style="border-color: black;">
+            <div uk-grid class="uk-child-width-1-2">
+                <div class="uk-width-1-1">
+                    Client name:<br/>
+                    <input class="uk-input" style="width: 70%;" type="text" maxlength="100">
+                </div>
+                <div>
+                    Number of days:<br/>
+                    <input class="uk-input" style="width: 70%;" type="number" maxlength="2">
+                </div>
+                <div>
+                    Passport Number:<br/>
+                    <input class="uk-input" style="width: 70%;" type="text" maxlength="15">
+                </div>
+                <div class="uk-width-1-1">
+                    Fill the amount to the respective charges applied: <br/>
+                    <table class="uk-table uk-table-small uk-table-divider" style="background-color: white; width: 100%;">
+                        <div class="uk-card uk-card-body uk-card-default" style="font-size: 120%; padding: 10px 10px; font-weight: 600;">
+                            <div uk-grid class="uk-child-width-1-2">
+                                <div>
+                                    Charge Description
+                                </div>
+                                <div>
+                                    <center>Amount</center>
+                                </div>
+                            </div>
+                        </div>
+                        <tbody>
+                            <tr>
+                                <td>Gross Amount</td>
+                                <td><center><input type="number" class="uk-input" style="width: 50%;"></center></td>
+                            </tr>
+                            <tr>
+                                <td>Service Charges</td>
+                                <td><center><input type="number" class="uk-input" style="width: 50%;"></center></td>
+                            </tr>
+                            <tr>
+                                <td>CGST</td>
+                                <td><center>9%</center></td>
+                            </tr>
+                            <tr>
+                                <td>SGST</td>
+                                <td><center>9%</center></td>
+                            </tr>
+                            <tr>
+                                <td>IGST</td>
+                                <td><center>18%</center></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div uk-grid class="uk-child-width-1-2" style="padding: 3%;">
+                        <div style="font-size: 130%;">
+                            Net Amount
+                        </div>
+                        <div style="font-size: 130%;">
+                            <center>Rs. 15000/-</center>
+                        </div>
+                        <div>
+                            Discount
+                        </div>
+                        <div>
+                            <center><input type="number" class="uk-input" style="width: 60%;"></center>
+                        </div>
+                    </div>
+                    <div class="uk-card uk-card-body uk-card-secondary" style="font-size: 140%; font-weight: 600;">
+                        <div uk-grid class="uk-child-width-1-2">
+                            <div>
+                                Total
+                            </div>
+                            <div>
+                                <center>Rs. 14500/-</center>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/><br/>
+
+                    <div uk-grid class="uk-child-width-1-2">
+                        <div>
+                            <label style="font-size: 120%; font-weight: 600; color: rgb(0, 116, 161);"><u>Invoice status</u></label>
+                            <br/><br/>
+                            <div class="uk-tile uk-tile-default" style="padding: 2% 2%; font-weight: 700; width: 100%; ">
+                                <ul class="uk-tab-bottom" uk-tab>
+                                    <li class="uk-active"><a href="#">Generated</a></li>
+                                    <li><a href="#">Sent</a></li>
+                                    <li><a href="#">Paid</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            Tentative date till payment:<br/><br/>
+                            <input type="date" class="uk-input">
+                        </div>
+                    </div>
+
+                    
+
+
+                    
+
+                </div>
+                <div uk-grid class="uk-child-width-1-3" style="width: 100%;">
+                    <div>
+                        <button class="uk-button uk-button-default">Save Changes</button>
+                    </div>
+                    <div>
+                        <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary">Block Application</button>
+                        <div id="my-id" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body">
+                                <h3 class="uk-modal-title">Block Application?</h3>
+                                <p>You are blocking the application, which means follow-up will be created for this client.</p>
+                                <p>
+                                    Select the time at which the client would be available for call:
+                                    <input class="uk-input" type="time" style="width: 50%;">
+                                </p>
+                                <p class="uk-text-right">
+                                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                                    <button class="uk-button uk-button-primary" type="button">Save</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="uk-button uk-button-primary">Move to Vendor Management</button>
+                    </div>
+                </div>
+                
+                
+                
+            </div>
+        </div>
+
+        <br/>
+
+    </center>
+
+</div>
+
+{% endblock content %}

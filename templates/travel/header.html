@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.15/dist/css/uikit.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.15/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.15/dist/js/uikit-icons.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="uikit/dist/js/uikit-icons.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300&family=Roboto+Mono:wght@300&family=Roboto:wght@300&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/6b41e6376a.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/application_tracker.js' %}"></script>
+    <script src="{% static 'js/travel/agentacc__emp_create.js' %}"></script>
+    <title>VBS Travel Application</title>
+
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        /* Track */
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey; 
+            border-radius: 2px;
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: grey; 
+            border-radius: 2px;
+        }
+        
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #242424; 
+        }
+    </style>
+
+</head>
+<body>
+
+    {% block content %}
+    {% endblock content %}
+</body>
+</html>

@@ -1,0 +1,52 @@
+<div id="vbs-travel-new-agent" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h2 class="uk-modal-title">New Agent</h2>
+        <div uk-grid class="uk-child-width-1-2">
+            <div class="uk-width-1-1" style="margin-bottom: 1%;">
+                <hr style="border-color: black;">
+            </div>
+            <div class="uk-width-1-1">
+                <div class="uk-alert-primary" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p id="alertbox"></p>
+                </div>
+            </div>
+            <div>
+                <i class="fa-solid fa-user"></i> &nbsp;&nbsp; First Name:<br/>
+                <input type="text" id="first_name" class="uk-input"/>
+             </div>
+            <div>
+                <i class="fa-solid fa-user"></i> &nbsp;&nbsp;Last Name: <br/>
+                <input type="text" id="last_name" class="uk-input"/></div>
+            <div class="uk-width-1-1">
+                <i class="fa-regular fa-id-badge"></i> &nbsp;&nbsp;Employee ID: 
+                <br/>
+                <input type="text" id="employee_id" value="VBS_EMP_{{ agents_list|length }}" class="uk-input"/>
+            </div>
+
+            <div class="uk-width-1-1">
+                <hr style="border-color: black;">
+                <h4>Set the email and password for the employee</h4>
+            </div>
+            <div class="uk-width-1-1">
+                <i class="fa-solid fa-key"></i> &nbsp;&nbsp;Email: <br/>
+                <br/>
+                <input type="email" id="email" class="uk-input"/>
+            </div>
+            <div>
+                <i class="fa-solid fa-key"></i> &nbsp;&nbsp;New Password: <br/>
+                <br/>
+                <input type="password" id="password" class="uk-input"/>
+            </div>
+            <div>
+                <i class="fa-solid fa-key"></i> &nbsp;&nbsp;Confirm Password: <br/>
+                <br/>
+                <input type="password" id="conf_password" class="uk-input"/>
+            </div>
+            <div class="uk-width-1-1">
+                <button class="uk-button uk-button-default uk-button-large uk-width-1-1" style="background-color: rgb(0, 197, 0);" onclick="createNewAgent('{{ csrf_token }}')">Add new agent to the system</button>
+            </div>
+        </div>
+    </div>
+</div>

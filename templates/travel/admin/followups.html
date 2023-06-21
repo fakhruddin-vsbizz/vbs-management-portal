@@ -1,0 +1,342 @@
+{% extends '../header.html' %}
+{% load static %}
+{% block content %}
+
+    <div style="width: 100%;">
+    
+        <div class="uk-card uk-card-primary uk-card-body">
+            <div uk-grid style="width: 100%;">
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#">Agents</a></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#">Payments</a></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#">Follow-ups</a></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#">Transfer Control</a></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#">Account Management</a></div>
+                    </div>
+                </div>
+                
+                
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#"><span uk-icon="icon:push"></span></a></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#"><span uk-icon="icon:user"></span></a></div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <center>
+            
+            <div uk-grid style="padding: 3%;">
+                <div class="uk-width-1-4" style="text-align: left;">
+                    <label style="font-size: 200%; font-weight: 600; color: rgb(0, 116, 161);">Application Follow-ups</label>
+                    <br/><br/>
+                    <div class="uk-tile uk-tile-secondary" style="width: 100%; height: 500px; overflow-y: scroll; scroll-behavior: smooth; text-align: left;">
+                        <div class="uk-tile uk-tile-primary" style="width: 100%; padding: 3%; margin-bottom: 2%;">
+                            <label style="font-size: 130%;">VISA</label>
+                            <br/>
+                            <hr>
+                            <button class="uk-button uk-button-default">View Followups</button>
+                        </div>
+                        <div class="uk-tile uk-tile-primary" style="width: 100%; padding: 3%; margin-bottom: 2%;">
+                            <label style="font-size: 130%;">Packages</label>
+                            <br/>
+                            <hr>
+                            <button class="uk-button uk-button-default">View Followups</button>
+                        </div>
+                        <div class="uk-tile uk-tile-primary" style="width: 100%; padding: 3%; margin-bottom: 2%;">
+                            <label style="font-size: 130%;">Tickets</label>
+                            <br/>
+                            <hr>
+                            <button class="uk-button uk-button-default">View Followups</button>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                <div class="uk-width-3-4" style="text-align: left;">
+                    <div class="uk-card uk-card-default uk-card-body" style="width: 100%; height: 100%;">
+                        <label style="font-size: 160%">VISA</label>
+                        <br/><br/>
+                        <div uk-grid class="uk-child-width-1-3">
+                            <div>
+                                <div class="uk-tile uk-tile-default" style="padding: 5%; border: 3px solid skyblue">
+                                    In Followups: <br/>
+                                    <label style="font-size: 250%">20</label>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="uk-tile uk-tile-default" style="padding: 5%; border: 3px solid skyblue">
+                                    Non-contactable: <br/>
+                                    <label style="font-size: 250%">30</label>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="uk-tile uk-tile-default" style="padding: 5%; border: 3px solid skyblue">
+                                    Contacted: <br/>
+                                    <label style="font-size: 250%">10</label>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <hr style="border-color: black;">
+
+                        <label style="font-size: 110%; font-weight: 600; color: rgb(0, 116, 161);">All followups for the VISA</label>
+                        <br/><br/>
+                        <div class="uk-card uk-card-secondary" style="padding: 3%;">
+                            <div uk-grid class="uk-child-width-1-3" style="font-weight: 700;">
+                                <div>Client Name</div>
+                                <div>
+                                    Blocked on
+                                </div>
+                                <div>
+                                    Days since ingress
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height: 300px; overflow-y: scroll; scroll-behavior: smooth; text-align: left;">
+                            
+                            <div class="uk-card uk-card-default" style="padding: 3%;">
+                                <div uk-grid class="uk-child-width-1-3">
+                                    <div>Fakhruddin Ezzey</div>
+                                    <div style="font-size: 140%;">24th May, 2023</div>
+                                    <div style="font-size: 140%;">
+                                        40
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-card uk-card-default" style="padding: 3%;">
+                                <div uk-grid class="uk-child-width-1-3">
+                                    <div>Fakhruddin Ezzey</div>
+                                    <div style="font-size: 140%;">24th May, 2023</div>
+                                    <div style="font-size: 140%;">
+                                        40
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-card uk-card-default" style="padding: 3%;">
+                                <div uk-grid class="uk-child-width-1-3">
+                                    <div>Fakhruddin Ezzey</div>
+                                    <div style="font-size: 140%;">24th May, 2023</div>
+                                    <div style="font-size: 140%;">
+                                        25
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-card uk-card-default" style="padding: 3%;">
+                                <div uk-grid class="uk-child-width-1-3">
+                                    <div>Fakhruddin Ezzey</div>
+                                    <div style="font-size: 140%;">24th May, 2023</div>
+                                    <div style="font-size: 140%;">
+                                        20
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-card uk-card-default" style="padding: 3%;">
+                                <div uk-grid class="uk-child-width-1-3">
+                                    <div>Fakhruddin Ezzey</div>
+                                    <div style="font-size: 140%;">24th May, 2023</div>
+                                    <div style="font-size: 140%;">
+                                        10
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-card uk-card-default" style="padding: 3%;">
+                                <div uk-grid class="uk-child-width-1-3">
+                                    <div>Fakhruddin Ezzey</div>
+                                    <div style="font-size: 140%;">24th May, 2023</div>
+                                    <div style="font-size: 140%;">
+                                        12
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+
+        </center>
+
+        <hr style="border-color: black;">
+
+        <center>
+            <div style="text-align: left; padding-left: 3%;">
+                <label style="font-size: 200%; font-weight: 600; color: rgb(0, 116, 161);">Pending applications with payment stage </label>
+                <br/><br/>
+                <div uk-slider style="padding-right: 3%;">
+                    <ul class="uk-slider-items uk-child-width-1-3@s uk-child-width-1-4@ uk-grid" style="text-align: left;">
+                        <li>
+                            <div class="uk-tile uk-tile-secondary" style="padding: 7%; border-radius: 5px">
+                                <div uk-grid class="uk-child-width-1-2">
+                                    <div>
+                                        <label style="font-size: 140%;">Client 2 (VISA)</label>
+                                        <br/>
+                                        <span class="uk-badge">VISA</span>
+                                        <br/>
+                                        <label style="font-size: 180%;">Rs. 1000/-</label>
+                                    </div>
+                                    <div style="vertical-align: middle;">
+                                        <button class="uk-button uk-button-primary"><span uk-icon="mail"></span>&nbsp;&nbsp;&nbsp;&nbsp;Alert</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="uk-tile uk-tile-secondary" style="padding: 7%; border-radius: 5px">
+                                <div uk-grid class="uk-child-width-1-2">
+                                    <div>
+                                        <label style="font-size: 140%;">Client 2 (VISA)</label>
+                                        <br/>
+                                        <span class="uk-badge">Packages</span>
+                                        <br/>
+                                        <label style="font-size: 180%;">Rs. 1000/-</label>
+                                    </div>
+                                    <div style="vertical-align: middle;">
+                                        <button class="uk-button uk-button-primary"><span uk-icon="mail"></span>&nbsp;&nbsp;&nbsp;&nbsp;Alert</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="uk-tile uk-tile-secondary" style="padding: 7%; border-radius: 5px">
+                                <div uk-grid class="uk-child-width-1-2">
+                                    <div>
+                                        <label style="font-size: 140%;">Client 2 (VISA)</label>
+                                        <br/>
+                                        <span class="uk-badge">VISA</span>
+                                        <br/>
+                                        <label style="font-size: 180%;">Rs. 1000/-</label>
+                                    </div>
+                                    <div style="vertical-align: middle;">
+                                        <button class="uk-button uk-button-primary"><span uk-icon="mail"></span>&nbsp;&nbsp;&nbsp;&nbsp;Alert</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="uk-tile uk-tile-secondary" style="padding: 7%; border-radius: 5px">
+                                <div uk-grid class="uk-child-width-1-2">
+                                    <div>
+                                        <label style="font-size: 140%;">Client 2 (VISA)</label>
+                                        <br/>
+                                        <span class="uk-badge">Tickets</span>
+                                        <br/>
+                                        <label style="font-size: 180%;">Rs. 1000/-</label>
+                                    </div>
+                                    <div style="vertical-align: middle;">
+                                        <button class="uk-button uk-button-primary"><span uk-icon="mail"></span>&nbsp;&nbsp;&nbsp;&nbsp;Alert</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </center>
+
+        <br/><hr style="border-color: black;"><br/>
+
+        <center>
+            <div style="text-align: left; padding-left: 3%;">
+                <label style="font-size: 200%; font-weight: 600; color: rgb(0, 116, 161);">Vendor Payments pending for packages </label>
+                <br/><br/>
+                <div uk-slider style="padding-right: 3%;">
+                    <ul class="uk-slider-items uk-child-width-1-3@s uk-child-width-1-4@ uk-grid" style="text-align: left;">
+                        <li>
+                            <div class="uk-tile uk-tile-secondary" style="padding: 7%; border-radius: 5px">
+                                <div uk-grid class="uk-child-width-1-2">
+                                    <div>
+                                        <label style="font-size: 140%;">Client 1</label>
+                                        <br/>
+                                        <span class="uk-badge">Packages</span>
+                                        <br/>
+                                        <label style="font-size: 180%;">Rs 12000/-</label>
+                                    </div>
+                                    <div style="vertical-align: middle;">
+                                        <button class="uk-button uk-button-primary"><span uk-icon="mail"></span>&nbsp;&nbsp;&nbsp;&nbsp;Alert</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="uk-tile uk-tile-secondary" style="padding: 7%; border-radius: 5px">
+                                <div uk-grid class="uk-child-width-1-2">
+                                    <div>
+                                        <label style="font-size: 140%;">Client 2</label>
+                                        <br/>
+                                        <span class="uk-badge">Packages</span>
+                                        <br/>
+                                        <label style="font-size: 180%;">Rs 2000/-</label>
+                                    </div>
+                                    <div style="vertical-align: middle;">
+                                        <button class="uk-button uk-button-primary"><span uk-icon="mail"></span>&nbsp;&nbsp;&nbsp;&nbsp;Alert</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="uk-tile uk-tile-secondary" style="padding: 7%; border-radius: 5px">
+                                <div uk-grid class="uk-child-width-1-2">
+                                    <div>
+                                        <label style="font-size: 140%;">Client 3</label>
+                                        <br/>
+                                        <span class="uk-badge">Packages</span>
+                                        <br/>
+                                        <label style="font-size: 180%;">Rs 4000/-</label>
+                                    </div>
+                                    <div style="vertical-align: middle;">
+                                        <button class="uk-button uk-button-primary"><span uk-icon="mail"></span>&nbsp;&nbsp;&nbsp;&nbsp;Alert</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="uk-tile uk-tile-secondary" style="padding: 7%; border-radius: 5px">
+                                <div uk-grid class="uk-child-width-1-2">
+                                    <div>
+                                        <label style="font-size: 140%;">Client 4</label>
+                                        <br/>
+                                        <span class="uk-badge">Packages</span>
+                                        <br/>
+                                        <label style="font-size: 180%;">Rs 3500/-</label>
+                                    </div>
+                                    <div style="vertical-align: middle;">
+                                        <button class="uk-button uk-button-primary"><span uk-icon="mail"></span>&nbsp;&nbsp;&nbsp;&nbsp;Alert</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </center>
+        
+    </div>
+
+{% endblock content %}

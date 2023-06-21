@@ -1,0 +1,128 @@
+{% extends '../header.html' %}
+{% load static %}
+{% block content %}
+
+<div style="width: 100%; ">
+
+    <div class="uk-card uk-card-primary uk-card-body">
+        <div uk-grid style="width: 100%;">
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#">Visa</a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#">Packages</a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#">Tickets</a></div>
+                </div>
+            </div>
+            <div class="uk-width-1-4@m">
+                <div class="uk-flex">
+                    <div><a href="#">Insurance</a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#"><span uk-icon="icon:push"></span></a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#"><span uk-icon="icon:user"></span></a></div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <center>
+
+        <br/>
+        <ul class="uk-breadcrumb">
+            <li><a href="#">Hoem</a></li>
+            <li><a href="#">Details Processing</a></li>
+            <li class="uk-disabled"><a>Document Processing</a></li>
+            <li class="uk-disabled"><a>Payment Processing</a></li>
+        </ul>
+
+        <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224);font-family: Roboto; color: black;">
+            <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);">STEP 2: Document Processing</label>
+            <hr style="border-color: black;">
+            <div uk-grid class="uk-child-width-1-2">
+                <div class="uk-width-1-1">
+                    Enter the vendor name:<br/>
+                    <input class="uk-input" style="width: 70%;" type="text">
+                </div>
+                <div class="uk-width-1-1">
+                    Mark the operations given as Done to label it as completed: <br/>
+                    <table class="uk-table uk-table-small uk-table-divider" style="background-color: white;">
+                        <thead>
+                            <tr>
+                                <th>Action to be performed</th>
+                                <th>Action</th>
+                                <th>Date of Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Document Submitted by client:</td>
+                                <td><button class="uk-button uk-button-default">Mark Done</button></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Courier out to Embassy:</td>
+                                <td><button class="uk-button uk-button-default">Mark Done</button></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Document Submitted by client</td>
+                                <td><button class="uk-button uk-button-default">Mark Done</button></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Document Submitted by client</td>
+                                <td><button class="uk-button uk-button-default">Mark Done</button></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="uk-width-1-1">&nbsp;</div>
+                <div class="uk-width-1-3">
+                    <button class="uk-button uk-button-default">Save Changes</button>
+                </div>
+                <div class="uk-width-1-3">
+                    <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary">Block Application</button>
+                    <div id="my-id" uk-modal>
+                        <div class="uk-modal-dialog uk-modal-body">
+                            <h3 class="uk-modal-title">Block Application?</h3>
+                            <p>You are blocking the application, which means follow-up will be created for this client.</p>
+                            <p>
+                                Select the time at which the client would be available for call:
+                                <input class="uk-input" type="time" style="width: 50%;">
+                            </p>
+                            <p class="uk-text-right">
+                                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                                <button class="uk-button uk-button-primary" type="button">Save</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-width-1-3">
+                    <button class="uk-button uk-button-primary">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <br/>
+
+    </center>
+
+</div>
+
+{% endblock content %}

@@ -1,0 +1,364 @@
+{% extends '../header.html' %}
+{% load static %}
+{% block content %}
+
+    <div style="width: 100%;">
+    
+        <div class="uk-card uk-card-primary uk-card-body">
+            <div uk-grid style="width: 100%;">
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#">Visa</a></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#">Packages</a></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#">Tickets</a></div>
+                    </div>
+                </div>
+                <div class="uk-width-1-4@m">
+                    <div class="uk-flex">
+                        <div><a href="#">Insurance</a></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#"><span uk-icon="icon:push"></span></a></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#"><span uk-icon="icon:user"></span></a></div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <center>
+            <div class="uk-card uk-card-default uk-card-body" style="width: 100%; border: 2px solid skyblue; background-color: rgb(201, 201, 201); ">
+                <div uk-grid style="height: 60px;">
+                    <div class="uk-width-1-2" style="text-align: left;">
+                        Travel<br/>
+                        <label class="font-roboto" style="font-size: 150%; font-weight: 700; color: black;">Packages</label>
+                    </div>
+                    <div class="uk-width-1-2" style="text-align: right;">
+                        <button class="uk-button uk-button-secondary">
+                            <span uk-icon="icon: plus-circle"></span>
+                            &nbsp;&nbsp;&nbsp;
+                            New Application
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div uk-grid class="uk-child-width-1-3" style="padding: 2%; width: 80%; text-align: left;">
+                <div class="uk-width-1-1">
+                    <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);"><u>Shortest Window to delivery applications</u></label>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-primary uk-card-body">
+                        <h3 class="uk-card-title">Client 1</h3>
+                        <p><span uk-icon="icon:future"></span> &nbsp;&nbsp;&nbsp;12 days left</p>
+                        <button class="uk-button uk-button-secondary">
+                            View application &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-primary uk-card-body">
+                        <h3 class="uk-card-title">Client 1</h3>
+                        <p><span uk-icon="icon:future"></span> &nbsp;&nbsp;&nbsp;12 days left</p>
+                        <button class="uk-button uk-button-secondary">
+                            View application &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-primary uk-card-body">
+                        <h3 class="uk-card-title">Client 1</h3>
+                        <p><span uk-icon="icon:future"></span> &nbsp;&nbsp;&nbsp;12 days left</p>
+                        <button class="uk-button uk-button-secondary">
+                            View application &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-primary uk-card-body">
+                        <h3 class="uk-card-title">Client 1</h3>
+                        <p><span uk-icon="icon:future"></span> &nbsp;&nbsp;&nbsp;12 days left</p>
+                        <button class="uk-button uk-button-secondary">
+                            View application &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-primary uk-card-body">
+                        <h3 class="uk-card-title">Client 1</h3>
+                        <p><span uk-icon="icon:future"></span> &nbsp;&nbsp;&nbsp;12 days left</p>
+                        <button class="uk-button uk-button-secondary">
+                            View application &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="uk-flex" style="width: 80%; text-align: center; margin-top: 3%;">
+                <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);"><u>List of generated VISA applications</u></label>    
+            </div>
+            
+            <div class="uk-flex" style="padding: 2%; width: 80%; text-align: center;">
+                <table style="width: 100%; text-align: left;" cellpadding="5px">
+                    <tr>
+                        <td>Applicant Name: <br/> <input class="uk-input" style="width: 70%;" type="text"></td>
+                        <td>
+                            Applicant Stage: <br/>
+                            <select class="uk-select" style="width: 70%;">
+                                <option>Applicant Details</option>
+                                <option>Document Processing</option>
+                                <option>Payments Processing</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Application opened on: <br/> <input class="uk-input" style="width: 70%;" type="date"></td>
+                        <td>
+                            Passport handover date: <br/><input class="uk-input" style="width: 70%;" type="date">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Application status: <br/> 
+                            <select class="uk-select" style="width: 70%;">
+                                <option>BLOCKED</option>
+                                <option>OPEN</option>
+                                <option>CLOSED</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="uk-button uk-button-primary uk-button-large">Filter</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </center>
+
+        <hr>
+
+        <center>
+            <div class="uk-flex" style="padding: 2%; width: 80%; text-align: center;">
+                <ul class="uk-list" style="width: 100%; height: 500px; overflow-y: scroll; scroll-behavior: smooth;">
+                    <li>
+                        <div class="uk-card uk-card-secondary uk-card-body">
+                            <div class="uk-child-width-1-6" uk-grid style="font-weight: 700;">
+                                <div>Client Name</div>
+                                <div>Handover Date</div>
+                                <div>Stage</div>
+                                <div>Status</div>
+                                <div>Created on</div>
+                                <div></div>
+                            </div>
+                        </div>
+                        
+                    </li>
+                    <li>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <div class="uk-child-width-1-6" uk-grid>
+                                <div>Hemant Kokate</div>
+                                <div>24/06/2023</div>
+                                <div><span class="uk-badge">Document Processing</span></div>
+                                <div><span class="uk-badge">OPEN</span></div>
+                                <div>24th March, 2023</div>
+                                <div><button class="uk-button uk-button-primary">Continue</button></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <div class="uk-child-width-1-6" uk-grid>
+                                <div>Hemant Kokate</div>
+                                <div>24/06/2023</div>
+                                <div><span class="uk-badge">Document Processing</span></div>
+                                <div><span class="uk-badge">OPEN</span></div>
+                                <div>24th March, 2023</div>
+                                <div><button class="uk-button uk-button-primary">Continue</button></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <div class="uk-child-width-1-6" uk-grid>
+                                <div>Hemant Kokate</div>
+                                <div>24/06/2023</div>
+                                <div><span class="uk-badge">Document Processing</span></div>
+                                <div><span class="uk-badge">OPEN</span></div>
+                                <div>24th March, 2023</div>
+                                <div><button class="uk-button uk-button-primary">Continue</button></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <div class="uk-child-width-1-6" uk-grid>
+                                <div>Hemant Kokate</div>
+                                <div>24/06/2023</div>
+                                <div><span class="uk-badge">Document Processing</span></div>
+                                <div><span class="uk-badge">OPEN</span></div>
+                                <div>24th March, 2023</div>
+                                <div><button class="uk-button uk-button-primary">Continue</button></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <div class="uk-child-width-1-6" uk-grid>
+                                <div>Hemant Kokate</div>
+                                <div>24/06/2023</div>
+                                <div><span class="uk-badge">Document Processing</span></div>
+                                <div><span class="uk-badge">OPEN</span></div>
+                                <div>24th March, 2023</div>
+                                <div><button class="uk-button uk-button-primary">Continue</button></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <div class="uk-child-width-1-6" uk-grid>
+                                <div>Hemant Kokate</div>
+                                <div>24/06/2023</div>
+                                <div><span class="uk-badge">Document Processing</span></div>
+                                <div><span class="uk-badge">OPEN</span></div>
+                                <div>24th March, 2023</div>
+                                <div><button class="uk-button uk-button-primary">Continue</button></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <div class="uk-child-width-1-6" uk-grid>
+                                <div>Hemant Kokate</div>
+                                <div>24/06/2023</div>
+                                <div><span class="uk-badge">Document Processing</span></div>
+                                <div><span class="uk-badge">OPEN</span></div>
+                                <div>24th March, 2023</div>
+                                <div><button class="uk-button uk-button-primary">Continue</button></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <div class="uk-child-width-1-6" uk-grid>
+                                <div>Hemant Kokate</div>
+                                <div>24/06/2023</div>
+                                <div><span class="uk-badge">Document Processing</span></div>
+                                <div><span class="uk-badge">OPEN</span></div>
+                                <div>24th March, 2023</div>
+                                <div><button class="uk-button uk-button-primary">Continue</button></div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </center>
+
+        <br/><br/>
+
+        <center>
+            <div class="uk-flex" style="width: 80%; text-align: center; margin-top: 3%;">
+                <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);"><u>Follow-up for blocked clients</u></label>    
+            </div>
+            <div class="uk-flex" style="padding: 2%; width: 80%; text-align: center;">
+            
+                <div class="uk-child-width-1-3@s" uk-grid style="width: 100%;">
+                    <div style="text-align: left;">
+                        <div class="uk-tile uk-tile-muted" style="padding: 10px 10px; font-size: 120%;">Follow-ups</div>
+                        <div uk-sortable="group: sortable-group" style="width: 100%; height: 500px; overflow-y: scroll; scroll-behavior: smooth;" id="followup">
+                            <div class="uk-margin">
+                                <div class="uk-card uk-card-default uk-card-body uk-card-small">
+                                    <label style="font-size: 150%; font-weight: 500;" class="client_info">Client 1</label><br/>
+                                    <label style="font-size: 120%; ">Follow-up at 9:00 AM</label>
+                                </div>
+                            </div>
+                            <div class="uk-margin">
+                                <div class="uk-card uk-card-default uk-card-body uk-card-small">
+                                    <label style="font-size: 150%; font-weight: 500;" class="client_info">Client 2</label><br/>
+                                    <label style="font-size: 120%; ">Follow-up at 9:00 AM</label>
+                                </div>
+                            </div>
+                            <div class="uk-margin">
+                                <div class="uk-card uk-card-default uk-card-body uk-card-small">
+                                    <label style="font-size: 150%; font-weight: 500;" class="client_info">Client 3</label><br/>
+                                    <label style="font-size: 120%; ">Follow-up at 9:00 AM</label>
+                                </div>
+                            </div>
+                            <div class="uk-margin">
+                                <div class="uk-card uk-card-default uk-card-body uk-card-small">
+                                    <label style="font-size: 150%; font-weight: 500;" class="client_info">Client 4</label><br/>
+                                    <label style="font-size: 120%; ">Follow-up at 9:00 AM</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <div class="uk-tile uk-tile-secondary" style="padding: 10px 10px; font-size: 120%;">Not Reachable</div>
+                        <div uk-sortable="group: sortable-group" style="width: 100%; height: 500px; overflow-y: scroll; scroll-behavior: smooth;" id="not_reachable">
+                            <div class="uk-margin">
+                                <div class="uk-card uk-card-default uk-card-body uk-card-small">
+                                    <label style="font-size: 150%; font-weight: 500;" class="client_info">Client 5</label><br/>
+                                    <label style="font-size: 120%; ">Follow-up at 9:00 AM</label>
+                                </div>
+                            </div>
+                            <div class="uk-margin">
+                                <div class="uk-card uk-card-default uk-card-body uk-card-small">
+                                    <label style="font-size: 150%; font-weight: 500;" class="client_info">Client 6</label><br/>
+                                    <label style="font-size: 120%; ">Follow-up at 9:00 AM</label>
+                                </div>
+                            </div>
+                            <div class="uk-margin">
+                                <div class="uk-card uk-card-default uk-card-body uk-card-small">
+                                    <label style="font-size: 150%; font-weight: 500;" class="client_info">Client 7</label><br/>
+                                    <label style="font-size: 120%; ">Follow-up at 9:00 AM</label>
+                                </div>
+                            </div>
+                            <div class="uk-margin">
+                                <div class="uk-card uk-card-default uk-card-body uk-card-small">
+                                    <label style="font-size: 150%; font-weight: 500;" class="client_info">Client 8</label><br/>
+                                    <label style="font-size: 120%; ">Follow-up at 9:00 AM</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <div class="uk-tile uk-tile-primary" style="padding: 10px 10px; font-size: 120%;">Contacted</div>
+                        <div uk-sortable="group: sortable-group" style="width: 100%; height: 500px; overflow-y: scroll; scroll-behavior: smooth;" id="contacted"></div>
+                    </div>
+                </div>
+            </div>
+        </center>
+        <script>
+            let follow_up_switch = new followUpStateSwitcher('followup');
+            let non_reachable_switch = new followUpStateSwitcher('not_reachable');
+            let contacted_switch = new followUpStateSwitcher('contacted');
+            
+            follow_up_switch.addedDrag();
+            follow_up_switch.removedDrag();
+
+            non_reachable_switch.addedDrag();
+            non_reachable_switch.removedDrag();
+
+            contacted_switch.addedDrag();
+            contacted_switch.removedDrag();
+
+        </script>
+
+
+    </div>
+
+{% endblock content %}
