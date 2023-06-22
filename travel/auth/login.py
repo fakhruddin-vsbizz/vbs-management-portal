@@ -59,6 +59,3 @@ class OrgAuth:
                     return 'travel/auth/login.html'
         except Exception as e:
             return 'travel/auth/login.html'
-    
-
-    
