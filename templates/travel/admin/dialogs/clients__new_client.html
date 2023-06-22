@@ -14,29 +14,29 @@
             </div>
             <div>
                 <i class="fa-solid fa-user"></i> &nbsp;&nbsp; First Name:<br/>
-                <input type="text" id="client_first_name" class="uk-input"/>
+                <input type="text" id="first_name" class="uk-input"/>
              </div>
             <div>
                 <i class="fa-solid fa-user"></i> &nbsp;&nbsp;Last Name: <br/>
-                <input type="text" id="client_last_name" class="uk-input"/></div>
+                <input type="text" id="last_name" class="uk-input"/></div>
             
             <div>
                 <i class="fa-solid fa-building"></i> &nbsp;&nbsp;Organization: <br/>
                 <br/>
-                <input type="password" id="password" class="uk-input"/>
+                <input type="text" id="organization" class="uk-input"/>
             </div>
             <div>
                 <i class="fa-solid fa-mobile-screen-button"></i> &nbsp;&nbsp;Contact number: <br/>
                 <br/>
-                <input type="password" id="conf_password" class="uk-input"/>
+                <input type="number" id="contact_number" class="uk-input"/>
             </div>
             <div>
                 <i class="fa-solid fa-envelope"></i> &nbsp;&nbsp;Email address: <br/>
                 <br/>
-                <input type="password" id="conf_password" class="uk-input"/>
+                <input type="email" id="email" class="uk-input"/>
             </div>
             <div class="uk-width-1-1">
-                <button class="uk-button uk-button-default uk-button-large uk-width-1-1" style="background-color: rgb(0, 191, 0);"><b>Add new client to the system</b></button>
+                <button class="uk-button uk-button-default uk-button-large uk-width-1-1" style="background-color: rgb(0, 191, 0);" onclick="createNewClient('{{ csrf_token }}')"><b>Add new client to the system</b></button>
             </div>
         </div>
     </div>

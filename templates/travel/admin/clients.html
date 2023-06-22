@@ -66,7 +66,7 @@
                             </div>
                         {% else %}
                             {% for elem in clients_list %}
-                                {% include 'travel/admin/cards/agentacc__agent_detail.html' %}
+                                {% include 'travel/admin/cards/clients__client_selector.html' with client_data=elem %}
                             {% endfor %}
                         {% endif %}
                     </div>
@@ -98,9 +98,13 @@
                                 No clients recorded till now.
                         </div>
                     {% else %}
-                        <ul class="uk-slider-items uk-child-width-1-3@s uk-child-width-1-4@ uk-grid" style="text-align: left;">
-                            
-                        </ul>
+                        <!-- <ul class="uk-slider-items uk-child-width-1-3@s uk-child-width-1-4@ uk-grid" style="text-align: left;">
+                        
+                        </ul> -->
+                        <div style="font-size: 140%; margin-top: 5%; text-align: left;">
+                            <i class="fa-solid fa-hammer fa-bounce"></i>
+                            Feature is in maintainence
+                        </div>
                     {% endif %}
                     
                 </div>
@@ -120,10 +124,14 @@
                                 No clients recorded till now.
                         </div>
                     {% else %}
-                        <ul class="uk-slider-items uk-child-width-1-3@s uk-child-width-1-4@ uk-grid" style="text-align: left;">
+                        <!-- <ul class="uk-slider-items uk-child-width-1-3@s uk-child-width-1-4@ uk-grid" style="text-align: left;">
                             
                             
-                        </ul>
+                        </ul> -->
+                        <div style="font-size: 140%; margin-top: 5%; text-align: left;">
+                            <i class="fa-solid fa-hammer fa-bounce"></i>
+                            Feature is in maintainence
+                        </div>
                     {% endif %}
                     
                 </div>
