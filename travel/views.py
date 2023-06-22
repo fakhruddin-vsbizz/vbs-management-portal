@@ -1,16 +1,12 @@
 from typing import Any, Dict
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView, View
 from travel.auth.login import OrgAuth
 from django.contrib.auth.models import User
-
-# importing models
-from .models import (
-    TravelClient
-)
+from django.contrib.auth import logout
+from .models import TravelClient
 
 # Create your views here.
-
 
 def LoginView(request):
     
@@ -27,8 +23,12 @@ def LoginView(request):
 
         # returns the admin/employee for travel/recruitment
         role = org_auth_obj.role_redirect()
-        
-    return render(request, "travel/auth/login.html" if role is None else role, {'auth_validated':is_validated})
+    else:
+        return render(request, "travel/auth/login.html" if role is None else role, {'auth_validated':is_validated})
+
+def logout_view(request):
+    logout(request)
+    return redirect("/travel/auth/login")
 
 
 # TRAVEL VISA VIEWS
@@ -37,7 +37,10 @@ class TravelVISA(TemplateView):
     template_name = 'travel/visa/all_list.html'
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs)
+        updated_context = super().get_context_data(**kwargs)
+        updated_context['agents_list'] = User.objects.filter(groups__name='travel_agent')
+
+        return updated_context
 
 
 class TVDetailProcessing(TemplateView):
@@ -138,6 +141,17 @@ class TAdminAgents(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         return super().get_context_data(**kwargs)
+
+class TAdminClients(TemplateView):
+
+    template_name = "travel/admin/clients.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+
+        updated_context = super().get_context_data(**kwargs)
+        updated_context['clients_list'] = TravelClient.objects.all()
+
+        return updated_context
     
 class TAdminPayments(TemplateView):
 
@@ -152,22 +166,7 @@ class TAdminFollowups(TemplateView):
     template_name = "travel/admin/followups.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        
-        
         return super().get_context_data(**kwargs)
-
-
-
-class TAdminClients(TemplateView):
-
-    template_name = "travel/admin/clients.html"
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-
-        updated_context = super().get_context_data(**kwargs)
-        updated_context['clients_list'] = TravelClient.objects.all()
-
-        return updated_context
 
 
 class TAdminAgentAccounts(TemplateView):
@@ -175,8 +174,4 @@ class TAdminAgentAccounts(TemplateView):
     template_name = "travel/admin/account_mgmt.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        updated_context = super().get_context_data(**kwargs)
-        updated_context['agents_list'] = User.objects.filter(groups__name='travel_agent')
-
-        return updated_context
-    
+        return super().get_context_data(**kwargs)

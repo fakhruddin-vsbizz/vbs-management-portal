@@ -5,6 +5,7 @@ from travel.admin.apis.add_new_client import TAdminCreateClient
 
 urlpatterns = [
     path('auth/login', views.LoginView, name='login-view'),
+    path('auth/logout', views.logout_view, name='logout-view'),
 
     # travel visa urls
     path('visa/application', views.TravelVISA.as_view(), name='visa-application'),
