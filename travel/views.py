@@ -4,6 +4,11 @@ from django.views.generic.base import TemplateView, View
 from travel.auth.login import OrgAuth
 from django.contrib.auth.models import User
 
+# importing models
+from .models import (
+    TravelClient
+)
+
 # Create your views here.
 
 
@@ -147,7 +152,22 @@ class TAdminFollowups(TemplateView):
     template_name = "travel/admin/followups.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        
+        
         return super().get_context_data(**kwargs)
+
+
+
+class TAdminClients(TemplateView):
+
+    template_name = "travel/admin/clients.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+
+        updated_context = super().get_context_data(**kwargs)
+        updated_context['clients_list'] = TravelClient.objects.all()
+
+        return updated_context
 
 
 class TAdminAgentAccounts(TemplateView):
