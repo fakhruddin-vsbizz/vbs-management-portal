@@ -1,6 +1,7 @@
 from . import views
 from django.urls import path
 from travel.admin.apis.add_new_agent import CreateNewAgentView
+from travel.admin.apis.add_new_client import TAdminCreateClient
 
 urlpatterns = [
     path('auth/login', views.LoginView, name='login-view'),
@@ -33,4 +34,5 @@ urlpatterns = [
 
     # apis path
     path('api/create_new_agent', CreateNewAgentView.as_view(), name='employee-creation-api'),
+    path('api/create_new_client', TAdminCreateClient.as_view(), name='client-creation-api'),
 ]

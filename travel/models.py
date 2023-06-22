@@ -20,10 +20,10 @@ class TravelClient(models.Model):
     class Meta:
         db_table = 'vbs_travel_client'
 
-    def save(self, force_insert: bool = ..., force_update: bool = ..., using: str | None = ..., update_fields: Iterable[str] | None = ...) -> None:
+    def save(self, *args, **kwargs):
         travel_client_obj = TravelClient.objects.filter(client_name=self.client_name, contact_number=self.contact_number)
         if len(travel_client_obj) == 0:
-            super().save(force_insert, force_update, using, update_fields)
+            super(TravelClient, self).save(*args, **kwargs)
         elif len(travel_client_obj) > 0:
             raise Exception("Client is already present. Please keep a different contact number and name combination")
 
