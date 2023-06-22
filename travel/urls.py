@@ -29,6 +29,7 @@ urlpatterns = [
     path('admin/payments', views.TAdminPayments.as_view(), name='admin-payments'),
     path('admin/followups', views.TAdminFollowups.as_view(), name='admin-followups'),
     path('admin/agentacc', views.TAdminAgentAccounts.as_view(), name='admin-agent-mgmt'),
+    path('admin/clients', views.TAdminClients.as_view(), name='admin-clients'),
 
     # apis path
     path('api/create_new_agent', CreateNewAgentView.as_view(), name='employee-creation-api'),
