@@ -1,0 +1,115 @@
+{% extends '../header.html' %}
+{% load static %}
+{% block content %}
+
+<div style="width: 100%;">
+    
+    <div class="uk-card uk-card-primary uk-card-body">
+        <div uk-grid style="width: 100%;">
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#">Agents</a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#">Payments</a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#">Follow-ups</a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#">Transfer Control</a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#">Account Management</a></div>
+                </div>
+            </div>
+            
+            
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#"><span uk-icon="icon:push"></span></a></div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-flex">
+                    <div><a href="#"><span uk-icon="icon:user"></span></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/><br/>
+
+<div style="padding: 2%; width: 95%;">
+    <div uk-grid class="uk-child-width-1-2">
+        <div>
+            <label style="font-size: 200%; font-weight: 600; color: rgb(0, 116, 161);">All Agent Accounts</label>
+        </div>
+        <div style="text-align: right; color: greenyellow; text-transform: none;">
+            <button class="uk-button uk-button-secondary" type="button" uk-toggle="target: #vbs-travel-new-agent"><span uk-icon="icon:plus"></span> &nbsp;&nbsp;Add Users</button>
+        </div>
+        
+    </div>
+    {% include 'travel/admin/dialogs/agentacc__new_agent.html' %}
+    
+    
+    <br/><br/>
+    <div>
+        <div class="uk-card uk-card-secondary uk-card-body">
+            <div class="uk-child-width-1-5" uk-grid>
+                <div>
+                    <b>Agent Name</b>
+                </div>
+                <div>
+                    <b>Employee ID</b>
+                </div>
+                <div>
+                    <b>No. of application operated</b>
+                </div>
+                <div>
+                    <b>Transfer given</b>
+                </div>
+                <div>
+                    <b>Action</b>
+                </div>
+            </div>
+        </div>
+        <div style="height: 300px; overflow-y: scroll; scroll-behavior: smooth; text-align: left;">
+            {% if agents_list|length is 0 %}
+                <div style="font-size: 200%; margin-top: 5%;">
+                    <center>
+                        <i class="fa-solid fa-magnifying-glass"></i><br/>
+                        No agents recorded till now.
+                    </center>
+                </div>
+                
+                
+            {% else %}
+                {% for elem in agents_list %}
+                    {% include 'travel/admin/cards/agentacc__agent_detail.html' with employee_data=elem %}
+                {% endfor %}
+            {% endif %}
+            
+            
+        </div>
+        {% include 'travel/admin/dialogs/agentacc__agent_edit.html' %}
+    </div>
+</div>
+
+<script>
+    
+</script>
+
+
+
+
+{% endblock content %}
