@@ -56,7 +56,7 @@ class  TravelVisaApplication(models.Model):
     client_name = models.CharField(max_length=200, null=False, blank=False, default="")
     contact_number = models.CharField(max_length=200, null=False, blank=False, default="")
     trip_type = models.CharField(max_length=200, null=False, blank=False, default="")
-    created_on = models.CharField(max_length=200, null=False, blank=False, default="")
+    created_on = models.DateTimeField(auto_now_add=True)
     invoice_status = models.BooleanField(max_length=10, blank=False, null=False, default=False)
     travel_client_ref = models.ForeignKey(TravelClient, on_delete=models.CASCADE)
     origin = models.CharField(max_length=200, null=False, blank=False, default="")
