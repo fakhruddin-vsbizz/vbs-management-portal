@@ -45,11 +45,39 @@ class TravelPackagesApplication(models.Model):
     package_type = models.CharField(max_length=200, null=False, blank=False, default="")
     quantity_of_packages = models.CharField(max_length=200, null=False, blank=False, default="")
     package_name = models.CharField(max_length=200, null=False, blank=False, default="")
-    # document_collection_date = models.DateTimeField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         db_table = 'travel_packages_application'
+
+class  TravelVisaApplication(models.Model):
+    employee_ref = models.ForeignKey(VBSEmployeeDetails, on_delete=models.CASCADE)
+    package_name = models.CharField(max_length=200, null=False, blank=False, default="")
+    client_name = models.CharField(max_length=200, null=False, blank=False, default="")
+    contact_number = models.CharField(max_length=200, null=False, blank=False, default="")
+    trip_type = models.CharField(max_length=200, null=False, blank=False, default="")
+    created_on = models.CharField(max_length=200, null=False, blank=False, default="")
+    invoice_status = models.BooleanField(max_length=10, blank=False, null=False, default=False)
+    travel_client_ref = models.ForeignKey(TravelClient, on_delete=models.CASCADE)
+    origin = models.CharField(max_length=200, null=False, blank=False, default="")
+    destination = models.CharField(max_length=200, null=False, blank=False, default="")
+    via = models.CharField(max_length=200, null=False, blank=False, default="")
+    mode_of_transport = models.CharField(max_length=200, null=False, blank=False, default="")
+    vehicle_no = models.CharField(max_length=200, null=False, blank=False, default="")
+    travel_class = models.CharField(max_length=200, null=False, blank=False, default="")
+    gds_pnr_no = models.CharField(max_length=200, null=False, blank=False, default="")
+    airline_pnr_no = models.CharField(max_length=200, null=False, blank=False, default="")
+    departure_date = models.DateTimeField(blank=True)
+    arrival_date = models.DateTimeField(blank=True)
+    base_fees = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
+    service_fees = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
+    net_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
+    markup = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
+    issued_from = models.CharField(max_length=200, null=False, blank=False, default="")
+
+    class Meta:
+        db_table = 'travel_tickets_application'
+
 
 class TravelPackagesVendorPayment(models.Model):
     package_appl_id = models.ForeignKey(TravelPackagesApplication, on_delete=models.CASCADE)
@@ -64,6 +92,28 @@ class TravelPackagesVendorPayment(models.Model):
     
     class Meta:
         db_table = 'travel_packages_vendor_payment'
+
+class TravelApplicationControlTransfer(models.Model):
+    previous_agent_id = models.ForeignKey(VBSEmployeeDetails, on_delete=models.CASCADE)
+    # new_agent_id = models.ForeignKey(VBSEmployeeDetails, on_delete=models.CASCADE)
+    new_agent_id = models.CharField(max_length=200, null=False, blank=False, default="")
+    appl_id = models.CharField(max_length=200, null=False, blank=False, default="")
+    is_transfer_revoked = models.BooleanField(max_length=10, blank=False, null=False, default=False)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'travel_appl_control_transfer'
+
+class FollowUps(models.Model):
+    employee_id = models.ForeignKey(VBSEmployeeDetails, on_delete=models.CASCADE)
+    appl_id = models.CharField(max_length=200, null=False, blank=False, default="")
+    application_type = models.CharField(max_length=200, null=False, blank=False, default="")
+    followup_stage = models.CharField(max_length=200, null=False, blank=False, default="")
+    time_for_followups = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'followups'
 
 class  TravelVisaApplication(models.Model):
     employee_ref = models.ForeignKey(VBSEmployeeDetails, on_delete=models.CASCADE)
