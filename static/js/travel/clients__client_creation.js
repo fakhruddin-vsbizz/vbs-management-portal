@@ -13,6 +13,11 @@ function createNewClient(csrf_token) {
     contact_number = document.getElementById('contact_number').value;
     email = document.getElementById('email').value;
 
+    
+    auth_user_ref = document.getElementById('referrer_id').value;
+
+    console.log(auth_user_ref)
+
     //alert box DOM
     alertbox = document.getElementById('alertbox');
 
@@ -34,7 +39,8 @@ function createNewClient(csrf_token) {
                 "first_name": first_name,
                 "last_name": last_name,
                 "organization": organization,
-                "contact_number": contact_number
+                "contact_number": contact_number,
+                "admin_auth_user_ref": parseInt(auth_user_ref)
             },
             success: function(data){
                 console.log('succes sdata', data)

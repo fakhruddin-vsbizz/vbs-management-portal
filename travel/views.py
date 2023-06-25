@@ -46,7 +46,10 @@ class TVDetailProcessing(TemplateView):
     template_name = "travel/visa/detail_processing.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs)
+
+        updated_context = super().get_context_data(**kwargs)
+        updated_context['all_travel_clients'] = TravelClient.objects.all()
+        return updated_context
     
 
 class TVDocumentProcessing(TemplateView):

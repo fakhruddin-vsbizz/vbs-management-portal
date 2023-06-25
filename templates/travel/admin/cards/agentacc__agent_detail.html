@@ -2,11 +2,16 @@
     <div uk-grid class="uk-child-width-1-5">
         <div>{{ employee_data.first_name }} {{ employee_data.last_name }}</div>
         <div>VBS_EMP_0001</div>
-        <div>13</div>
+        <div>{{ employee_data.email }}</div>
         <div>VBS_EMP_045</div>
         <div>
             <button class="uk-button uk-button-primary" type="button" onclick="fillAndPopAgentEditModal('{{ employee_data.id }}','{{ employee_data.first_name }}', '{{ employee_data.last_name }}', '{{ employee_data.email }}')"><span uk-icon="pencil"></span></button>
-            <button class="uk-button uk-button-danger" uk-toggle="target: #travel-agent-remove" type="button"><span uk-icon="trash"></span></button>
+
+            {% if employee_data.is_active %}
+                <button class="uk-button uk-button-primary" type="button" style="background-color: green;" onclick="transferDeactivatingID('{{ employee_data.id }}', true)"><i class="fa-solid fa-certificate"></i></button>
+            {% else %}
+                <button class="uk-button uk-button-danger" type="button" onclick="transferDeactivatingID('{{ employee_data.id }}', false)"><span uk-icon="trash"></span></button>
+            {% endif %}
         </div>
     </div>
 </div>
