@@ -12,7 +12,11 @@ class TAdminCreateClient(APIView):
 
         data = request.data.copy()
 
-        data['admin_user'] = request.user
+        print(data)
+
+        print(data.get('admin_auth_user_ref'))
+        data['admin_user'] = User.objects.get(id=data.get('admin_auth_user_ref'))
+
         
 
         # status code handles

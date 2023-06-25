@@ -1,10 +1,13 @@
 <div id="travel-agent-remove" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
+        <div class="uk-alert-primary" uk-alert>
+            <p id="deactivate_alertbox"></p>
+        </div>
+        <input type="hidden" id="deactivate_id_employee" value=""/>
         <label style="font-size: 140%;">Do you want to deactivate the account?</label><br/>
         Note: Deactivating stops the login for the agent but the historical data of applications remains for it.
         <hr>
-        <button class="uk-button uk-button-danger">Remove</button>
+        <button class="uk-button uk-button-danger" onclick="deactivateAgents('{{ csrf_token }}')">Remove</button>
         <button class="uk-modal-close uk-button uk-button-secondary">Cancel</button>
-        
     </div>
 </div>

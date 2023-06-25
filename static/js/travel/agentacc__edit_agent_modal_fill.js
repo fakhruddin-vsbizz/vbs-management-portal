@@ -21,7 +21,9 @@ function editTravelAgent(csrf_token, tag) {
     last_name = document.getElementById('edit_last_name').value;
     email = document.getElementById('edit_email').value;
     password = document.getElementById('edit_password').value;
-    conf_password = document.getElementById('conf_password').value;
+    conf_password = document.getElementById('edit_conf_password').value;
+
+    console.log(password, ' | ', conf_password);
 
     // primary key of the employee
     id = document.getElementById('id_employee').value;
@@ -37,6 +39,7 @@ function editTravelAgent(csrf_token, tag) {
                 "id": parseInt(id),
                 "first_name": first_name,
                 "last_name": last_name,
+                "tag": tag
             }
 
             if(validateField(first_name) && validateField(last_name)){
@@ -52,7 +55,8 @@ function editTravelAgent(csrf_token, tag) {
             pushable_data = {
                 csrfmiddlewaretoken: csrf_token,
                 "id": parseInt(id),
-                "email": email
+                "email": email,
+                "tag": tag
             }
 
             if(validateField(email)){
@@ -68,15 +72,23 @@ function editTravelAgent(csrf_token, tag) {
             pushable_data = {
                 csrfmiddlewaretoken: csrf_token,
                 "id": parseInt(id),
-                "password": password
+                "password": password,
+                "tag": tag
             }
 
-            if(validateField(password) && validateField(conf_password) && arePasswordSame(password, conf_password)){
+            if(validateField(password) && validateField(conf_password)){
                 is_api_go = true;
             }else{
                 is_api_go = false;
                 alertbox.innerHTML = "Seems either of the field is empty or null. Please check the fields and try again";
                 
+            }
+
+            if(arePasswordSame(password, conf_password)){
+                is_api_go = true;
+            }else{
+                is_api_go = false;
+                alertbox.innerHTML = "Password is not same. Please have passwords";
             }
 
             break;
@@ -99,7 +111,8 @@ function editTravelAgent(csrf_token, tag) {
             success: function(data){
                 console.log('api run response')
                 alertbox.innerHTML = data['message'];
-                window.location.reload();
+
+                // window.location.reload();
             },
             error: function(jqXHR, exception){
                 console.log(jqXHR, ' | ', exception);

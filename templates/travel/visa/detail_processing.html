@@ -54,23 +54,27 @@
             <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);">STEP 1: Details Processing</label>
             <hr style="border-color: black;">
             <div uk-grid class="uk-child-width-1-2">
+                <input type="hidden" id="client_id">
                 <div>
-                    Client Name:<br/>
-                    <input class="uk-input" style="width: 70%;" type="text">
+                    Select client:<br/>
+                    <label style="font-size: 120%;" id="client_name"></label>
+                    <button class="uk-button uk-button-primary" type="button" uk-toggle="target: #visa-application-client-selection">Scan</button>
+                    {% include 'travel/visa/dialogs/visa_application__client_selection.html' %}
+                    <!-- <input class="uk-input" id="visa_client_name" style="width: 70%;" type="text"> -->
                 </div>
                 <div>
-                    Applicant Name Name:<br/>
-                    <input class="uk-input" style="width: 70%;" type="text">
+                    Applicant Name:<br/>
+                    <input class="uk-input" id="applicant_name" style="width: 70%;" type="text">
                 </div>
                 <div>
                     Passport number:<br/>
                     <label style="font-size: 70%;">The passport is of the format - A2096457 and of 8 characters</label><br/><br/>
-                    <input class="uk-input" style="width: 70%;" type="text">
+                    <input class="uk-input" id="passport_number" style="width: 70%;" type="text">
                 </div>
                 <div>
                     Contact number:<br/>
                     <label style="font-size: 70%;">The number format is - +91XXXXXXXXXX</label><br/><br/>
-                    <input class="uk-input" style="width: 70%;" type="text">
+                    <input class="uk-input" id="contact_number" style="width: 70%;" type="text">
                 </div>
                 <div>
                     Select the visiting country: <br/>

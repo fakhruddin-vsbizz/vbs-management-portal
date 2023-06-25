@@ -33,10 +33,16 @@ class OrgAuth:
     def return_if_is_authenticated(self):
         if(self.__get_username()):
             self.__user_obj = authenticate(username=self.__user_obj.username, password=self.password)
+            print(self.__user_obj.id)
             if self.__user_obj is not None:
-                login(self.__request, self.__user_obj)
-                return True
+                try:
+                    login(self.__request, self.__user_obj)
+                    return True
+                except Exception as e:
+                    print(e)
+                    return False
             else:
+                print('not authenticated')
                 return False
 
     # returns group type for the authenticated user only
