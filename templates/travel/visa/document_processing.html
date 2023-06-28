@@ -53,10 +53,12 @@
         <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224);font-family: Roboto; color: black;">
             <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);">STEP 2: Document Processing</label>
             <hr style="border-color: black;">
+            <div class="uk-alert-primary" uk-alert id="alertbox">
+            </div>
             <div uk-grid class="uk-child-width-1-2">
                 <div class="uk-width-1-1">
                     Enter the vendor name:<br/>
-                    <input class="uk-input" style="width: 70%;" type="text">
+                    <input class="uk-input" id="vendor_name" style="width: 70%;" type="text">
                 </div>
                 <div class="uk-width-1-1">
                     Mark the operations given as Done to label it as completed: <br/>
@@ -71,30 +73,30 @@
                         <tbody>
                             <tr>
                                 <td>Document Submitted by client:</td>
-                                <td><button class="uk-button uk-button-default">Mark Done</button></td>
-                                <td></td>
+                                <td><button class="uk-button uk-button-default" onclick="markDates('collection_date', this)" id="collection_date">Mark Done</button></td>
+                                <td id="collection_date_status"></td>
                             </tr>
                             <tr>
                                 <td>Courier out to Embassy:</td>
-                                <td><button class="uk-button uk-button-default">Mark Done</button></td>
-                                <td></td>
+                                <td><button class="uk-button uk-button-default" onclick="markDates('courier_out_date', this)" id="courier_out_date">Mark Done</button></td>
+                                <td id="courier_out_date_status"></td>
                             </tr>
                             <tr>
-                                <td>Document Submitted by client</td>
-                                <td><button class="uk-button uk-button-default">Mark Done</button></td>
-                                <td></td>
+                                <td>Courier in to the client</td>
+                                <td><button class="uk-button uk-button-default" onclick="markDates('courier_in_date', this)" id="courier_in_date">Mark Done</button></td>
+                                <td id="courier_in_date_status"></td>
                             </tr>
                             <tr>
-                                <td>Document Submitted by client</td>
-                                <td><button class="uk-button uk-button-default">Mark Done</button></td>
-                                <td></td>
+                                <td>Handover to the client</td>
+                                <td><button class="uk-button uk-button-default" onclick="markDates('handover_date', this)" id="handover_date">Mark Done</button></td>
+                                <td id="handover_date_status"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="uk-width-1-1">&nbsp;</div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-default">Save Changes</button>
+                    <button class="uk-button uk-button-default" onclick="updateDocumentProcessing('{{ csrf_token }}', '{{ app_id }}', false, 'document_processing')">Save Changes</button>
                 </div>
                 <div class="uk-width-1-3">
                     <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary">Block Application</button>
@@ -114,7 +116,7 @@
                     </div>
                 </div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-primary">Continue</button>
+                    <button class="uk-button uk-button-primary" onclick="updateDocumentProcessing('{{ csrf_token }}', '{{ app_id }}', true, 'document_processing')">Continue</button>
                 </div>
             </div>
         </div>

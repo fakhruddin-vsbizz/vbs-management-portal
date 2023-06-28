@@ -50,7 +50,7 @@ class TravelPackagesApplication(models.Model):
     class Meta:
         db_table = 'travel_packages_application'
 
-class  TravelVisaApplication(models.Model):
+class  TravelTicketApplication(models.Model):
     employee_ref = models.ForeignKey(VBSEmployeeDetails, on_delete=models.CASCADE)
     package_name = models.CharField(max_length=200, null=False, blank=False, default="")
     client_name = models.CharField(max_length=200, null=False, blank=False, default="")
@@ -115,7 +115,7 @@ class FollowUps(models.Model):
     class Meta:
         db_table = 'followups'
 
-class  TravelVisaApplication(models.Model):
+class TravelVisaApplication(models.Model):
     employee_ref = models.ForeignKey(VBSEmployeeDetails, on_delete=models.CASCADE)
     travel_client_ref = models.ForeignKey(TravelClient, on_delete=models.CASCADE)
     applicants_name = models.CharField(max_length=200, null=False, blank=False, default="")
@@ -130,10 +130,10 @@ class  TravelVisaApplication(models.Model):
     visa_fee = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)
     vendor_name = models.CharField(max_length=200, null=False, blank=False, default="")
     sub_location = models.CharField(max_length=200, null=False, blank=False, default="")
-    handover_date = models.DateTimeField(blank=True)
-    courier_in_date = models.DateTimeField(blank=True)
-    courier_out_date = models.DateTimeField(blank=True)
-    document_collection_date = models.DateTimeField(blank=True)
+    handover_date = models.DateTimeField(blank=True, null=True)
+    courier_in_date = models.DateTimeField(blank=True, null=True)
+    courier_out_date = models.DateTimeField(blank=True, null=True)
+    document_collection_date = models.DateTimeField(blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     
     class Meta:

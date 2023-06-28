@@ -5,6 +5,7 @@ from travel.auth.login import OrgAuth
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from .models import TravelClient
+from .variables import COUNTRIES
 
 # Create your views here.
 
@@ -49,23 +50,18 @@ class TVDetailProcessing(TemplateView):
 
         updated_context = super().get_context_data(**kwargs)
         updated_context['all_travel_clients'] = TravelClient.objects.all()
+        updated_context['countries'] = COUNTRIES
         return updated_context
     
 
-class TVDocumentProcessing(TemplateView):
-
-    template_name = "travel/visa/document_processing.html"
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs)
+class TVDocumentProcessing(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'travel/visa/document_processing.html', {'app_id':kwargs['app_pk']})
 
 
 class TVPaymentProcessing(TemplateView):
-
-    template_name = "travel/visa/payment_processing.html"
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
+        return render(request, 'travel/visa/payment_processing.html', {'app_id':kwargs['app_pk']})
 
 
 # TRAVEL PACKAGE
