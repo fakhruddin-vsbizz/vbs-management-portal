@@ -44,15 +44,17 @@
 
         <br/>
         <ul class="uk-breadcrumb">
-            <li><a href="#">Hoem</a></li>
+            <li><a href="#">Home</a></li>
             <li><a href="#">Details Processing</a></li>
             <li class="uk-disabled"><a>Document Processing</a></li>
             <li class="uk-disabled"><a>Payment Processing</a></li>
         </ul>
 
-        <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224);font-family: Roboto; color: black;">
+        <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224); font-family: Roboto; color: black;">
             <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);">STEP 1: Details Processing</label>
             <hr style="border-color: black;">
+            <div class="uk-alert-primary" uk-alert id="alertbox">
+            </div>
             <div uk-grid class="uk-child-width-1-2">
                 <input type="hidden" id="client_id">
                 <div>
@@ -69,7 +71,7 @@
                 <div>
                     Passport number:<br/>
                     <label style="font-size: 70%;">The passport is of the format - A2096457 and of 8 characters</label><br/><br/>
-                    <input class="uk-input" id="passport_number" style="width: 70%;" type="text">
+                    <input class="uk-input" id="passport_number" style="width: 70%;" type="text"/>
                 </div>
                 <div>
                     Contact number:<br/>
@@ -78,27 +80,25 @@
                 </div>
                 <div>
                     Select the visiting country: <br/>
-                    <ul class="uk-list uk-list-divider" style="padding: 3%; background-color: white; width: 70%; height: 100px; overflow-y: scroll; scroll-behavior: smooth;">
-                        <li>
-                            <label><input class="uk-radio" type="radio" name="radio1"> Option 01</label>
-            
-                        </li>
-                        <li>
-                            <label><input class="uk-radio" type="radio" name="radio1"> Option 02</label>
-                        </li>
-                        <li>
-                            <label><input class="uk-radio" type="radio" name="radio1"> Option 03</label>
-                        </li>
+                    <ul class="uk-list uk-list-divider" style="padding: 3%; background-color: white; width: 70%; height: 150px; overflow-y: scroll; scroll-behavior: smooth;">
+                        {% for elem in countries %}
+
+                            <li>
+                                <label id="{{ elem }}" onclick="setSelectedCountry(this)"><input class="uk-radio" type="radio" name="radio1">{{ elem }}</label>
+                            </li>
+
+                        {% endfor %}
+                        
                     </ul>
                 </div>
                 <div>
                     Sub-Location:<br/>
                     <label style="font-size: 70%;">Use the same if te location comes within Schengen Agreement</label><br/><br/>
-                    <input class="uk-input" style="width: 70%;" type="text">
+                    <input class="uk-input" id="sub_location" style="width: 70%;" type="text"/>
                 </div>
                 <div class="uk-width-1-1">&nbsp;</div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-default">Save Changes</button>
+                    <button class="uk-button uk-button-default" onclick="createVisaApplication('{{ csrf_token }}','{{ request.user.id }}', false)">Save Changes</button>
                 </div>
                 <div class="uk-width-1-3">
                     <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary">Block Application</button>
@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-primary">Continue</button>
+                    <button class="uk-button uk-button-primary" onclick="createVisaApplication('{{ csrf_token }}','{{ request.user.id }}', true)">Continue</button>
                 </div>
             </div>
         </div>
@@ -129,4 +129,4 @@
 
 </div>
 
-{% endblock content %}
+{% endblock content %} 

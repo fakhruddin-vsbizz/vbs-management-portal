@@ -70,27 +70,27 @@
                         <tbody>
                             <tr>
                                 <td>VISA fees</td>
-                                <td><center><input type="number" class="uk-input" style="width: 80%;"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="visa_fees" onchange="addToTotal(this)"></center></td>
                             </tr>
                             <tr>
                                 <td>Authority service charges</td>
-                                <td><center><input type="number" class="uk-input" style="width: 80%;"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="authority_service_fees" onchange="addToTotal(this)"></center></td>
                             </tr>
                             <tr>
                                 <td>Express Charges</td>
-                                <td><center><input type="number" class="uk-input" style="width: 80%;"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="express_fees" onchange="addToTotal(this)"></center></td>
                             </tr>
                             <tr>
                                 <td>VBS Service Charges</td>
-                                <td><center><input type="number" class="uk-input" style="width: 80%;"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="vbs_fees" onchange="addToTotal(this)"></center></td>
                             </tr>
                             <tr>
                                 <td>CGST</td>
-                                <td><center><input type="number" class="uk-input" style="width: 80%;"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="cgst_fees" onchange="addToTotal(this)"></center></td>
                             </tr>
                             <tr>
                                 <td>SGST</td>
-                                <td><center><input type="number" class="uk-input" style="width: 80%;"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="sgst_fees" onchange="addToTotal(this)"></center></td>
                             </tr>
                         </tbody>
                     </table>
@@ -100,7 +100,7 @@
                                 Total
                             </div>
                             <div>
-                                <center>Rs. 16000/-</center>
+                                <center>Rs. <label id="total_value">0</label>/-</center>
                             </div>
                         </div>
                     </div>

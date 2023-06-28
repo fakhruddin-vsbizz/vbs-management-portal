@@ -3,6 +3,7 @@ from django.urls import path
 from travel.admin.apis.add_new_agent import CreateNewAgentView
 from travel.admin.apis.add_new_client import TAdminCreateClient
 from travel.admin.apis.edit_agent import TAdminEditAgent
+from travel.visa.apis.visa_application__data_entry import TravelApplicationInitiateAPIView
 
 urlpatterns = [
     path('auth/login', views.LoginView, name='login-view'),
@@ -11,8 +12,8 @@ urlpatterns = [
     # travel visa urls
     path('visa/application', views.TravelVISA.as_view(), name='visa-application'),
     path('visa/application/new/detail_processing', views.TVDetailProcessing.as_view(), name='visa-detail-processing'),
-    path('visa/application/new/document_processing', views.TVDocumentProcessing.as_view(), name='visa-document-processing'),
-    path('visa/application/new/payment_processing', views.TVPaymentProcessing.as_view(), name='visa-payment-processing'),
+    path('visa/application/<int:app_pk>/document_processing', views.TVDocumentProcessing.as_view(), name='visa-document-processing'),
+    path('visa/application/<int:app_pk>/payment_processing', views.TVPaymentProcessing.as_view(), name='visa-payment-processing'),
 
     # travel packages urls
     path('packages/application', views.TravelPackages.as_view(), name='package-application'),
@@ -39,5 +40,6 @@ urlpatterns = [
     path('api/create_new_client', TAdminCreateClient.as_view(), name='client-creation-api'),
     path('api/create_new_client', TAdminCreateClient.as_view(), name='client-creation-api'),
     path('api/edit_travel_agent_details', TAdminEditAgent.as_view(), name='agent-travel-edit-api'),
+    path('api/travel_visa_stage_1', TravelApplicationInitiateAPIView.as_view(), name='travel-visa-stage1-api'),
     # TAdminEditAgent
 ]
