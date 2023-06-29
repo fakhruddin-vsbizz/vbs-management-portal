@@ -31,7 +31,7 @@ function deactivateAgents(csrf_token, activation_status) {
             success: function(data){
                 console.log('api run response')
                 alertbox.innerHTML = "Deactivation successful";
-                // window.location.reload();
+                location.reload();
             },
             error: function(jqXHR, exception){
                 console.log(jqXHR, ' | ', exception);

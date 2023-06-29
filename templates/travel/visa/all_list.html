@@ -4,7 +4,7 @@
 
     <div style="width: 100%;">
     
-        <div class="uk-card uk-card-primary uk-card-body">
+        {% comment %} <div class="uk-card uk-card-primary uk-card-body">
             <div uk-grid style="width: 100%;">
                 <div>
                     <div class="uk-flex">
@@ -38,7 +38,9 @@
                 </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
+        {% include '../agent_navbar.html' %}
+
 
         <center>
             <div class="uk-card uk-card-default uk-card-body" style="width: 100%; border: 2px solid skyblue; background-color: rgb(201, 201, 201); ">
@@ -62,6 +64,19 @@
                 <div class="uk-width-1-1">
                     <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);"><u>Shortest Window to delivery applications</u></label>
                 </div>
+                {% for client_info in visa_data %}
+                <div>
+                    <div class="uk-card uk-card-primary uk-card-body">
+                        <h3 class="uk-card-title">{{client_info.applicants_name}}</h3>
+                        <p>Client: {{client_info.travel_client_ref.client_name}}</p>
+                        <p><span uk-icon="icon:future"></span>&nbsp;&nbsp;&nbsp;Handover Date: {{client_info.handover_date.date}}</p>
+                        <button class="uk-button uk-button-secondary">
+                            View application &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+                {% comment %} </div>
                 <div>
                     <div class="uk-card uk-card-primary uk-card-body">
                         <h3 class="uk-card-title">Client 1</h3>
@@ -97,56 +112,52 @@
                             View application &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span>
                         </button>
                     </div>
-                </div>
-                <div>
-                    <div class="uk-card uk-card-primary uk-card-body">
-                        <h3 class="uk-card-title">Client 1</h3>
-                        <p><span uk-icon="icon:future"></span> &nbsp;&nbsp;&nbsp;12 days left</p>
-                        <button class="uk-button uk-button-secondary">
-                            View application &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span>
-                        </button>
-                    </div>
-                </div>
+                </div> {% endcomment %}
             </div>
 
             <div class="uk-flex" style="width: 80%; text-align: center; margin-top: 3%;">
                 <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);"><u>List of generated VISA applications</u></label>    
             </div>
             
-            <div class="uk-flex" style="padding: 2%; width: 80%; text-align: center;">
-                <table style="width: 100%; text-align: left;" cellpadding="5px">
-                    <tr>
-                        <td>Applicant Name: <br/> <input class="uk-input" style="width: 70%;" type="text"></td>
-                        <td>
-                            Applicant Stage: <br/>
-                            <select class="uk-select" style="width: 70%;">
-                                <option>Applicant Details</option>
-                                <option>Document Processing</option>
-                                <option>Payments Processing</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Application opened on: <br/> <input class="uk-input" style="width: 70%;" type="date"></td>
-                        <td>
-                            Passport handover date: <br/><input class="uk-input" style="width: 70%;" type="date">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Application status: <br/> 
-                            <select class="uk-select" style="width: 70%;">
-                                <option>BLOCKED</option>
-                                <option>OPEN</option>
-                                <option>CLOSED</option>
-                            </select>
-                        </td>
-                        <td>
-                            <button class="uk-button uk-button-primary uk-button-large">Filter</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <form action="{% url 'visa-application' %}" method="POST">
+                {% csrf_token %}
+                <div class="uk-flex" style="padding: 2%; width: 80%; text-align: center;">
+                    <table style="width: 100%; text-align: left;" cellpadding="5px">
+                        <tr>
+                            <td>Applicant Name: <br/> <input name="applicants_name" class="uk-input" style="width: 70%;" type="text"></td>
+                            <td>Client Name: <br/> <input class="uk-input" name="client_name" style="width: 70%;" type="text"></td>
+                            <td>
+                                Applicant Stage: <br/>
+                                <select name="stage" class="uk-select" style="width: 70%;">
+                                    <option value="select stage">Select stage</option>
+                                    <option value="detail processing">Detail Processing</option>
+                                    <option value="processing documents">Documents Processing</option>
+                                    <option value="processing payments">Payments Processing</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Application created on: <br/> <input name="created_on" class="uk-input" style="width: 70%;" type="date"></td>
+                            <td>Handover date: <br/><input name="handover_date" class="uk-input" style="width: 70%;" type="date"></td>
+                            <td>
+                                Application status: <br/> 
+                                <select name="status" class="uk-select" style="width: 70%;">
+                                    <option value="select">SELECT</option>
+                                    <option value="open">OPEN</option>
+                                    <option value="blocked">BLOCKED</option>
+                                    <option value="closed">CLOSED</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button type="submit" class="uk-button uk-button-primary uk-button-large">Filter</button>
+                                <a style="color: white; textDecoration: none;" class="uk-button uk-button-primary uk-button-large" href="{% url 'visa-application' %}">Reset</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
 
         </center>
 
@@ -154,11 +165,12 @@
 
         <center>
             <div class="uk-flex" style="padding: 2%; width: 80%; text-align: center;">
-                <ul class="uk-list" style="width: 100%; height: 500px; overflow-y: scroll; scroll-behavior: smooth;">
+                <ul class="uk-list" style="width: 100%;">
                     <li>
                         <div class="uk-card uk-card-secondary uk-card-body">
-                            <div class="uk-child-width-1-6" uk-grid style="font-weight: 700;">
+                            <div class="uk-child-width-expand@s" uk-grid style="font-weight: 700;">
                                 <div>Client Name</div>
+                                <div>Applicants Name</div>
                                 <div>Handover Date</div>
                                 <div>Stage</div>
                                 <div>Status</div>
@@ -166,9 +178,43 @@
                                 <div></div>
                             </div>
                         </div>
-                        
                     </li>
+                    <div style="max-height: 400px; overflow-y: scroll; scroll-behavior: smooth;">
+                    {% if filter_visa_data is None %}
+                    {% for client_info in visa_data %}
                     <li>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <div class="uk-child-width-expand@s" uk-grid>
+                                <div>{{client_info.travel_client_ref.client_name}}</div>
+                                <div>{{client_info.applicants_name}}</div>
+                                <div>{{client_info.handover_date}}</div>
+                                <div><span class="uk-badge uk-padding-small">{{client_info.stage}}</span></div>
+                                <div><span class="uk-badge uk-padding-small">{{client_info.status}}</span></div>
+                                <div>{{client_info.created_on}}</div>
+                                <div><button class="uk-button uk-button-primary">Continue</button></div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    {% else %}
+                    {% for client_info in filter_visa_data %}
+                    <li>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <div class="uk-child-width-expand@s" uk-grid>
+                                <div>{{client_info.travel_client_ref.client_name}}</div>
+                                <div>{{client_info.applicants_name}}</div>
+                                <div>{{client_info.handover_date}}</div>
+                                <div><span class="uk-badge uk-padding-small">{{client_info.stage}}</span></div>
+                                <div><span class="uk-badge uk-padding-small">{{client_info.status}}</span></div>
+                                <div>{{client_info.created_on}}</div>
+                                <div><button class="uk-button uk-button-primary">Continue</button></div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                    {% comment %} <li>
                         <div class="uk-card uk-card-default uk-card-body">
                             <div class="uk-child-width-1-6" uk-grid>
                                 <div>Hemant Kokate</div>
@@ -251,19 +297,7 @@
                                 <div><button class="uk-button uk-button-primary">Continue</button></div>
                             </div>
                         </div>
-                    </li>
-                    <li>
-                        <div class="uk-card uk-card-default uk-card-body">
-                            <div class="uk-child-width-1-6" uk-grid>
-                                <div>Hemant Kokate</div>
-                                <div>24/06/2023</div>
-                                <div><span class="uk-badge">Document Processing</span></div>
-                                <div><span class="uk-badge">OPEN</span></div>
-                                <div>24th March, 2023</div>
-                                <div><button class="uk-button uk-button-primary">Continue</button></div>
-                            </div>
-                        </div>
-                    </li>
+                    </li> {% endcomment %}
                 </ul>
             </div>
         </center>

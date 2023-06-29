@@ -4,7 +4,7 @@
 
 <div style="width: 100%; ">
 
-    <div class="uk-card uk-card-primary uk-card-body">
+    {% comment %} <div class="uk-card uk-card-primary uk-card-body">
         <div uk-grid style="width: 100%;">
             <div>
                 <div class="uk-flex">
@@ -38,13 +38,15 @@
             </div>
             </div>
         </div>
-    </div>
+    </div> {% endcomment %}
+
+{% include '../agent_navbar.html' %}
 
     <center>
 
         <br/>
         <ul class="uk-breadcrumb">
-            <li><a href="#">Hoem</a></li>
+            <li><a href="#">Home</a></li>
             <li><a href="#">Details Processing</a></li>
             <li class="uk-disabled"><a>Document Processing</a></li>
             <li class="uk-disabled"><a>Payment Processing</a></li>
