@@ -30,6 +30,9 @@ class TravelClient(models.Model):
 class TravelPackagesApplication(models.Model):
     employee_ref = models.ForeignKey(VBSEmployeeDetails, on_delete=models.CASCADE)
     travel_client_ref = models.ForeignKey(TravelClient, on_delete=models.CASCADE)
+    applicants_name = models.CharField(max_length=200, null=False, blank=False, default="")
+    stage = models.CharField(max_length=200, null=False, blank=False, default="")
+    status = models.CharField(max_length=200, null=False, blank=False, default="open")
     no_of_days = models.IntegerField(default=0, null=False, blank=False)
     passport_no = models.CharField(max_length=200, null=False, blank=False, default="")
     gross_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
@@ -50,10 +53,13 @@ class TravelPackagesApplication(models.Model):
     class Meta:
         db_table = 'travel_packages_application'
 
-class  TravelTicketApplication(models.Model):
+class  TravelTicketsApplication(models.Model):
     employee_ref = models.ForeignKey(VBSEmployeeDetails, on_delete=models.CASCADE)
     package_name = models.CharField(max_length=200, null=False, blank=False, default="")
     client_name = models.CharField(max_length=200, null=False, blank=False, default="")
+    applicants_name = models.CharField(max_length=200, null=False, blank=False, default="")
+    stage = models.CharField(max_length=200, null=False, blank=False, default="")
+    status = models.CharField(max_length=200, null=False, blank=False, default="open")
     contact_number = models.CharField(max_length=200, null=False, blank=False, default="")
     trip_type = models.CharField(max_length=200, null=False, blank=False, default="")
     created_on = models.DateTimeField(auto_now_add=True)
@@ -122,7 +128,9 @@ class TravelVisaApplication(models.Model):
     passport_no = models.CharField(max_length=200, null=False, blank=False, default="")
     contact_number = models.CharField(max_length=200, null=False, blank=False, default="")
     visiting_country = models.CharField(max_length=200, null=False, blank=False, default="")
-    invoice_status = models.BooleanField(max_length=10, blank=False, null=False, default=False)
+    stage = models.CharField(max_length=200, null=False, blank=False, default="")
+    status = models.CharField(max_length=200, null=False, blank=False, default="open")
+    invoice_status = models.BooleanField(blank=False, null=False, default=False)
     total_charges = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)
     vbs_charges = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)
     express_charges = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)

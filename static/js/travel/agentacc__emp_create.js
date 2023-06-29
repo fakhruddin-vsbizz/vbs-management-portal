@@ -45,7 +45,7 @@ function createNewAgent(csrf_token) {
         success: function(data){
             console.log('succes sdata', data)
             alertbox.innerHTML = data['response_message'];
-            window.location.reload();
+            location.reload();
         },
         error: function(jqXHR, exception){
             console.log(jqXHR, ' | ', exception);

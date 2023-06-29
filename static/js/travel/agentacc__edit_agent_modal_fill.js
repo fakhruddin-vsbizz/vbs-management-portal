@@ -111,8 +111,7 @@ function editTravelAgent(csrf_token, tag) {
             success: function(data){
                 console.log('api run response')
                 alertbox.innerHTML = data['message'];
-
-                // window.location.reload();
+                location.reload();
             },
             error: function(jqXHR, exception){
                 console.log(jqXHR, ' | ', exception);

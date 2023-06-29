@@ -33,7 +33,7 @@ class OrgAuth:
     def return_if_is_authenticated(self):
         if(self.__get_username()):
             self.__user_obj = authenticate(username=self.__user_obj.username, password=self.password)
-            print(self.__user_obj.id)
+            print("36",self.__user_obj)
             if self.__user_obj is not None:
                 try:
                     login(self.__request, self.__user_obj)
@@ -58,10 +58,10 @@ class OrgAuth:
         try:
             match self.__return_auth_group()[0]:
                 case "travel_admin":
-                    return 'travel/admin/agents.html'
+                    return '/travel/admin/agents'
                 case "travel_agent":
-                    return 'travel/visa/all_list.html'
+                    return '/travel/visa/application'
                 case _:
-                    return 'travel/auth/login.html'
+                    return '/travel/auth/login.html'
         except Exception as e:
-            return 'travel/auth/login.html'
+            return '/travel/auth/login.html'

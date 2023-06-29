@@ -3,13 +3,12 @@
 {% block content %}
 
 <center>
-    <div class="uk-card uk-card-secondary uk-card-body font-roboto" style="width: 60%; margin-top: 10%;">
+    <div class="uk-card uk-card-secondary uk-card-body font-roboto" style="width: 50%; margin-top: 10%;">
         <img src="{% static 'img/vbslogo.png' %}" style="width:20%; height:20%;">
         <br/>
-        <hr color="white" style="width: 50%;">
+        <hr color="white" style="width: 65%;">
         <label class="uk-card-title login-header">Authentication Panel</label>
         <p>Login using your designated credentials</p>
-        
         {% if auth_validated is False %}
             <p style="color: skyblue; padding: 2%; border: 1px solid white;">
                 <span uk-icon="warning"></span>&nbsp;&nbsp;Username and Password Wrong

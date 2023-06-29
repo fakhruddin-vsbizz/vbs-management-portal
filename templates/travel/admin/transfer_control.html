@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-<div style="width: 100%;">
+{% comment %} <div style="width: 100%;">
     
     <div class="uk-card uk-card-primary uk-card-body">
         <div uk-grid style="width: 100%;">
@@ -45,7 +45,10 @@
             </div>
         </div>
     </div>
-</div>
+</div> {% endcomment %}
+
+{% include './auth_header.html' %}
+
 
 <br/><br/>
 
@@ -57,9 +60,9 @@
         <div style="text-align: right; color: greenyellow; text-transform: none;">
             <button class="uk-button uk-button-secondary" type="button" uk-toggle="target: #vbs-travel-new-agent"><span uk-icon="icon:plus"></span> &nbsp;&nbsp;Add Users</button>
         </div>
-        
     </div>
-    {% include 'travel/admin/dialogs/agentacc__new_agent.html' %}
+
+{% include 'travel/admin/dialogs/agentacc__new_agent.html' %}
     
     
     <br/><br/>
