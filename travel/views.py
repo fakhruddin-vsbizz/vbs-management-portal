@@ -5,8 +5,13 @@ from django.views.generic.base import TemplateView, View
 from travel.auth.login import OrgAuth
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
+from .serializers import TravelTicketsApplicationSerializer, TravelPackagesApplicationSerializer, TravelVisaApplicationSerializer, TravelClientSerializer, VBSEmployeeDetailsSerializer
 from .variables import COUNTRIES
+from rest_framework import status
+from rest_framework.views import APIView
+from django.http import JsonResponse
 import datetime
+from rest_framework.response import Response
 from .models import TravelClient, VBSEmployeeDetails, TravelVisaApplication, TravelPackagesApplication, TravelTicketsApplication
 
 # Create your views here.
@@ -40,6 +45,53 @@ def logout_view(request):
     logout(request)
     return redirect("/travel/auth/login")
 
+class ClientDetails(APIView):
+    
+    def get(self, request, *args, **kwargs):
+        client_id = kwargs.get('id')
+        client_details_data = TravelClient.objects.filter(id=client_id)
+        client_visa_data = TravelVisaApplication.objects.filter(travel_client_ref=client_id)
+        client_packages_data = TravelPackagesApplication.objects.filter(travel_client_ref=client_id)
+        client_ticket_data = TravelTicketsApplication.objects.filter(travel_client_ref=client_id)
+        serialize = TravelClientSerializer(client_details_data, many=True)
+        serialize1 = TravelVisaApplicationSerializer(client_visa_data, many=True)
+        serialize2 = TravelPackagesApplicationSerializer(client_packages_data, many=True)
+        serialize3 = TravelTicketsApplicationSerializer(client_ticket_data, many=True)
+        
+        print(serialize1.data, serialize2.data, serialize3.data)
+        Serializer_list = [serialize.data, serialize1.data, serialize2.data, serialize3.data]
+        
+        content = {
+        'status': 1, 
+        'responseCode' : status.HTTP_200_OK, 
+        'data': Serializer_list,
+        }
+        
+        return JsonResponse(content)
+
+class AgentsDetails(APIView):
+    
+    def get(self, request, *args, **kwargs):
+        emp_id = kwargs.get('id')
+        emp_details_data = VBSEmployeeDetails.objects.filter(id=emp_id)
+        emp_visa_data = TravelVisaApplication.objects.filter(employee_ref=emp_id)
+        emp_packages_data = TravelPackagesApplication.objects.filter(employee_ref=emp_id)
+        emp_ticket_data = TravelTicketsApplication.objects.filter(employee_ref=emp_id)
+        serialize = VBSEmployeeDetailsSerializer(emp_details_data, many=True)
+        serialize1 = TravelVisaApplicationSerializer(emp_visa_data, many=True)
+        serialize2 = TravelPackagesApplicationSerializer(emp_packages_data, many=True)
+        serialize3 = TravelTicketsApplicationSerializer(emp_ticket_data, many=True)
+        
+        print(serialize1.data, serialize2.data, serialize3.data)
+        Serializer_list = [serialize.data, serialize1.data, serialize2.data, serialize3.data]
+        
+        content = {
+        'status': 1, 
+        'responseCode' : status.HTTP_200_OK, 
+        'data': Serializer_list,
+        }
+        
+        return JsonResponse(content)
 
 # TRAVEL VISA VIEWS
 class TravelVISA(TemplateView):
@@ -58,6 +110,19 @@ class TravelVISA(TemplateView):
         status = request.POST['status']
         created_on = request.POST['created_on'] 
         handover_date = request.POST['handover_date'] 
+        
+        # data = {}
+        
+        # for i in request.POST:
+        #     if i not in ["created_on","handover_date"]:
+        #         if request.POST[i] not in ["", " ", "select stage", "select"]:
+        #             data[i] = request.POST[i]
+        #     else:
+        #         date_List = request.POST[i].split("-")      
+        #         formatted_date = datetime.date(int(date_List[0]), int(date_List[1]), int(date_List[2]))
+        #         data[i] = formatted_date
+            
+        
         
         if applicants_name != "" and client_name != "" and status != "select" and stage != "select stage" and created_on != "" and handover_date != "":
             created_on_List = created_on.split("-")      
