@@ -2,53 +2,7 @@
 {% load static %}
 {% block content %}
 
-    <!-- <div style="width: 100%;">
-    
-        <div class="uk-card uk-card-primary uk-card-body">
-            <div uk-grid style="width: 100%;">
-                <div>
-                    <div class="uk-flex">
-                        <div><a href="#">Agents</a></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-flex">
-                        <div><a href="#">Payments</a></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-flex">
-                        <div><a href="#">Follow-ups</a></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-flex">
-                        <div><a href="#">Transfer Control</a></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-flex">
-                        <div><a href="#">Account Management</a></div>
-                    </div>
-                </div>
-                
-                
-                <div>
-                    <div class="uk-flex">
-                        <div><a href="#"><span uk-icon="icon:push"></span></a></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-flex">
-                        <div><a href="#"><span uk-icon="icon:user"></span></a></div>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div> -->
-
 {% include './auth_header.html' %}
-
 
         <center>
             
@@ -70,7 +24,7 @@
                             </div>
                         {% else %}
                             {% for elem in clients_list %}
-                                {% include 'travel/admin/cards/clients__client_selector.html' with client_data=elem %}
+                                {% include 'travel/admin/cards/clients__client_selector.html' with client_data=elem clicked=clicked %}
                             {% endfor %}
                         {% endif %}
                     </div>
@@ -78,10 +32,12 @@
                 <div class="uk-width-3-4" style="text-align: left;">
                     <div class="uk-card uk-card-default uk-card-body" style="width: 100%; height: 100%;">
                         <center>
-                            <div style="font-size: 200%; margin-top: 5%; width: 50%;">
+                            <div id="client-not-selected" style="font-size: 200%; margin-top: 5%; width: 50%;">
                                 <i class="fa-regular fa-hand-pointer"></i><br/>
-                                No agents are selected. Please select the agent and view the records
-                            </div>
+                                No client selected. Please select the a client and view the records
+                            </div> 
+                            <div id="client_details"></div>
+
                         </center>
                     </div>
                 </div>
@@ -146,6 +102,101 @@
 
     <script>
 
+        const client_details = document.getElementById("client_details")
+        const client_not_selected = document.getElementById("client-not-selected")
+
+        function clicked(id) {
+            if(id !== null){
+                $.ajax({
+                    url: `http://localhost:8000/travel/api/client_details/${id}`,
+                    type: 'GET',
+                    success: function(data){
+                        console.log('api run response', data)
+                        client_not_selected.classList.add('not-visible')
+                        client_details.innerHTML = `
+                        <div style="text-align: left;">
+                        <label style="font-size: 160%">${data?.data[0][0]?.client_name}</label>
+                        <br/><br/>
+                        <div uk-grid class="uk-child-width-1-3">
+                            <div>
+                                <div class="uk-tile uk-tile-default" style="padding: 5%; border: 3px solid skyblue">
+                                    VISA Applications <br/>
+                                    <label style="font-size: 250%">${data?.data[1].length}</label>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="uk-tile uk-tile-default" style="padding: 5%; border: 3px solid skyblue">
+                                    Packages Application <br/>
+                                    <label style="font-size: 250%">${data?.data[2].length}</label>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="uk-tile uk-tile-default" style="padding: 5%; border: 3px solid skyblue">
+                                    Tickets Application <br/>
+                                    <label style="font-size: 250%">${data?.data[3].length}</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr style="border-color: black;">
+                        
+                        <label style="font-size: 110%; font-weight: 600; color: rgb(0, 116, 161);">All applications of the client: ${data?.data[0][0]?.client_name}</label>
+                        <br/><br/>
+                        
+                        <div style="height: 300px; overflow-y: scroll; scroll-behavior: smooth; text-align: left;">
+                            <div class="uk-card uk-card-secondary" style="padding: 3%;">
+                                <div uk-grid class="uk-child-width-1-5" style="font-weight: 700;">
+                                    <div>Application ID</div>
+                                    <div>Start Date</div>
+                                    <div>
+                                        Category
+                                    </div>
+                                    <div>
+                                        Stage
+                                    </div>
+                                    <div>
+                                        Employee ID
+                                    </div>
+                                </div>
+                            </div>
+                            ${data?.data[1].map(item => `<div class="uk-card uk-card-default" style="padding: 3%;">
+                                <div uk-grid class="uk-child-width-1-5">
+                                    <div>${item?.id}</div>
+                                    <div>${new Date(item?.created_on).toDateString()}</div>
+                                    <div><i class="fa-solid fa-layer-group"></i> &nbsp;&nbsp; VISA</div>
+                                    <div><i class="fa-solid fa-diagram-next"></i>&nbsp;&nbsp; ${item?.stage}</div>
+                                    <div>${item?.employee_ref?.org_employee_id}</div>
+                                </div>
+                            </div>`)}
+                            ${data?.data[2].map(item => `<div class="uk-card uk-card-default" style="padding: 3%;">
+                                <div uk-grid class="uk-child-width-1-5">
+                                    <div>${item?.id}</div>
+                                    <div>${new Date(item?.created_on).toDateString()}</div>
+                                    <div><i class="fa-solid fa-layer-group"></i> &nbsp;&nbsp; Packages</div>
+                                    <div><i class="fa-solid fa-diagram-next"></i>&nbsp;&nbsp; ${item?.stage}</div>
+                                    <div>${item?.employee_ref?.org_employee_id}</div>
+                                </div>
+                            </div>`)}
+                            ${data?.data[2].map(item => `<div class="uk-card uk-card-default" style="padding: 3%;">
+                                <div uk-grid class="uk-child-width-1-5">
+                                    <div>${item?.id}</div>
+                                    <div>${new Date(item?.created_on).toDateString()}</div>
+                                    <div><i class="fa-solid fa-layer-group"></i> &nbsp;&nbsp; Tickets</div>
+                                    <div><i class="fa-solid fa-diagram-next"></i>&nbsp;&nbsp; ${item?.stage}</div>
+                                    <div>${item?.employee_ref?.org_employee_id}</div>
+                                </div>
+                            </div>`)}
+                        </div>
+                    </div>
+                        `
+                    },
+                    error: function(jqXHR, exception){
+                        console.log(jqXHR, ' | ', exception);
+                        alertbox.innerHTML = "It seems server side erro has occured. Try again after some time. Still if problem persist, contact developer@vsbizz.com";
+                    },        
+                })
+            } 
+        }
         
 
         function fetchClientRecord(id){

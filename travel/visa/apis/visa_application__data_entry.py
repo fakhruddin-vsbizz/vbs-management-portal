@@ -29,7 +29,7 @@ class TravelApplicationInitiateAPIView(APIView):
                 response_store['id'] = TravelVisaApplication.objects.count()+1
 
                 for key, value in response_store.items():
-                    response_store[key] = value[0] if key is not "id" else value
+                    response_store[key] = value[0] if key != "id" else value
 
                 TravelVisaApplication.objects.update_or_create(
                     id=TravelVisaApplication.objects.count()+1,

@@ -65,6 +65,7 @@
                     <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);"><u>Shortest Window to delivery applications</u></label>
                 </div>
                 {% for client_info in visa_data %}
+                {% if client_info.handover_date.date %}
                 <div>
                     <div class="uk-card uk-card-primary uk-card-body">
                         <h3 class="uk-card-title">{{client_info.applicants_name}}</h3>
@@ -75,6 +76,7 @@
                         </button>
                     </div>
                 </div>
+                {% endif %}
                 {% endfor %}
                 {% comment %} </div>
                 <div>

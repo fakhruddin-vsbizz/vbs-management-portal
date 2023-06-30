@@ -41,5 +41,7 @@ urlpatterns = [
     path('api/create_new_client', TAdminCreateClient.as_view(), name='client-creation-api'),
     path('api/edit_travel_agent_details', TAdminEditAgent.as_view(), name='agent-travel-edit-api'),
     path('api/travel_visa_stage_1', TravelApplicationInitiateAPIView.as_view(), name='travel-visa-stage1-api'),
+    path('api/client_details/<int:id>', views.ClientDetails.as_view(), name='client_details-api'),
+    path('api/agent_details/<int:id>', views.AgentsDetails.as_view(), name='agent_details-api'),
     # TAdminEditAgent
 ]
