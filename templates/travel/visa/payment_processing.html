@@ -56,6 +56,8 @@
         <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224);font-family: Roboto; color: black;">
             <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);">STEP 3: Payment Processing</label>
             <hr style="border-color: black;">
+            <div class="uk-alert-primary" uk-alert id="alertbox">
+            </div>
             <div uk-grid class="uk-child-width-1-2">
                 <div class="uk-width-1-1">
                     Fill the amount to the respective charges applied: <br/>
@@ -73,19 +75,19 @@
                         <tbody>
                             <tr>
                                 <td>VISA fees</td>
-                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="visa_fees" onchange="addToTotal(this)"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="visa_fees" onchange="addToTotal(this)" value="{{ travel_visa_obj.visa_fee }}"></center></td>
                             </tr>
                             <tr>
                                 <td>Authority service charges</td>
-                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="authority_service_fees" onchange="addToTotal(this)"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="authority_service_fees" onchange="addToTotal(this)" value="{{ travel_visa_obj.authority_fee }}"></center></td>
                             </tr>
                             <tr>
                                 <td>Express Charges</td>
-                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="express_fees" onchange="addToTotal(this)"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="express_fees" onchange="addToTotal(this)" value="{{ travel_visa_obj.express_charges }}"></center></td>
                             </tr>
                             <tr>
                                 <td>VBS Service Charges</td>
-                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="vbs_fees" onchange="addToTotal(this)"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 80%;" id="vbs_fees" onchange="addToTotal(this)" value="{{ travel_visa_obj.vbs_charges }}"></center></td>
                             </tr>
                             <tr>
                                 <td>CGST</td>
@@ -103,28 +105,42 @@
                                 Total
                             </div>
                             <div>
-                                <center>Rs. <label id="total_value">0</label>/-</center>
+                                <center>Rs. <label id="total_value">
+                                    {{ travel_visa_obj.total_charges }}
+                                </label>/-</center>
                             </div>
                         </div>
                     </div>
 
                     <br/><br/>
 
-                    <label style="font-size: 120%; font-weight: 600; color: rgb(0, 116, 161);"><u>Invoice status</u></label>
-                    <br/>
-                    <div class="uk-tile uk-tile-default" style="padding: 2% 2%; font-weight: 700; width: 60%; ">
-                        <ul class="uk-tab-bottom" uk-tab>
-                            <li class="uk-active"><a href="#">Invoice Generated</a></li>
-                            <li><a href="#">Invoice Sent</a></li>
-                            <li><a href="#">Invoice Paid</a></li>
-                        </ul>
+                    <div uk-grid class="uk-child-width-1-2">
+                        <div>
+                            <label style="font-size: 120%; font-weight: 600; color: rgb(0, 116, 161);"><u>Invoice status</u></label>
+                            <br/>
+                            <div class="uk-tile uk-tile-default" style="padding: 2% 2%; font-weight: 700; width: 60%; ">
+                                <ul class="uk-tab-bottom" uk-tab>
+                                    <li class="uk-active"><a href="#" onclick="invoiceStatus(false)">Unpaid</a></li>
+                                    <li><a href="#" onclick="invoiceStatus(true)">Paid</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <label style="font-size: 120%; font-weight: 600; color: rgb(0, 116, 161);"><u>VISA status</u></label>
+                            <br/>
+                            <div class="uk-tile uk-tile-default" style="padding: 2% 2%; font-weight: 700; width: 60%; ">
+                                <ul class="uk-tab-bottom" uk-tab>
+                                    <li class="uk-active"><a href="#" onclick="visaStatus('accepted')">Accepted</a></li>
+                                    <li><a href="#" onclick="visaStatus('rejected')">Rejected</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    
-
                 </div>
                 <div class="uk-width-1-1">&nbsp;</div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-default">Save Changes</button>
+                    
+                    <button class="uk-button uk-button-default" onclick="updateDocumentProcessing('{{ csrf_token }}','{{ app_id }}',false, 'payment_processing')">Save Changes</button>
                 </div>
                 <div class="uk-width-1-3">
                     <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary">Block Application</button>
@@ -144,7 +160,7 @@
                     </div>
                 </div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-primary">Mark Closed</button>
+                    <button class="uk-button uk-button-primary" onclick="updateDocumentProcessing('{{ csrf_token }}','{{ app_id }}',true, 'payment_processing')">Mark Closed</button>
                 </div>
             </div>
         </div>

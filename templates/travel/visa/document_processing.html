@@ -1,4 +1,5 @@
 {% extends '../header.html' %}
+{% load date_readable %}
 {% load static %}
 {% block content %}
 
@@ -61,7 +62,7 @@
             <div uk-grid class="uk-child-width-1-2">
                 <div class="uk-width-1-1">
                     Enter the vendor name:<br/>
-                    <input class="uk-input" id="vendor_name" style="width: 70%;" type="text">
+                    <input class="uk-input" id="vendor_name" style="width: 70%;" type="text" value="{{ travel_visa_obj.vendor_name }}">
                 </div>
                 <div class="uk-width-1-1">
                     Mark the operations given as Done to label it as completed: <br/>
@@ -76,30 +77,89 @@
                         <tbody>
                             <tr>
                                 <td>Document Submitted by client:</td>
-                                <td><button class="uk-button uk-button-default" onclick="markDates('collection_date', this)" id="collection_date">Mark Done</button></td>
-                                <td id="collection_date_status"></td>
+                                <td>
+                                    {% if travel_visa_obj.document_collection_date != None %}
+                                        <i class="fa-solid fa-circle-check"></i> &nbsp;&nbsp; Done
+                                    {% else %}
+                                        <button class="uk-button uk-button-default" onclick="markDates('document_collection_date', this)" id="document_collection_date">Mark Done</button>
+                                    {% endif %}
+                                    
+                                </td>
+                                <td id="document_collection_date_status">
+                                    {% if travel_visa_obj.document_collection_date == None %}
+                                        &nbsp;
+                                    {% else %}
+                                        Marked done on {{ travel_visa_obj.document_collection_date|readable_date }}
+                                    {% endif %}
+                                </td>
                             </tr>
                             <tr>
                                 <td>Courier out to Embassy:</td>
-                                <td><button class="uk-button uk-button-default" onclick="markDates('courier_out_date', this)" id="courier_out_date">Mark Done</button></td>
-                                <td id="courier_out_date_status"></td>
+                                <td>
+                                    {% if travel_visa_obj.courier_out_date != None %}
+                                        <i class="fa-solid fa-circle-check"></i> &nbsp;&nbsp; Done
+                                    {% else %}
+                                        <button class="uk-button uk-button-default" onclick="markDates('courier_out_date', this)" id="courier_out_date">Mark Done</button>
+                                    {% endif %}
+                                    
+                                </td>
+                                <td id="courier_out_date_status">
+                                    {% if travel_visa_obj.courier_out_date == None %}
+                                        &nbsp;
+                                    {% else %}
+                                        Marked done on {{ travel_visa_obj.courier_out_date|readable_date }}
+                                    {% endif %}
+                                    
+                                </td>
                             </tr>
                             <tr>
                                 <td>Courier in to the client</td>
-                                <td><button class="uk-button uk-button-default" onclick="markDates('courier_in_date', this)" id="courier_in_date">Mark Done</button></td>
-                                <td id="courier_in_date_status"></td>
+                                <td>
+                                    {% if travel_visa_obj.courier_in_date != None %}
+                                        <i class="fa-solid fa-circle-check"></i> &nbsp;&nbsp; Done
+                                    {% else %}
+                                        <button class="uk-button uk-button-default" onclick="markDates('courier_in_date', this)" id="courier_in_date">Mark Done</button>
+                                    {% endif %}
+                                    
+                                </td>
+                                <td id="courier_in_date_status">
+                                    {% if travel_visa_obj.courier_in_date == None %}
+                                        &nbsp;
+                                    {% else %}
+                                        Marked done on {{ travel_visa_obj.courier_in_date|readable_date }}
+                                    {% endif %}
+                                    
+                                </td>
                             </tr>
                             <tr>
                                 <td>Handover to the client</td>
-                                <td><button class="uk-button uk-button-default" onclick="markDates('handover_date', this)" id="handover_date">Mark Done</button></td>
-                                <td id="handover_date_status"></td>
+                                <td>
+                                    {% if travel_visa_obj.handover_date != None %}
+                                        <i class="fa-solid fa-circle-check"></i> &nbsp;&nbsp; Done
+                                    {% else %}
+                                        <button class="uk-button uk-button-default" onclick="markDates('handover_date', this)" id="handover_date">Mark Done</button>
+                                    {% endif %}
+                                    
+                                </td>
+                                <td id="handover_date_status">
+                                    {% if travel_visa_obj.handover_date == None %}
+                                        &nbsp;
+                                    {% else %}
+                                        Marked done on {{ travel_visa_obj.handover_date|readable_date }}
+                                    {% endif %}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="uk-width-1-1">&nbsp;</div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-default" onclick="updateDocumentProcessing('{{ csrf_token }}', '{{ app_id }}', false, 'document_processing')">Save Changes</button>
+                    {% if travel_visa_obj.handover_date == None %}
+                        <button class="uk-button uk-button-default" onclick="updateDocumentProcessing('{{ csrf_token }}', '{{ app_id }}', false, 'document_processing')">Save Changes</button>
+                    {% else %}
+                        <a href="{% url 'visa-detail-processing' app_pk=app_id %}"><button class="uk-button uk-button-default">Save Changes</button></a>
+                    {% endif %}
+                    
                 </div>
                 <div class="uk-width-1-3">
                     <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary">Block Application</button>
@@ -119,7 +179,12 @@
                     </div>
                 </div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-primary" onclick="updateDocumentProcessing('{{ csrf_token }}', '{{ app_id }}', true, 'document_processing')">Continue</button>
+                    {% if travel_visa_obj.handover_date == None %}
+                        <button class="uk-button uk-button-primary" onclick="updateDocumentProcessing('{{ csrf_token }}', '{{ app_id }}', true, 'document_processing')">Continue</button>
+                    {% else %}
+                        <a href="{% url 'visa-payment-processing' app_pk=app_id %}"><button class="uk-button uk-button-primary">Continue</button></a>
+                    {% endif %}
+                    
                 </div>
             </div>
         </div>

@@ -12,7 +12,7 @@ class TravelApplicationInitiateAPIView(APIView):
 
     # localize the dates
     def __return_datetime_object(self, stringified_date):
-        return datetime.datetime.strptime(stringified_date.replace(" GMT+0530 (India Standard Time)",""), '%a %b %d %Y %H:%M:%S')
+        return datetime.datetime.strptime(stringified_date.replace(" GMT+0530 (India Standard Time)",""), '%a %b %d %Y %H:%M:%S') if stringified_date is not '' else None
 
 
     # POST request to initiate new visa application
@@ -22,23 +22,36 @@ class TravelApplicationInitiateAPIView(APIView):
         visa_manager = VisaDataManager(data)
 
         try:
+            print('here we go 1')
             response_store = visa_manager.process_stage1_data()
             if response_store['csrfmiddlewaretoken']:
                 response_store = dict(response_store)
                 response_store.pop('csrfmiddlewaretoken')
-                response_store['id'] = TravelVisaApplication.objects.count()+1
+                print('here we go 2')
+
+                response_store['id'] = TravelVisaApplication.objects.count()+1 if data.get('id') is '0' else data.get('id')
+
+
+                print('here we go 3')
+
+                print(response_store)
 
                 for key, value in response_store.items():
-                    response_store[key] = value[0] if key != "id" else value
+                    try:
+                        response_store[key] = value[0]
+                    except Exception as e:
+                        response_store[key] = value
 
                 TravelVisaApplication.objects.update_or_create(
-                    id=TravelVisaApplication.objects.count()+1,
+                    id=TravelVisaApplication.objects.count()+1 if not data.get('id') else data.get('id'),
                     defaults=response_store
                 )
 
             response_msg['status'] = status.HTTP_200_OK
             response_msg['message'] = 'Saved the details successfully'
             response_msg['id'] = TravelVisaApplication.objects.count()
+
+
 
         except Exception as e:
                 response_msg['status'] = status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -51,15 +64,21 @@ class TravelApplicationInitiateAPIView(APIView):
         data = request.data.copy()
         response_msg = {'status': status.HTTP_204_NO_CONTENT, 'message':'In Progress'}
         travel_visa_appl = TravelVisaApplication.objects.get(id=data.get('app_id'))
+
+        print(data)
         
         if data.get('stage') == 'document_processing':
-            data['document_collection_date'] = self.__return_datetime_object(data['document_collection_date'])
+            if(data.get('document_collection_date')):
+                data['document_collection_date'] = self.__return_datetime_object(data['document_collection_date'])
             
-            data['courier_out_date'] = self.__return_datetime_object(data['courier_out_date'])
+            if(data.get('courier_out_date')):
+                data['courier_out_date'] = self.__return_datetime_object(data['courier_out_date'])
 
-            data['courier_in_date'] = self.__return_datetime_object(data['courier_in_date'])
+            if(data.get('courier_in_date')):
+                data['courier_in_date'] = self.__return_datetime_object(data['courier_in_date'])
 
-            data['handover_date'] = self.__return_datetime_object(data['handover_date'])
+            if(data.get('handover_date')):
+                data['handover_date'] = self.__return_datetime_object(data['handover_date'])
 
         try:
             travel_visa_serializer = TravelVisaApplicationSerializer(travel_visa_appl, data=data, partial=True)

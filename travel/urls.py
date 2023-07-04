@@ -4,6 +4,7 @@ from travel.admin.apis.add_new_agent import CreateNewAgentView
 from travel.admin.apis.add_new_client import TAdminCreateClient
 from travel.admin.apis.edit_agent import TAdminEditAgent
 from travel.visa.apis.visa_application__data_entry import TravelApplicationInitiateAPIView
+from travel.packages.apis.packages__create import TravelPackagesActionHandlerAPI
 
 urlpatterns = [
     path('auth/login', views.LoginView, name='login-view'),
@@ -11,13 +12,13 @@ urlpatterns = [
 
     # travel visa urls
     path('visa/application', views.TravelVISA.as_view(), name='visa-application'),
-    path('visa/application/new/detail_processing', views.TVDetailProcessing.as_view(), name='visa-detail-processing'),
+    path('visa/application/<str:app_pk>/detail_processing', views.TVDetailProcessing.as_view(), name='visa-detail-processing'),
     path('visa/application/<int:app_pk>/document_processing', views.TVDocumentProcessing.as_view(), name='visa-document-processing'),
     path('visa/application/<int:app_pk>/payment_processing', views.TVPaymentProcessing.as_view(), name='visa-payment-processing'),
 
     # travel packages urls
     path('packages/application', views.TravelPackages.as_view(), name='package-application'),
-    path('packages/application/new/package_selection', views.TPPackageSelection.as_view(), name='packages-package-selection'),
+    path('packages/application/<str:app_pk>/package_selection', views.TPPackageSelection.as_view(), name='packages-package-selection'),
     path('packages/application/new/customer_invoicing', views.TPCustomerInvoicing.as_view(), name='packages-customer-invoicing'),
     path('packages/application/new/vendor_management', views.TPVendorPayments.as_view(), name='packages-vendor-payments'),
 
@@ -43,5 +44,6 @@ urlpatterns = [
     path('api/travel_visa_stage_1', TravelApplicationInitiateAPIView.as_view(), name='travel-visa-stage1-api'),
     path('api/client_details/<int:id>', views.ClientDetails.as_view(), name='client_details-api'),
     path('api/agent_details/<int:id>', views.AgentsDetails.as_view(), name='agent_details-api'),
+    path('api/travel_packages_crud', TravelPackagesActionHandlerAPI.as_view(), name='travel-packages-crud-api'),
     # TAdminEditAgent
 ]
