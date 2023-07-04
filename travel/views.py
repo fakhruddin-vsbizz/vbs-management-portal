@@ -10,9 +10,13 @@ from .variables import COUNTRIES
 from rest_framework import status
 from rest_framework.views import APIView
 from django.http import JsonResponse
+from .variables import COUNTRIES, PACKAGE_TYPE, MAJOR_CITIES
 import datetime
 from rest_framework.response import Response
 from .models import TravelClient, VBSEmployeeDetails, TravelVisaApplication, TravelPackagesApplication, TravelTicketsApplication
+
+from django import template
+
 
 # Create your views here.
 
@@ -28,6 +32,7 @@ def LoginView(request):
 
         # sets the message if user is valid
         is_validated = org_auth_obj.return_if_is_authenticated()
+        print(is_validated)
         
         role = org_auth_obj.role_redirect()
         
@@ -100,6 +105,8 @@ class TravelVISA(TemplateView):
         id = VBSEmployeeDetails.objects.get(employee_auth_user_ref_id=request.user.id)
         filter_visa_data = TravelVisaApplication.objects.filter(employee_ref=id)
         visa_data = TravelVisaApplication.objects.filter(employee_ref=id).order_by("handover_date")
+
+
         return render(request, 'travel/visa/all_list.html', {"visa_data": visa_data, "filter_visa_data": filter_visa_data})
     
     def post(self, request):
@@ -168,38 +175,83 @@ class TravelVISA(TemplateView):
 
 
 
-class TVDetailProcessing(TemplateView):
+class TVDetailProcessing(View):
+    def get(self, request, *args, **kwargs):
 
-    template_name = "travel/visa/detail_processing.html"
+        travel_visa_obj = None
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        if kwargs['app_pk'] == "new":
+            pass
+        else:
+            app_id = int(kwargs['app_pk'])
+            travel_visa_obj = TravelVisaApplication.objects.get(id=app_id)
 
-        updated_context = super().get_context_data(**kwargs)
-        updated_context['all_travel_clients'] = TravelClient.objects.all()
-        updated_context['countries'] = COUNTRIES
-        return updated_context
+        context = {}
+        context['app_id'] = kwargs['app_pk']
+        context['all_travel_clients'] = TravelClient.objects.all()
+        context['countries'] = COUNTRIES
+        context['travel_visa_obj'] = travel_visa_obj
+
+        return render(request, 'travel/visa/detail_processing.html', context)
     
 
 class TVDocumentProcessing(View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'travel/visa/document_processing.html', {'app_id':kwargs['app_pk']})
+        context = {}
+        context['app_id'] = kwargs['app_pk']
+
+        travel_visa_obj = TravelVisaApplication.objects.get(id=kwargs['app_pk'])
+        context['travel_visa_obj'] = travel_visa_obj
+        return render(request, 'travel/visa/document_processing.html', context)
 
 
 class TVPaymentProcessing(TemplateView):
     def get(self, request, *args, **kwargs):
-        return render(request, 'travel/visa/payment_processing.html', {'app_id':kwargs['app_pk']})
+        context = {}
+        context['app_id'] = kwargs['app_pk']
+
+        travel_visa_obj = TravelVisaApplication.objects.get(id=kwargs['app_pk'])
+        context['travel_visa_obj'] = travel_visa_obj
+
+        return render(request, 'travel/visa/payment_processing.html', context)
 
 
 # TRAVEL PACKAGE
-class TPPackageSelection(TemplateView):
+class TPPackageSelection(View):
 
-    template_name = "travel/packages/package_selection.html"
+    def get(self, request, *args, **kwargs):
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs)
+        travel_packages_obj = None
+
+        if kwargs['app_pk'] == "new":
+            pass
+        else:
+            app_id = int(kwargs['app_pk'])
+            travel_packages_obj = TravelPackagesApplication.objects.get(id=app_id)
+
+        context = {}
+
+        context['app_id'] = kwargs['app_pk']
+        context['packages_type'] = PACKAGE_TYPE
+        context['all_cities'] = MAJOR_CITIES
+        context['all_travel_clients'] = TravelClient.objects.all()
+        context['travel_packages_obj'] = travel_packages_obj
+
+        print(context['all_travel_clients'])
+        
+
+        return render(request, 'travel/packages/package_selection.html', context)
     
 
-class TPCustomerInvoicing(TemplateView):
+class TPCustomerInvoicing(View):
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+
+        # context['app_id'] = kwargs['app_pk'] if kwargs["app_pk"] else ""
+        # context['travel_packages_obj'] = TravelPackagesApplication.objects.get(id=kwargs['app_pk'])
+
+        return render(request, 'travel/packages/customer_invoicing.html', context)
 
     template_name = "travel/packages/customer_invoicing.html"
 
@@ -408,3 +460,6 @@ class TAdminAgentAccounts(TemplateView):
         updated_context['agents_list'] = User.objects.filter(groups__name='travel_agent')
 
         return updated_context
+
+
+

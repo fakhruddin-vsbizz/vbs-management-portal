@@ -33,6 +33,12 @@ class TravelPackagesApplication(models.Model):
     applicants_name = models.CharField(max_length=200, null=False, blank=False, default="")
     stage = models.CharField(max_length=200, null=False, blank=False, default="")
     status = models.CharField(max_length=200, null=False, blank=False, default="open")
+    vendor_name = models.CharField(max_length=200, null=False, blank=False, default="")
+    total_vendor_payment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)
+    first_installment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)
+    second_installment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)
+    third_installment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)
+    less_taxes = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)
     no_of_days = models.IntegerField(default=0, null=False, blank=False)
     passport_no = models.CharField(max_length=200, null=False, blank=False, default="")
     gross_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
@@ -40,9 +46,9 @@ class TravelPackagesApplication(models.Model):
     net_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
     discount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
     invoice_status = models.BooleanField(max_length=10, blank=False, null=False, default=False)
-    tentative_payment_date = models.DateTimeField(blank=True)
-    arrival_date = models.DateTimeField(blank=True)
-    departure_date = models.DateTimeField(blank=True)
+    tentative_payment_date = models.DateTimeField(blank=True, null=True, default="")
+    arrival_date = models.DateTimeField(blank=True, null=True, default="")
+    departure_date = models.DateTimeField(blank=True, null=True, default="")
     destination = models.CharField(max_length=200, null=False, blank=False, default="")
     boarding = models.CharField(max_length=200, null=False, blank=False, default="")
     package_type = models.CharField(max_length=200, null=False, blank=False, default="")
@@ -53,7 +59,7 @@ class TravelPackagesApplication(models.Model):
     class Meta:
         db_table = 'travel_packages_application'
 
-class  TravelTicketsApplication(models.Model):
+class TravelTicketsApplication(models.Model):
     employee_ref = models.ForeignKey(VBSEmployeeDetails, on_delete=models.CASCADE)
     package_name = models.CharField(max_length=200, null=False, blank=False, default="")
     client_name = models.CharField(max_length=200, null=False, blank=False, default="")
@@ -128,8 +134,8 @@ class TravelVisaApplication(models.Model):
     passport_no = models.CharField(max_length=200, null=False, blank=False, default="")
     contact_number = models.CharField(max_length=200, null=False, blank=False, default="")
     visiting_country = models.CharField(max_length=200, null=False, blank=False, default="")
-    stage = models.CharField(max_length=200, null=False, blank=False, default="")
-    status = models.CharField(max_length=200, null=False, blank=False, default="open")
+    stage = models.CharField(max_length=200, null=False, blank=False, default="detail_processing")
+    status = models.CharField(max_length=200, null=False, blank=False, default="pending")
     invoice_status = models.BooleanField(blank=False, null=False, default=False)
     total_charges = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)
     vbs_charges = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)

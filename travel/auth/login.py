@@ -26,12 +26,15 @@ class OrgAuth:
             self.__user_obj = User.objects.get(email=self.email)
             return True
         except Exception as e:
+            print(e)
             return False
         
     # returns boolean if user is authenticated or not
     # [NEWSOL] return type will be object to pass a custom message to be set as response
     def return_if_is_authenticated(self):
+        print(self.__user_obj)
         if(self.__get_username()):
+            print(self.password)
             self.__user_obj = authenticate(username=self.__user_obj.username, password=self.password)
             print("36",self.__user_obj)
             if self.__user_obj is not None:
