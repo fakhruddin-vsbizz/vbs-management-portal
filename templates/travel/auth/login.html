@@ -2,16 +2,14 @@
 {% load static %}
 {% block content %}
 
-<center>
-    <div class="uk-card uk-card-secondary uk-card-body font-roboto" style="width: 50%; margin-top: 10%;">
+<div class="flex-center-on-page bg-image-style" style="background-image: url({% static 'img/couple-traveler.jpg' %})">
+    <div class="uk-card uk-box-shadow-medium font-roboto" style=" background-color: white; width: 45%; display: flex; flex-direction: column; align-items: center; border-radius: 15px; padding: 30px 10px">
         <img src="{% static 'img/vbslogo.png' %}" style="width:20%; height:20%;">
-        <br/>
-        <hr color="white" style="width: 65%;">
-        <label class="uk-card-title login-header">Authentication Panel</label>
-        <p>Login using your designated credentials</p>
+        <label class="uk-text-secondary" style="font-size: 2.5rem; font-weight: 900;">Authentication Panel</label>
+        <p class="uk-text-secondary" style="margin-block: 1px;">Login using your designated credentials</p>
         {% if auth_validated is False %}
             <p style="color: skyblue; padding: 2%; border: 1px solid white;">
-                <span uk-icon="warning"></span>&nbsp;&nbsp;Username and Password Wrong
+                <span uk-icon="warning" class="uk-text-secondary"></span>&nbsp;&nbsp;Username and Password Wrong
             </p>
         {% elif auth_validated is None %}
             &nbsp;
@@ -19,22 +17,21 @@
             &nbsp;
         {% endif %}
         
-        <form method="POST">
+        <form method="POST" style="display: flex; flex-direction: column; width: 80%; align-items: center; gap: .8rem;">
             {% csrf_token %}
-            <div class="uk-inline">
-                <span class="uk-form-icon" uk-icon="icon: user"></span>
-                <input class="uk-input" name="email" type="text" aria-label="Not clickable icon">
+            <div style="display: flex; width: 100%; gap: .8rem; align-items: center;">
+                <i class="fa-solid fa-user" style="font-size: 1.5rem; color: #0077BB"></i>
+                <input class="uk-input" placeholder="enter email" style="border: 1px solid black; border-radius: 10px" name="email" type="text" aria-label="Not clickable icon">
             </div>
-            <div class="uk-inline">
-                <span class="uk-form-icon" uk-icon="icon: eye"></span>
-                <input class="uk-input" name="password" type="password" aria-label="Not clickable icon">
+            <div style="display: flex; width: 100%; gap: .8rem; align-items: center;">
+                <i class="fa-solid fa-lock" style="font-size: 1.5rem; color: #0077BB"></i>
+                <input class="uk-input" placeholder="enter password" style="border: 1px solid black; border-radius: 10px" name="password" type="password" aria-label="Not clickable icon">
             </div>
-            <br/><br/>
-            <input class="uk-button uk-button-secondary uk-width-1-3" type="submit" value="Login"/>
+            <input class="uk-button uk-button-secondary uk-width-1-3" style="background-color: #0077BB; border-radius: 10px; font-weight: 700;" type="submit" value="Login"/>
         </form>
         
     </div>    
-</center>
+</div>
 
 
 {% endblock content %}

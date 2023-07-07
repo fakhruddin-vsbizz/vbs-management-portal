@@ -12,9 +12,11 @@ class VisaDataManager:
         self.morpher_data_store = data
 
     def __convert_client_id_to_object(self):
+        print(self.morpher_data_store)
         try:
             self.morpher_data_store['travel_client_ref'] = TravelClient.objects.get(id=self.morpher_data_store['travel_client_ref'])
         except Exception as e:
+            print(e)
             raise Exception('Seems the client selected have conflict through ID. Please verify the client')
 
     def __passport_validate(self):
@@ -32,6 +34,7 @@ class VisaDataManager:
         try:
             self.morpher_data_store['employee_ref'] = VBSEmployeeDetails.objects.get(employee_auth_user_ref=self.morpher_data_store['employee_ref'])
         except Exception as e:
+            print(e)
             raise Exception('Seems the employee passed have conflict through ID. Please verify the employee ID')
         
     
@@ -45,6 +48,7 @@ class VisaDataManager:
                 return self.response
             return self.morpher_data_store
         except Exception as e:
+            print(e)
             self.response['status'] = 206
             self.response['message'] = 'Seems there is a partial data conflict. Contact developer@vsbizz.com for repair.'
             return self.response

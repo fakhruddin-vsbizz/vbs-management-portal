@@ -1,11 +1,12 @@
 from typing import Iterable, Optional
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 class VBSEmployeeDetails(models.Model):
     employee_auth_user_ref = models.ForeignKey(User, on_delete=models.CASCADE)
     org_employee_id = models.CharField(max_length=50, null=False, blank=False)
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(default=datetime.datetime.now)
     class Meta:
         db_table = 'vbs_employee_details'
 
@@ -15,7 +16,7 @@ class TravelClient(models.Model):
     organization = models.CharField(max_length=200, null=False, blank=False, default="")
     contact_number = models.CharField(max_length=200, null=False, blank=False, default="")
     email = models.EmailField(blank=False, null=False)
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(default=datetime.datetime.now)
     
     class Meta:
         db_table = 'vbs_travel_client'
@@ -34,27 +35,27 @@ class TravelPackagesApplication(models.Model):
     stage = models.CharField(max_length=200, null=False, blank=False, default="")
     status = models.CharField(max_length=200, null=False, blank=False, default="open")
     vendor_name = models.CharField(max_length=200, null=False, blank=False, default="")
-    total_vendor_payment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)
-    first_installment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)
-    second_installment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)
-    third_installment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)
-    less_taxes = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)
+    total_vendor_payment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    first_installment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    second_installment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    third_installment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    less_taxes = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, null=False, blank=False) # type: ignore
     no_of_days = models.IntegerField(default=0, null=False, blank=False)
     passport_no = models.CharField(max_length=200, null=False, blank=False, default="")
-    gross_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
-    service_fees = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
-    net_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
-    discount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
+    gross_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    service_fees = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    net_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    discount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
     invoice_status = models.BooleanField(max_length=10, blank=False, null=False, default=False)
-    tentative_payment_date = models.DateTimeField(blank=True, null=True, default="")
-    arrival_date = models.DateTimeField(blank=True, null=True, default="")
-    departure_date = models.DateTimeField(blank=True, null=True, default="")
+    tentative_payment_date = models.DateTimeField(blank=True, null=True, default="")# type: ignore
+    arrival_date = models.DateTimeField(blank=True, null=True, default="") # type: ignore
+    departure_date = models.DateTimeField(blank=True, null=True, default="")# type: ignore
     destination = models.CharField(max_length=200, null=False, blank=False, default="")
     boarding = models.CharField(max_length=200, null=False, blank=False, default="")
     package_type = models.CharField(max_length=200, null=False, blank=False, default="")
     quantity_of_packages = models.CharField(max_length=200, null=False, blank=False, default="")
     package_name = models.CharField(max_length=200, null=False, blank=False, default="")
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(default=datetime.datetime.now)
     
     class Meta:
         db_table = 'travel_packages_application'
@@ -68,7 +69,7 @@ class TravelTicketsApplication(models.Model):
     status = models.CharField(max_length=200, null=False, blank=False, default="open")
     contact_number = models.CharField(max_length=200, null=False, blank=False, default="")
     trip_type = models.CharField(max_length=200, null=False, blank=False, default="")
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(default=datetime.datetime.now)
     invoice_status = models.BooleanField(max_length=10, blank=False, null=False, default=False)
     travel_client_ref = models.ForeignKey(TravelClient, on_delete=models.CASCADE)
     origin = models.CharField(max_length=200, null=False, blank=False, default="")
@@ -81,10 +82,10 @@ class TravelTicketsApplication(models.Model):
     airline_pnr_no = models.CharField(max_length=200, null=False, blank=False, default="")
     departure_date = models.DateTimeField(blank=True)
     arrival_date = models.DateTimeField(blank=True)
-    base_fees = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
-    service_fees = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
-    net_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
-    markup = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
+    base_fees = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    service_fees = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    net_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    markup = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
     issued_from = models.CharField(max_length=200, null=False, blank=False, default="")
 
     class Meta:
@@ -93,14 +94,14 @@ class TravelTicketsApplication(models.Model):
 
 class TravelPackagesVendorPayment(models.Model):
     package_appl_id = models.ForeignKey(TravelPackagesApplication, on_delete=models.CASCADE)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
-    final_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
-    vendor_name = models.CharField(max_length=200, null=False, blank=False, default="")
-    vendor_payment_1 = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
-    vendor_payment_2 = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
-    vendor_payment_3 = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
-    less_taxes = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)
-    created_on = models.DateTimeField(auto_now_add=True)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    final_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    vendor_name = models.CharField(max_length=200, null=False, blank=False, default="")# type: ignore
+    vendor_payment_1 = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    vendor_payment_2 = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    vendor_payment_3 = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    less_taxes = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=False, blank=False)# type: ignore
+    created_on = models.DateTimeField(default=datetime.datetime.now)
     
     class Meta:
         db_table = 'travel_packages_vendor_payment'
@@ -111,7 +112,7 @@ class TravelApplicationControlTransfer(models.Model):
     new_agent_id = models.CharField(max_length=200, null=False, blank=False, default="")
     appl_id = models.CharField(max_length=200, null=False, blank=False, default="")
     is_transfer_revoked = models.BooleanField(max_length=10, blank=False, null=False, default=False)
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(default=datetime.datetime.now)
 
     class Meta:
         db_table = 'travel_appl_control_transfer'
@@ -121,8 +122,8 @@ class FollowUps(models.Model):
     appl_id = models.CharField(max_length=200, null=False, blank=False, default="")
     application_type = models.CharField(max_length=200, null=False, blank=False, default="")
     followup_stage = models.CharField(max_length=200, null=False, blank=False, default="")
-    time_for_followups = models.DateTimeField(auto_now_add=True)
-    created_on = models.DateTimeField(auto_now_add=True)
+    time_for_followups = models.DateTimeField(default=datetime.datetime.now)
+    created_on = models.DateTimeField(default=datetime.datetime.now)
 
     class Meta:
         db_table = 'followups'
@@ -134,21 +135,23 @@ class TravelVisaApplication(models.Model):
     passport_no = models.CharField(max_length=200, null=False, blank=False, default="")
     contact_number = models.CharField(max_length=200, null=False, blank=False, default="")
     visiting_country = models.CharField(max_length=200, null=False, blank=False, default="")
-    stage = models.CharField(max_length=200, null=False, blank=False, default="detail_processing")
+    stage = models.CharField(max_length=200, null=False, blank=False, default="detail processing")
     status = models.CharField(max_length=200, null=False, blank=False, default="pending")
     invoice_status = models.BooleanField(blank=False, null=False, default=False)
-    total_charges = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)
-    vbs_charges = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)
-    express_charges = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)
-    authority_fee = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)
-    visa_fee = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)
+    total_charges = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)# type: ignore
+    cgst_fees = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)# type: ignore
+    sgst_fees = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)# type: ignore
+    vbs_charges = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)# type: ignore
+    express_charges = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)# type: ignore
+    authority_fee = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)# type: ignore
+    visa_fee = models.DecimalField(max_digits=10, decimal_places=2 ,default=0.0, null=False, blank=False)# type: ignore
     vendor_name = models.CharField(max_length=200, null=False, blank=False, default="")
     sub_location = models.CharField(max_length=200, null=False, blank=False, default="")
     handover_date = models.DateTimeField(blank=True, null=True)
     courier_in_date = models.DateTimeField(blank=True, null=True)
     courier_out_date = models.DateTimeField(blank=True, null=True)
     document_collection_date = models.DateTimeField(blank=True, null=True)
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(default=datetime.datetime.now)
     
     class Meta:
         db_table = 'travel_visa_application'

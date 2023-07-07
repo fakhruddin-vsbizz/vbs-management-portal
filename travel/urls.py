@@ -7,14 +7,14 @@ from travel.visa.apis.visa_application__data_entry import TravelApplicationIniti
 from travel.packages.apis.packages__create import TravelPackagesActionHandlerAPI
 
 urlpatterns = [
-    path('auth/login', views.LoginView, name='login-view'),
+    path('auth/login', views.LoginView, name='login-view'), # type: ignore
     path('auth/logout', views.logout_view, name='logout-view'),
 
     # travel visa urls
     path('visa/application', views.TravelVISA.as_view(), name='visa-application'),
     path('visa/application/<str:app_pk>/detail_processing', views.TVDetailProcessing.as_view(), name='visa-detail-processing'),
-    path('visa/application/<int:app_pk>/document_processing', views.TVDocumentProcessing.as_view(), name='visa-document-processing'),
-    path('visa/application/<int:app_pk>/payment_processing', views.TVPaymentProcessing.as_view(), name='visa-payment-processing'),
+    path('visa/application/<str:app_pk>/document_processing', views.TVDocumentProcessing.as_view(), name='visa-document-processing'),
+    path('visa/application/<str:app_pk>/payment_processing', views.TVPaymentProcessing.as_view(), name='visa-payment-processing'),
 
     # travel packages urls
     path('packages/application', views.TravelPackages.as_view(), name='package-application'),

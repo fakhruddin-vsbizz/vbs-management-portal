@@ -60,22 +60,32 @@
             </div>
 
 
-            <div uk-grid class="uk-child-width-1-3" style="padding: 2%; width: 80%; text-align: left;">
+            <div uk-grid class="uk-child-width-1-3" style="padding: 2%; width: 90%; text-align: left;">
                 <div class="uk-width-1-1">
-                    <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);"><u>Shortest Window to delivery applications</u></label>
+                    <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);"><u>Pending applications</u></label>
                 </div>
                 {% for client_info in visa_data %}
-                {% if client_info.handover_date.date %}
+                
+                {% if client_info.status == "pending" or client_info.status == "open" %}
                 <div>
                     <div class="uk-card uk-card-primary uk-card-body">
                         <h3 class="uk-card-title">{{client_info.applicants_name}}</h3>
                         <p>Client: {{client_info.travel_client_ref.client_name}}</p>
+                        {% if client_info.handover_date.date %}
                         <p><span uk-icon="icon:future"></span>&nbsp;&nbsp;&nbsp;Handover Date: {{client_info.handover_date.date}}</p>
-                        <button class="uk-button uk-button-secondary">
-                            View application &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span>
-                        </button>
+                        {% else %}
+                        <p><span uk-icon="icon:future"></span>&nbsp;&nbsp;&nbsp;Handover Date: Not Set</p>
+                        {% endif %}
+                        {% if client_info.stage == 'detail processing' %}
+                        <div><a style="text-decoration:none; color:white" href={% url 'visa-detail-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary" style="display: flex; align-items: center;">View application &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span></button></a></div>
+                        {% elif client_info.stage == 'processing documents' %}
+                        <div><a style="text-decoration:none; color:white" href={% url 'visa-document-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary" style="display: flex; align-items: center;">View application &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span></button></a></div>
+                        {% elif client_info.stage == 'processing payments' %}
+                        <div><a style="text-decoration:none; color:white" href={% url 'visa-payment-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary" style="display: flex; align-items: center;">View application &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span></button></a></div>
+                        {% endif %}
                     </div>
                 </div>
+                
                 {% endif %}
                 {% endfor %}
                 {% comment %} </div>
@@ -117,13 +127,13 @@
                 </div> {% endcomment %}
             </div>
 
-            <div class="uk-flex" style="width: 80%; text-align: center; margin-top: 3%;">
+            <div class="uk-flex" style="width: 90%; text-align: center; margin-top: 3%;">
                 <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);"><u>List of generated VISA applications</u></label>    
             </div>
             
             <form action="{% url 'visa-application' %}" method="POST">
                 {% csrf_token %}
-                <div class="uk-flex" style="padding: 2%; width: 80%; text-align: center;">
+                <div class="uk-flex" style="padding: 2%; width: 90%; text-align: center;">
                     <table style="width: 100%; text-align: left;" cellpadding="5px">
                         <tr>
                             <td>Applicant Name: <br/> <input name="applicants_name" class="uk-input" style="width: 70%;" type="text"></td>
@@ -166,7 +176,7 @@
         <hr>
 
         <center>
-            <div class="uk-flex" style="padding: 2%; width: 80%; text-align: center;">
+            <div class="uk-flex" style="padding: 2%; width: 90%; text-align: center;">
                 <ul class="uk-list" style="width: 100%;">
                     <li>
                         <div class="uk-card uk-card-secondary uk-card-body">
@@ -193,7 +203,13 @@
                                 <div><span class="uk-badge uk-padding-small">{{client_info.stage}}</span></div>
                                 <div><span class="uk-badge uk-padding-small">{{client_info.status}}</span></div>
                                 <div>{{client_info.created_on}}</div>
-                                <div><button class="uk-button uk-button-primary">Continue</button></div>
+                                {% if client_info.stage == 'detail processing' %}
+                                <div><a style="text-decoration:none; color:white" href={% url 'visa-detail-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary">Continue</button></a></div>
+                                {% elif client_info.stage == 'processing documents' %}
+                                <div><a style="text-decoration:none; color:white" href={% url 'visa-document-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary">Continue</button></a></div>
+                                {% elif client_info.stage == 'processing payments' %}
+                                <div><a style="text-decoration:none; color:white" href={% url 'visa-payment-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary">Continue</button></a></div>
+                                {% endif %}
                             </div>
                         </div>
                     </li>
@@ -209,7 +225,13 @@
                                 <div><span class="uk-badge uk-padding-small">{{client_info.stage}}</span></div>
                                 <div><span class="uk-badge uk-padding-small">{{client_info.status}}</span></div>
                                 <div>{{client_info.created_on}}</div>
-                                <div><button class="uk-button uk-button-primary">Continue</button></div>
+                                {% if client_info.stage == 'detail processing' %}
+                                <div><a style="text-decoration:none; color:white" href={% url 'visa-detail-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary">Continue</button></a></div>
+                                {% elif client_info.stage == 'processing documents' %}
+                                <div><a style="text-decoration:none; color:white" href={% url 'visa-document-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary">Continue</button></a></div>
+                                {% elif client_info.stage == 'processing payments' %}
+                                <div><a style="text-decoration:none; color:white" href={% url 'visa-payment-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary">Continue</button></a></div>
+                                {% endif %}
                             </div>
                         </div>
                     </li>
@@ -307,10 +329,10 @@
         <br/><br/>
 
         <center>
-            <div class="uk-flex" style="width: 80%; text-align: center; margin-top: 3%;">
+            <div class="uk-flex" style="width: 90%; text-align: center; margin-top: 3%;">
                 <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);"><u>Follow-up for blocked clients</u></label>    
             </div>
-            <div class="uk-flex" style="padding: 2%; width: 80%; text-align: center;">
+            <div class="uk-flex" style="padding: 2%; width: 90%; text-align: center;">
             
                 <div class="uk-child-width-1-3@s" uk-grid style="width: 100%;">
                     <div style="text-align: left;">
@@ -391,6 +413,11 @@
 
             contacted_switch.addedDrag();
             contacted_switch.removedDrag();
+
+            function onContinue(id) {
+                console.log(id)
+
+            }
 
         </script>
 
