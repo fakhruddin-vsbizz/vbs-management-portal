@@ -46,12 +46,14 @@
     <center>
 
         <br/>
+        <nav>
         <ul class="uk-breadcrumb">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Details Processing</a></li>
-            <li class="uk-disabled"><a>Document Processing</a></li>
-            <li class="uk-disabled"><a>Payment Processing</a></li>
+            <li><a href={% url 'visa-application' %}>Home</a></li>
+            <li><span style="color: black;">Details Processing</span></li>
+            <li><a href={% url 'visa-document-processing' app_pk=app_id %}>Document Processing</a></li>
+            <li><a href={% url 'visa-payment-processing' app_pk=app_id %}>Payment Processing</a></li>
         </ul>
+    </nav>
 
         <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224); font-family: Roboto; color: black;">
             <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);">STEP 1: Details Processing</label>
@@ -89,9 +91,9 @@
                             <li>
                                 <label id="{{ elem }}" onclick="setSelectedCountry(this)">
                                     {% if elem == travel_visa_obj.visiting_country %}
-                                    <input class="uk-radio" type="radio" name="radio1" checked>
+                                    <input class="uk-radio" type="radio" id="radio1" name="radio1" checked>
                                     {% else %}
-                                    <input class="uk-radio" type="radio" name="radio1">
+                                    <input class="uk-radio" type="radio" id="radio1" name="radio1">
                                     {% endif %}
                                     {{ elem }}
                                 </label>

@@ -15,7 +15,7 @@ class TravelApplicationInitiateAPIView(APIView):
         return datetime.datetime.strptime(stringified_date.replace(" GMT+0530 (India Standard Time)",""), '%a %b %d %Y %H:%M:%S') if stringified_date is not '' else None
 
 
-    # POST request to initiate new visa application
+    # POST request to initiate new visa application 
     def post(self, request, format=None):
         data = request.data.copy()
         response_msg = {'status': status.HTTP_204_NO_CONTENT, 'message':'In Progress'}
@@ -24,12 +24,12 @@ class TravelApplicationInitiateAPIView(APIView):
         try:
             print('here we go 1')
             response_store = visa_manager.process_stage1_data()
-            if response_store['csrfmiddlewaretoken']:
-                response_store = dict(response_store)
-                response_store.pop('csrfmiddlewaretoken')
+            if response_store['csrfmiddlewaretoken']:# type: ignore
+                response_store = dict(response_store) # type: ignore
+                response_store.pop('csrfmiddlewaretoken')# type: ignore
                 print('here we go 2')
 
-                response_store['id'] = TravelVisaApplication.objects.count()+1 if data.get('id') is '0' else data.get('id')
+                response_store['id'] = TravelVisaApplication.objects.count()+1 if data.get('id') is '0' else data.get('id')# type: ignore
 
 
                 print('here we go 3')
@@ -38,13 +38,13 @@ class TravelApplicationInitiateAPIView(APIView):
 
                 for key, value in response_store.items():
                     try:
-                        response_store[key] = value[0]
+                        response_store[key] = value[0]# type: ignore
                     except Exception as e:
                         response_store[key] = value
 
                 TravelVisaApplication.objects.update_or_create(
                     id=TravelVisaApplication.objects.count()+1 if not data.get('id') else data.get('id'),
-                    defaults=response_store
+                    defaults=response_store# type: ignore
                 )
 
             response_msg['status'] = status.HTTP_200_OK
@@ -54,6 +54,7 @@ class TravelApplicationInitiateAPIView(APIView):
 
 
         except Exception as e:
+                print(e)
                 response_msg['status'] = status.HTTP_500_INTERNAL_SERVER_ERROR
                 response_msg['message'] = str(e)
         return Response(response_msg)
@@ -67,7 +68,7 @@ class TravelApplicationInitiateAPIView(APIView):
 
         print(data)
         
-        if data.get('stage') == 'document_processing':
+        if data.get('stage') == 'processing documents':
             if(data.get('document_collection_date')):
                 data['document_collection_date'] = self.__return_datetime_object(data['document_collection_date'])
             

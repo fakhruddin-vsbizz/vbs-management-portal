@@ -12,7 +12,7 @@
             
                 {% for elem in all_travel_clients %}
                 
-                    <li><input class="uk-radio" type="radio" name="selected_client" onclick="selectedClientID('{{ elem.id }}','{{ elem.organization }}' ,'{{ elem.client_name }}','{{ elem.contact_number }}')"> &nbsp;&nbsp;&nbsp;{{ elem.client_name }}</li>
+                    <li> {{elem.id}} <input class="uk-radio" type="radio" name="selected_client" onchange="selectedClientID('{{ elem.id }}','{{ elem.organization }}' ,'{{ elem.client_name }}','{{ elem.contact_number }}')"> &nbsp;&nbsp;&nbsp;{{ elem.client_name }}</li>
 
                 {% endfor %}
 
