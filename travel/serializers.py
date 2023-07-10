@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth.models import User
-from .models import  TravelVisaApplication, TravelPackagesApplication, TravelTicketsApplication,  TravelClient, VBSEmployeeDetails
+from .models import  TravelVisaApplication, TravelPackagesApplication, TravelTicketsApplication,  TravelClient, VBSEmployeeDetails, FollowUps
 
 
 class UserSerializer(ModelSerializer):
@@ -39,3 +39,8 @@ class TravelPackagesApplicationSerializer(ModelSerializer):
     class Meta:
         model = TravelPackagesApplication
         fields='__all__'
+
+class FollowUpSerializer(ModelSerializer):
+    class Meta:
+        model = FollowUps
+        fields = '__all__'

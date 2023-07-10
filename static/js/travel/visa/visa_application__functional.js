@@ -45,11 +45,14 @@ function setSelectedCountry(obj) {
     console.log(selected_country);
 }
 
-function createVisaApplication(csrf_token, id, stage_change, app_id) {
-
-    console.log(csrf_token, id, stage_change, app_id);
+function createVisaApplication(csrf_token, id, stage_change, app_id, client_id) {
     
-    console.log('Entered');
+    console.log('Entered')
+
+    if(client_id != ''){
+        id_for_selection = Number(client_id)
+    }
+
     org_store = document.getElementById('applicant_name').value;
     client_name_store = document.getElementById('client_name').innerHTML;
     contact_number_store = document.getElementById('contact_number').value;
@@ -62,7 +65,6 @@ function createVisaApplication(csrf_token, id, stage_change, app_id) {
     // }
 
     console.log(selected_country)
-    
 
     passport_number = document.getElementById('passport_number').value;
     sub_location = document.getElementById('sub_location').value;
@@ -106,7 +108,7 @@ function createVisaApplication(csrf_token, id, stage_change, app_id) {
             },        
         });
     }else{
-        alertbox.innerHTML = "org:"+org_store+" clientname: "+client_name_store+" contactno: "+contact_number_store+" selectcntr: "+selected_country+" passportno: "+passport_number;
+        alertbox.innerHTML = "org:"+org_store+" clientname: "+client_name_store+" contactno: "+contact_number_store+" selectcntr: "+selected_country+" passportno: "+passport_number+" id_for_selection"+id_for_selection;
     }
 
 }
@@ -271,8 +273,8 @@ function updateDocumentProcessing(csrf_token, id, stage_change, stage_name) {
             data: pushable_data,
             success: function(data){
                 alertbox.innerHTML = data.message;
-                if(stage_change){
-                    if(stage_name == 'processing payments'){
+                if(stage_change && data.status == 200){
+                    if(stage_name == 'payment_processing'){
                         window.location.href = '/travel/visa/application'
                     }else{
                         window.location.href = '/travel/visa/application/'+data.id+'/document_processing'

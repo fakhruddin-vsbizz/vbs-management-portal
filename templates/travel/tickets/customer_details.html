@@ -1,4 +1,5 @@
 {% extends '../header.html' %}
+{% load date_readable %}
 {% load static %}
 {% block content %}
 
@@ -56,19 +57,23 @@
         <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224);font-family: Roboto; color: black;">
             <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);">STEP 1: Customer Details</label>
             <hr style="border-color: black;">
+            <div class="uk-alert-primary" uk-alert id="alertbox">
+            </div>
             <div uk-grid class="uk-child-width-1-2">
                 <div>
                     Package Name:<br/>
-                    <input class="uk-input" style="width: 70%;" type="text">
+                    <input class="uk-input" style="width: 70%;" type="text" id="package_name" value="{{ travel_tickets_obj.package_name }}">
                 </div>
                 <div>
                     Client Name:<br/>
-                    <input class="uk-input" style="width: 70%;" type="text">
+                    <label style="font-size: 120%;" id="client_name">{% if travel_tickets_obj %}{{ travel_tickets_obj.travel_client_ref.client_name }}{% endif %}</label>
+                    <button class="uk-button uk-button-primary" type="button" uk-toggle="target: #tickets-selection-client-selection">Scan</button>
+                    {% include 'travel/tickets/dialogs/ticket_application__client_selection.html' %}
                 </div>
                 <div class="uk-width-1-1">
                     Contact number:<br/>
                     <label style="font-size: 70%;">The number format is - +91XXXXXXXXXX</label><br/><br/>
-                    <input class="uk-input" style="width: 50%;" type="number"><br/>
+                    <input class="uk-input" style="width: 50%;" type="number" id="contact_no" value="{{ travel_tickets_obj.contact_number }}"><br/>
                 </div>
                 <div class="uk-width-1-1">
                     <hr style="border-color: black;">
@@ -76,53 +81,65 @@
                 <div class="uk-width-1-1">
                     <label style="font-size: 130%; font-weight: 600; color: rgb(0, 116, 161);">TRIP DETAILS</label><br/><br/>
                     Trip Type:<br/>
-                    <select class="uk-select" id="form-horizontal-select" style="width: 50%;">
-                        <option>Option 01</option>
-                        <option>Option 02</option>
+                    <select class="uk-select" onchange="selectTripType(this)" id="form-horizontal-select" style="width: 50%;">
+                        {% for elem in tickets_type %}
+                            <option value="{{ elem }}">{{ elem }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 
                 <div>
                     Select the Origin city: <br/>
                     <ul class="uk-list uk-list-divider" style="padding: 3%; background-color: white; width: 70%; height: 100px; overflow-y: scroll; scroll-behavior: smooth;">
-                        <li>
-                            <label><input class="uk-radio" type="radio" name="radio1"> Option 01</label>
-            
-                        </li>
-                        <li>
-                            <label><input class="uk-radio" type="radio" name="radio1"> Option 02</label>
-                        </li>
-                        <li>
-                            <label><input class="uk-radio" type="radio" name="radio1"> Option 03</label>
-                        </li>
+                        {% for elem in all_cities %}
+                            <li>
+                                <label onclick="selectOrigin('{{ elem }}')">
+                                    {% if elem == travel_tickets_obj.origin %}
+                                        <input class="uk-radio" type="radio" name="origin" value="{{ elem }}" checked>
+                                    {% else %}
+                                        <input class="uk-radio" type="radio" name="origin" value="{{ elem }}">
+                                    {% endif %}
+                                     {{ elem }}
+                                </label>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div>
                     Select the Destination city: <br/>
                     <ul class="uk-list uk-list-divider" style="padding: 3%; background-color: white; width: 70%; height: 100px; overflow-y: scroll; scroll-behavior: smooth;">
-                        <li>
-                            <label><input class="uk-radio" type="radio" name="radio1"> Option 01</label>
-            
-                        </li>
-                        <li>
-                            <label><input class="uk-radio" type="radio" name="radio1"> Option 02</label>
-                        </li>
-                        <li>
-                            <label><input class="uk-radio" type="radio" name="radio1"> Option 03</label>
-                        </li>
+                        {% for elem in all_cities %}
+                            <li>
+                                <label onclick="selectDestination('{{ elem }}')">
+                                    {% if elem == travel_tickets_obj.destination %}
+                                        <input class="uk-radio" type="radio" name="destination" value="{{ elem }}" checked>
+                                    {% else %}
+                                        <input class="uk-radio" type="radio" name="destination" value="{{ elem }}">
+                                    {% endif %}
+                                     {{ elem }}
+                                </label>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
+                
                 <div class="uk-width-1-1">
                     Via:<br/>
-                    <input class="uk-input" style="width: 50%;" type="number"><button class="uk-button uk-button-default"><span uk-icon="plus"></span></button><br/>
-                    <div class="uk-flex" style="padding: 3%;">
-                        <div class="uk-tile uk-tile-muted uk-padding-small" style="margin-right: 2%; ">
-                            Bahrain &nbsp;&nbsp;&nbsp; <span uk-icon="close"></span>
-                        </div>
-                        <div class="uk-tile uk-tile-muted uk-padding-small" style="margin-right: 2%;">
-                            Doha &nbsp;&nbsp;&nbsp; <span uk-icon="close"></span>
-                        </div>
-                    </div>
+                    <input class="uk-input" style="width: 50%;" type="text" id="via" value="{{ travel_tickets_obj.via }}"><br/>
+                    <ul class="uk-list uk-list-divider" style="padding: 3%; background-color: white; width: 70%; height: 100px; overflow-y: scroll; scroll-behavior: smooth;">
+                        {% for elem in all_cities %}
+                            <li>
+                                <label onclick="toggleViaBlock('{{ elem }}')">
+                                    {% if elem in travel_tickets_obj.via|return_array_from_csv %}
+                                        <input class="uk-checkbox" type="checkbox" id="via_city_{{ elem }}" checked>
+                                    {% else %}
+                                        <input class="uk-checkbox" type="checkbox" id="via_city_{{ elem }}">
+                                    {% endif %}
+                                    &nbsp;&nbsp;&nbsp;{{ elem }}
+                                </label>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
                 <div class="uk-width-1-1">
                     <hr style="border-color: black;">
@@ -131,16 +148,16 @@
                     <label style="font-size: 130%; font-weight: 600; color: rgb(0, 116, 161);">MODE OF TRANSPORT</label><br/><br/>
                     <div class="uk-tile uk-tile-default" style="padding: 2% 2%; font-weight: 700; width: 60%; ">
                         <ul class="uk-tab-bottom" uk-tab>
-                            <li class="uk-active"><a href="#">Flight</a></li>
-                            <li><a href="#">Train</a></li>
-                            <li><a href="#">Bus</a></li>
+                            <li class="uk-active" onclick="selectTransportMode('Flight')"><a href="#">Flight</a></li>
+                            <li onclick="selectTransportMode('Train')"><a href="#">Train</a></li>
+                            <li onclick="selectTransportMode('Bus')"><a href="#">Bus</a></li>
                         </ul>
                     </div>
                     
                 </div>
                 <div class="uk-width-1-1">&nbsp;</div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-default">Save Changes</button>
+                    <button class="uk-button uk-button-default" onclick="createTicketApplication('{{ csrf_token }}','{{ request.user.id }}', false, '{{ travel_tickets_obj.id }}', '{{ travel_tickets_obj.travel_client_ref.id }}', 'customer_details')">Save Changes</button>
                 </div>
                 <div class="uk-width-1-3">
                     <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary">Block Application</button>
@@ -160,7 +177,7 @@
                     </div>
                 </div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-primary">Continue</button>
+                    <button class="uk-button uk-button-primary" onclick="createTicketApplication('{{ csrf_token }}','{{ request.user.id }}', true, '{{ travel_tickets_obj.id }}', '{{ travel_tickets_obj.travel_client_ref.id }}', 'customer_details')">Continue</button>
                 </div>
             </div>
         </div>

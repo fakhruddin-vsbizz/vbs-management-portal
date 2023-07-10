@@ -1,4 +1,5 @@
 {% extends '../header.html' %}
+{% load date_readable %}
 {% load static %}
 {% block content %}
 
@@ -56,6 +57,8 @@
         <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224);font-family: Roboto; color: black;">
             <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);">STEP 3: Payments</label>
             <hr style="border-color: black;">
+            <div class="uk-alert-primary" uk-alert id="alertbox">
+            </div>
             <div uk-grid class="uk-child-width-1-2">
                 <div class="uk-width-1-1">
                     Following are the charges for the tickets: <br/>
@@ -73,11 +76,11 @@
                         <tbody>
                             <tr>
                                 <td>Base fare:</td>
-                                <td><center><input type="number" class="uk-input" style="width: 50%;"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 50%;" id="base_fees" value="{{ travel_tickets_obj.base_fees }}" onchange="changeTotalValue()"></center></td>
                             </tr>
                             <tr>
                                 <td>Service fare:</td>
-                                <td><center><input type="number" class="uk-input" style="width: 50%;"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 50%;" id="service_fees" value="{{ travel_tickets_obj.service_fees }}" onchange="changeTotalValue()"></center></td>
                             </tr>
                         </tbody>
                     </table>
@@ -104,28 +107,28 @@
                             <hr style="border-color: black;">
                         </div>
                         <div style="font-size: 130%;">
-                            Total
+                            Gross Total
                         </div>
                         <div style="font-size: 130%;">
-                            <center>Rs 16000/-</center>
+                            <center>Rs <label id="gross_total">{{ travel_tickets_obj.net_amount }}</label>/-</center>
                         </div>
                         <div>
                             Markup
                         </div>
                         <div>
-                            <center><input class="uk-input" type="number" style="width: 50%;"></center>
+                            <center><input class="uk-input" type="number" style="width: 50%;" id="markup" value="{{ travel_tickets_obj.markup }}" onchange="changeTotalValue()"></center>
                         </div>
                         <div>
                             Issued from
                         </div>
                         <div>
-                            <center><input class="uk-input" type="number" style="width: 50%;"></center>
+                            <center><input class="uk-input" type="text" style="width: 50%;" id="issued_from" value="{{ travel_tickets_obj.issued_from }}"></center>
                         </div>
                         <div>
                             Agent reference
                         </div>
                         <div>
-                            <center><input class="uk-input" type="number" style="width: 50%;"></center>
+                            <center><input class="uk-input" type="text" style="width: 50%;" id="agent_ref" value="{{ travel_tickets_obj.agent_ref }}"></center>
                         </div>
                     </div>
                     <div class="uk-card uk-card-body uk-card-secondary" style="font-size: 140%; font-weight: 600;">
@@ -134,7 +137,7 @@
                                 Total
                             </div>
                             <div>
-                                <center>Rs. 16000/-</center>
+                                <center>Rs. <label id="net_total">{{ travel_tickets_obj.net_amount|add_numbers:travel_tickets_obj.markup }}</label>/-</center>
                             </div>
                         </div>
                     </div>
@@ -145,16 +148,14 @@
                     <br/><br/>
                     <div class="uk-tile uk-tile-default" style="padding: 2% 2%; font-weight: 700; width: 60%; ">
                         <ul class="uk-tab-bottom" uk-tab>
-                            <li class="uk-active"><a href="#">Invoice Generated</a></li>
-                            <li><a href="#">Invoice Sent</a></li>
+                            <li class="uk-active" onclick="markInvoiceStatus(false)"><a href="#">Unpaid</a></li>
+                            <li><a href="#" onclick="markInvoiceStatus(true)">Paid</a></li>
                         </ul>
-                    </div>
-                    
-
+                    </div>    
                 </div>
                 <div class="uk-width-1-1">&nbsp;</div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-default">Save Changes</button>
+                    <button class="uk-button uk-button-default" onclick="createTicketApplication('{{ csrf_token }}','{{ request.user.id }}', false, '{{ travel_tickets_obj.id }}', '{{ travel_tickets_obj.travel_client_ref.id }}', 'payments')">Save Changes</button>
                 </div>
                 <div class="uk-width-1-3">
                     <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary">Block Application</button>
@@ -174,7 +175,7 @@
                     </div>
                 </div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-primary">Mark Closed</button>
+                    <button class="uk-button uk-button-primary" onclick="createTicketApplication('{{ csrf_token }}','{{ request.user.id }}', true, '{{ travel_tickets_obj.id }}', '{{ travel_tickets_obj.travel_client_ref.id }}', 'payments')">Mark Closed</button>
                 </div>
             </div>
         </div>
