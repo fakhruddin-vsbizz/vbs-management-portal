@@ -1,4 +1,5 @@
 {% extends '../header.html' %}
+{% load date_readable %}
 {% load static %}
 {% block content %}
 
@@ -55,14 +56,16 @@
         <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224);font-family: Roboto; color: black;">
             <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);">STEP 2: Customer Invoicing</label>
             <hr style="border-color: black;">
+            <div class="uk-alert-primary" uk-alert id="alertbox">
+            </div>
             <div uk-grid class="uk-child-width-1-2">
                 <div>
                     Number of days:<br/>
-                    <input class="uk-input" style="width: 70%;" type="number" maxlength="2">
+                    <input class="uk-input" style="width: 70%;" type="number" maxlength="2" id="no_of_days" value="{{ travel_packages_obj.no_of_days }}">
                 </div>
                 <div>
                     Passport Number:<br/>
-                    <input class="uk-input" style="width: 70%;" type="text" maxlength="15">
+                    <input class="uk-input" style="width: 70%;" type="text" maxlength="15" id="passport_no" value="{{ travel_packages_obj.passport_no }}">
                 </div>
                 <div class="uk-width-1-1">
                     Fill the amount to the respective charges applied: <br/>
@@ -80,11 +83,11 @@
                         <tbody>
                             <tr>
                                 <td>Gross Amount</td>
-                                <td><center><input type="number" class="uk-input" style="width: 50%;"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 50%;" id="gross_amount" value="{{ travel_packages_obj.gross_amount }}" onchange="resetTotal()"></center></td>
                             </tr>
                             <tr>
                                 <td>Service Charges</td>
-                                <td><center><input type="number" class="uk-input" style="width: 50%;"></center></td>
+                                <td><center><input type="number" class="uk-input" style="width: 50%;" id="service_fees" value="{{ travel_packages_obj.service_fees }}" onchange="resetTotal()"></center></td>
                             </tr>
                             <tr>
                                 <td>CGST</td>
@@ -105,13 +108,13 @@
                             Net Amount
                         </div>
                         <div style="font-size: 130%;">
-                            <center>Rs. 15000/-</center>
+                            <center>Rs. <label id="net_amount">{{ travel_packages_obj.net_amount }}</label>/-</center>
                         </div>
                         <div>
                             Discount
                         </div>
                         <div>
-                            <center><input type="number" class="uk-input" style="width: 60%;"></center>
+                            <center><input type="number" class="uk-input" style="width: 60%;" id="discount" value="{{ travel_packages_obj.discount }}" onchange="resetTotal()"></center>
                         </div>
                     </div>
                     <div class="uk-card uk-card-body uk-card-secondary" style="font-size: 140%; font-weight: 600;">
@@ -120,7 +123,7 @@
                                 Total
                             </div>
                             <div>
-                                <center>Rs. 14500/-</center>
+                                <center>Rs. <label id="total_amount">{{ travel_packages_obj.net_amount|get_total_amount:travel_packages_obj.discount }}</label>/-</center>
                             </div>
                         </div>
                     </div>
@@ -133,15 +136,14 @@
                             <br/><br/>
                             <div class="uk-tile uk-tile-default" style="padding: 2% 2%; font-weight: 700; width: 100%; ">
                                 <ul class="uk-tab-bottom" uk-tab>
-                                    <li class="uk-active"><a href="#">Generated</a></li>
-                                    <li><a href="#">Sent</a></li>
-                                    <li><a href="#">Paid</a></li>
+                                    <li onclick="setInvoiceStatus(true)"><a href="#">Paid</a></li>
+                                    <li onclick="setInvoiceStatus(false)"><a href="#">Unpaid</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div>
                             Tentative date till payment:<br/><br/>
-                            <input type="date" class="uk-input">
+                            <input type="date" class="uk-input" id="tentative_payment_date" value="{{ travel_packages_obj.tentative_payment_date|datetime_to_processable_date }}">
                         </div>
                     </div>
 
@@ -153,7 +155,7 @@
                 </div>
                 <div uk-grid class="uk-child-width-1-3" style="width: 100%;">
                     <div>
-                        <button class="uk-button uk-button-default">Save Changes</button>
+                        <button class="uk-button uk-button-default" onclick="updatePackageApplication('{{ csrf_token }}', '{{ app_id }}', false, 'customer_invoicing')">Save Changes</button>
                     </div>
                     <div>
                         <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary">Block Application</button>
@@ -173,7 +175,7 @@
                         </div>
                     </div>
                     <div>
-                        <button class="uk-button uk-button-primary">Move to Vendor Management</button>
+                        <button class="uk-button uk-button-primary" onclick="updatePackageApplication('{{ csrf_token }}', '{{ app_id }}', true, 'customer_invoicing')">Move to Vendor Management</button>
                     </div>
                 </div>
                 

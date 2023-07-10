@@ -10,7 +10,7 @@ from .variables import COUNTRIES
 from rest_framework import status
 from rest_framework.views import APIView
 from django.http import JsonResponse
-from .variables import COUNTRIES, PACKAGE_TYPE, MAJOR_CITIES
+from .variables import COUNTRIES, PACKAGE_TYPE, MAJOR_CITIES, TICKETS_TYPE
 import datetime
 from rest_framework.response import Response
 from .models import TravelClient, VBSEmployeeDetails, TravelVisaApplication, TravelPackagesApplication, TravelTicketsApplication
@@ -213,22 +213,22 @@ class TPCustomerInvoicing(View):
     def get(self, request, *args, **kwargs):
         context = {}
 
-        # context['app_id'] = kwargs['app_pk'] if kwargs["app_pk"] else ""
-        # context['travel_packages_obj'] = TravelPackagesApplication.objects.get(id=kwargs['app_pk'])
+        context['app_id'] = kwargs['app_pk']
+        context['travel_packages_obj'] = TravelPackagesApplication.objects.get(id=kwargs['app_pk'])
 
         return render(request, 'travel/packages/customer_invoicing.html', context)
 
-    template_name = "travel/packages/customer_invoicing.html"
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs) # type: ignore
     
-class TPVendorPayments(TemplateView):
+    
+class TPVendorPayments(View):
 
-    template_name = "travel/packages/vendor_management.html"
+    def get(self, request, *args, **kwargs):
+        context = {}
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs)
+        context['app_id'] = kwargs['app_pk']
+        context['travel_packages_obj'] = TravelPackagesApplication.objects.get(id=kwargs['app_pk'])
+
+        return render(request, 'travel/packages/vendor_management.html', context)
 
 
 class TravelPackages(TemplateView):
@@ -307,26 +307,52 @@ class TicketsPackages(TemplateView):
 
 
     
-class TPCustomerDetails(TemplateView):
+class TPCustomerDetails(View):
 
-    template_name = "travel/tickets/customer_details.html"
+    def get(self, request, *args, **kwargs):
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs)
+        travel_packages_obj = None
 
-class TPTransportDetails(TemplateView):
+        if kwargs['app_pk'] == "new":
+            pass
+        else:
+            app_id = int(kwargs['app_pk'])
+            travel_packages_obj = TravelTicketsApplication.objects.get(id=app_id)
 
-    template_name = "travel/tickets/transport_details.html"
+        context = {}
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs)
+        context['app_id'] = kwargs['app_pk']
+        context['tickets_type'] = TICKETS_TYPE
+        context['all_cities'] = MAJOR_CITIES
+        context['all_travel_clients'] = TravelClient.objects.all()
+        context['travel_tickets_obj'] = travel_packages_obj
+
+        return render(request, "travel/tickets/customer_details.html", context)
+
+
+class TPTransportDetails(View):
+
+    def get(self, request, *args, **kwargs):
+
+        context = {}
+        
+
+        context['app_id'] = kwargs['app_pk']
+        context['travel_tickets_obj'] = TravelTicketsApplication.objects.get(id=kwargs['app_pk'])
+
+        return render(request, 'travel/tickets/transport_details.html', context)
+
     
-class TPPayments(TemplateView):
+class TPPayments(View):
 
-    template_name = "travel/tickets/payments.html"
+    def get(self, request, *args, **kwargs):
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs)
+        context = {}
+    
+        context['app_id'] = kwargs['app_pk']
+        context['travel_tickets_obj'] = TravelTicketsApplication.objects.get(id=kwargs['app_pk'])
+
+        return render(request, 'travel/tickets/payments.html', context)
 
 
 ############################

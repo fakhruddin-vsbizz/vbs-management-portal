@@ -1,4 +1,5 @@
 {% extends '../header.html' %}
+{% load date_readable %}
 {% load static %}
 {% block content %}
 
@@ -55,29 +56,31 @@
         <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224);font-family: Roboto; color: black;">
             <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);">STEP 2: Transport Details</label>
             <hr style="border-color: black;">
+            <div class="uk-alert-primary" uk-alert id="alertbox">
+            </div>
             <div uk-grid class="uk-child-width-1-2">
                 <div class="uk-width-1-1">
                     <label style="font-size: 120%; font-weight: 600; color: rgb(0, 116, 161);"><u>Ticket Details</u></label>
                 </div>
                 <div>
                     Flight/Bus/Train no.:<br/>
-                    <input class="uk-input" style="width: 70%;" type="number">
+                    <input class="uk-input" style="width: 70%;" type="number" id="vehicle_no" value="{{ travel_tickets_obj.vehicle_no }}">
                 </div>
                 <div>
                     Class:<br/>
-                    <input class="uk-input" style="width: 70%;" type="text">
+                    <input class="uk-input" style="width: 70%;" type="text" id="class" value="{{ travel_tickets_obj.travel_class }}">
                 </div>
                 <div>
                     GDS PNR:<br/>
-                    <input class="uk-input" style="width: 70%;" type="text">
+                    <input class="uk-input" style="width: 70%;" type="text" id="gds_pnr" value="{{ travel_tickets_obj.gds_pnr_no }}">
                 </div>
                 <div>
                     Airline PNR:<br/>
-                    <input class="uk-input" style="width: 70%;" type="text">
+                    <input class="uk-input" style="width: 70%;" type="text" id="airline_pnr" value="{{ travel_tickets_obj.airline_pnr_no }}">
                 </div>
                 <div>
                     Ticket Number:<br/>
-                    <input class="uk-input" style="width: 70%;" type="text">
+                    <input class="uk-input" style="width: 70%;" type="text" id="ticket_no">
                 </div>
                 <div class="uk-width-1-1">
                     <hr style="border-color: black;">
@@ -87,16 +90,16 @@
                 </div>
                 <div>
                     Date of Department:<br/>
-                    <input class="uk-input" style="width: 70%;" type="date">
+                    <input class="uk-input" style="width: 70%;" type="date" id="departure_date" value="{{ travel_tickets_obj.departure_date|datetime_to_processable_date }}">
                 </div>
                 <div>
                     Date of Arrival:<br/>
-                    <input class="uk-input" style="width: 70%;" type="date">
+                    <input class="uk-input" style="width: 70%;" type="date" id="arrival_date" value="{{ travel_tickets_obj.arrival_date|datetime_to_processable_date }}">
                 </div>
                 
                 <div class="uk-width-1-1">&nbsp;</div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-default">Save Changes</button>
+                    <button class="uk-button uk-button-default" onclick="createTicketApplication('{{ csrf_token }}','{{ request.user.id }}', false, '{{ travel_tickets_obj.id }}', '{{ travel_tickets_obj.travel_client_ref.id }}', 'transport_details')">Save Changes</button>
                 </div>
                 <div class="uk-width-1-3">
                     <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary">Block Application</button>
@@ -116,7 +119,7 @@
                     </div>
                 </div>
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-primary">Continue</button>
+                    <button class="uk-button uk-button-primary" onclick="createTicketApplication('{{ csrf_token }}','{{ request.user.id }}', true, '{{ travel_tickets_obj.id }}', '{{ travel_tickets_obj.travel_client_ref.id }}', 'transport_details')">Continue</button>
                 </div>
             </div>
         </div>

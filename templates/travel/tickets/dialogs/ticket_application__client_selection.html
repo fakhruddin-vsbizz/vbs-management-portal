@@ -1,0 +1,31 @@
+<div id="tickets-selection-client-selection" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        
+        <h2 class="uk-modal-title">Select the client</h2>
+        <hr>
+        <br/>
+        Search for the client:
+        <input class="uk-input" onchange=""/>
+
+        <ul class="uk-list">
+            {% if all_travel_clients %}
+            
+                {% for elem in all_travel_clients %}
+                
+                    <li><input class="uk-radio" type="radio" name="selected_client" onclick="selectedClientIDForTickets('{{ elem.id }}' ,'{{ elem.client_name }}', '{{ elem.contact_number }}')"> &nbsp;&nbsp;&nbsp;{{ elem.client_name }}</li>
+
+                {% endfor %}
+
+            {% else %}
+                <center>
+                    <i class="fa-solid fa-magnifying-glass"></i><br/>
+                    No clients are found.
+                </center>
+            {% endif %}
+            
+        </ul>
+        <hr>
+        <button class="uk-button uk-button-primary" type="button" onclick="clientDetailAutofillForTickets()">Select Client</button>
+        <button class="uk-modal-close uk-button uk-button-secondary" type="button">Cancel</button>
+    </div>
+</div>

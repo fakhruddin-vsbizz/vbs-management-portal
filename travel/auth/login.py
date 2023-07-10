@@ -32,20 +32,15 @@ class OrgAuth:
     # returns boolean if user is authenticated or not
     # [NEWSOL] return type will be object to pass a custom message to be set as response
     def return_if_is_authenticated(self):
-        print(self.__user_obj)
         if(self.__get_username()):
-            print(self.password)
             self.__user_obj = authenticate(username=self.__user_obj.username, password=self.password)
-            print("36",self.__user_obj)
             if self.__user_obj is not None:
                 try:
                     login(self.__request, self.__user_obj)
                     return True
                 except Exception as e:
-                    print(e)
                     return False
             else:
-                print('not authenticated')
                 return False
 
     # returns group type for the authenticated user only

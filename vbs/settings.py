@@ -103,7 +103,7 @@ WSGI_APPLICATION = 'vbs.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'vbs_management_v1',
+        'NAME': 'vbs_management_v2',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
