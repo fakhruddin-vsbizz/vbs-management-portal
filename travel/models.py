@@ -118,16 +118,18 @@ class TravelApplicationControlTransfer(models.Model):
     class Meta:
         db_table = 'travel_appl_control_transfer'
 
-class FollowUps(models.Model):
+class TravelFollowUps(models.Model):
     employee_id = models.ForeignKey(VBSEmployeeDetails, on_delete=models.CASCADE)
     appl_id = models.CharField(max_length=200, null=False, blank=False, default="")
-    application_type = models.CharField(max_length=200, null=False, blank=False, default="")
+    application_type = models.CharField(max_length=20, null=False, blank=False, default="")
     followup_stage = models.CharField(max_length=200, null=False, blank=False, default="")
-    time_for_followups = models.DateTimeField(default=datetime.datetime.now)
+    time_for_followups = models.TimeField(null=False, blank=False)
+    date_for_followups = models.DateField(null=False, blank=False)
+    remarks = models.CharField(max_length=200, default="")
     created_on = models.DateTimeField(default=datetime.datetime.now)
 
     class Meta:
-        db_table = 'followups'
+        db_table = 'travel_followups'
 
 class TravelVisaApplication(models.Model):
     employee_ref = models.ForeignKey(VBSEmployeeDetails, on_delete=models.CASCADE)

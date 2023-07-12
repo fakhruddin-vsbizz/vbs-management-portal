@@ -91,7 +91,7 @@ function createTicketApplication(csrf_token, id, stage_change, app_id, client_id
     switch (stage_name) {
         case 'customer_details':
             customer_details['csrfmiddlewaretoken'] = csrf_token;
-            customer_details['employee_ref'] = id
+            customer_details['employee_ref'] = Number(id)
             customer_details['package_name'] = document.getElementById('package_name').value;
             customer_details['client_name'] = document.getElementById('client_name').innerHTML;
             customer_details['contact_number'] = document.getElementById('contact_no').value;
@@ -136,6 +136,19 @@ function createTicketApplication(csrf_token, id, stage_change, app_id, client_id
             payments['app_id'] = Number(app_id);
 
             pushable_data = payments;
+            break;
+        
+        
+        case 'unblock_application':
+
+            pushable_data = {
+                csrfmiddlewaretoken: csrf_token,
+                "app_id": app_id,
+                "status": "open"
+            }
+
+            break;
+        
 
         default:
             break;
@@ -154,7 +167,7 @@ function createTicketApplication(csrf_token, id, stage_change, app_id, client_id
             alertbox.innerHTML = data.message;
             page_url = ['customer_details','transport_details','payments']
 
-            if(stage_change){
+            if(stage_change && data.status == 200){
                 if(page_url.indexOf(stage_name) == page_url.length-1){
                     window.location.href = '/travel/tickets/application';
                 }else{
@@ -183,11 +196,50 @@ function changeTotalValue() {
     document.getElementById('gross_total').innerHTML = gross;
 
     markup = Number(document.getElementById('markup').value).toPrecision(6);
-    
+
     document.getElementById('net_total').innerHTML = gross+Number(markup);
 }
 
 
 function markInvoiceStatus(invoice_status) {
     payments['invoice_status'] = invoice_status;
+}
+
+
+function createFollowUpForTickets(csrf_token, emp_id, app_id) {
+    
+    followup_data = {
+        csrfmiddlewaretoken: csrf_token,
+        employee_id: emp_id,
+        appl_id: app_id,
+        application_type: "tickets",
+        followup_stage:"in_followups",
+        time_for_followups: document.getElementById('followup_time').value,
+        date_for_followups: document.getElementById('followup_date').value,
+        remarks: document.getElementById('followup_remarks').value
+    }
+
+    if(validateField(followup_data['time_for_followups']) && validateField(followup_data['date_for_followups']) && validateField(followup_data['remarks'])){
+
+        $.ajax({
+            url: 'http://localhost:8000/travel/api/travel_followup_crud',
+            type: 'POST',
+            data: followup_data,
+            success: function(data){
+                alertbox.innerHTML = data.message;
+                if(data.status == 200){
+                    window.location.reload()
+                }else{
+                    console.log(data);
+                }
+                // window.location.reload();
+            },
+            error: function(jqXHR, exception){
+                console.log(jqXHR, ' | ', exception);
+                alertbox.innerHTML = "It seems server side erro has occured. Try again after some time. Still if problem persist, contact developer@vsbizz.com";
+            },
+        });
+
+    }
+
 }

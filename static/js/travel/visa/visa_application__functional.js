@@ -261,12 +261,23 @@ function updateDocumentProcessing(csrf_token, id, stage_change, stage_name) {
                 "status": visa_status
             }
             break;
+
+
+        case 'unblock_application':
+
+            pushable_data = {
+                csrfmiddlewaretoken: csrf_token,
+                "app_id": id,
+                "status": "open"
+            }
+
+            break;
     
         default:
             break;
     }
 
-    if(validateField(vendor_name) || total_value > 0 || validateField(total_value)){
+    if(validateField(vendor_name) || total_value > 0 || validateField(total_value) || stage_name == 'unblock_application'){
         $.ajax({
             url: 'http://localhost:8000/travel/api/travel_visa_stage_1',
             type: 'PUT',
@@ -289,9 +300,48 @@ function updateDocumentProcessing(csrf_token, id, stage_change, stage_name) {
                 alertbox.innerHTML = "It seems server side erro has occured. Try again after some time. Still if problem persist, contact developer@vsbizz.com";
             },
         });
+    }else{
+        alertbox.innerHTML = "Please fill the details properly."
     }
 }
 
 
+function createFollowUp(csrf_token, emp_id, app_id) {
+    
+    followup_data = {
+        csrfmiddlewaretoken: csrf_token,
+        employee_id: emp_id,
+        appl_id: app_id,
+        application_type: "visa",
+        followup_stage:"in_followups",
+        time_for_followups: document.getElementById('followup_time').value,
+        date_for_followups: document.getElementById('followup_date').value,
+        remarks: document.getElementById('followup_remarks').value
+    }
+
+    if(validateField(followup_data['time_for_followups']) && validateField(followup_data['date_for_followups']) && validateField(followup_data['remarks'])){
+
+        $.ajax({
+            url: 'http://localhost:8000/travel/api/travel_followup_crud',
+            type: 'POST',
+            data: followup_data,
+            success: function(data){
+                alertbox.innerHTML = data.message;
+                if(data.status == 200){
+                    window.location.reload()
+                }else{
+                    console.log(data);
+                }
+                // window.location.reload();
+            },
+            error: function(jqXHR, exception){
+                console.log(jqXHR, ' | ', exception);
+                alertbox.innerHTML = "It seems server side erro has occured. Try again after some time. Still if problem persist, contact developer@vsbizz.com";
+            },
+        });
+
+    }
+
+}
 
  
