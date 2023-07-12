@@ -153,7 +153,7 @@ function updatePackageApplication(csrf_token, id, stage_change, stage_name) {
     console.log(stage_name)
 
     
-    pushable_data = null;
+    pushable_data = {};
 
     switch (stage_name) {
         case 'customer_invoicing':
@@ -185,6 +185,15 @@ function updatePackageApplication(csrf_token, id, stage_change, stage_name) {
             pushable_data = vendor_management
             break;
 
+        case 'unblock_application':
+
+            pushable_data = {
+                csrfmiddlewaretoken: csrf_token,
+                "app_id": id,
+                "status": "open"
+            }
+            break;
+
         default:
             break;
     }
@@ -198,13 +207,17 @@ function updatePackageApplication(csrf_token, id, stage_change, stage_name) {
         success: function(data){
             console.log(data)
             alertbox.innerHTML = data.message;
-            if(stage_change && data.status == 200){
-                if(stage_name == 'vendor_management'){
-                    window.location.href = '/travel/packages/application'
+            page_url = ['package_selection','customer_invoicing','vendor_management']
+
+            if(stage_change){
+                if(page_url.indexOf(stage_name) == page_url.length-1){
+                    window.location.href = '/travel/packages/application';
                 }else{
-                    window.location.href = '/travel/packages/application/'+data.id+'/vendor_management'
+                    window.location.href = '/travel/packages/application/'+data.id+'/'+page_url[page_url.indexOf(stage_name)+1]
                 }
-            }
+            }else{
+                window.location.reload();
+            }  
             
         },
         error: function(jqXHR, exception){
@@ -224,3 +237,44 @@ function validateField(variant){
     }
 }
 
+
+function createFollowUpForPackages(csrf_token, emp_id, app_id) {
+
+    console.log(emp_id, app_id)
+    
+    followup_data = {
+        csrfmiddlewaretoken: csrf_token,
+        employee_id: emp_id,
+        appl_id: app_id,
+        application_type: "packages",
+        followup_stage:"in_followups",
+        time_for_followups: document.getElementById('followup_time').value,
+        date_for_followups: document.getElementById('followup_date').value,
+        remarks: document.getElementById('followup_remarks').value
+    }
+
+    if(validateField(followup_data['time_for_followups']) && validateField(followup_data['date_for_followups']) && validateField(followup_data['remarks'])){
+
+        $.ajax({
+            url: 'http://localhost:8000/travel/api/travel_followup_crud',
+            type: 'POST',
+            data: followup_data,
+            success: function(data){
+                alertbox.innerHTML = data.message;
+                if(data.status == 200){
+
+                    window.location.reload()
+                }else{
+                    console.log(data);
+                }
+                window.location.reload();
+            },
+            error: function(jqXHR, exception){
+                console.log(jqXHR, ' | ', exception);
+                alertbox.innerHTML = "It seems server side erro has occured. Try again after some time. Still if problem persist, contact developer@vsbizz.com";
+            },
+        });
+
+    }
+
+}

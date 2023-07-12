@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView, View
 from travel.auth.login import OrgAuth
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
-from .serializers import TravelTicketsApplicationSerializer, TravelPackagesApplicationSerializer, TravelVisaApplicationSerializer, TravelClientSerializer, VBSEmployeeDetailsSerializer
+from .serializers import TravelTicketsApplicationSerializer, TravelPackagesApplicationSerializer, TravelVisaApplicationSerializer, TravelClientSerializer, VBSEmployeeDetailsSerializer, TravelFollowUps
 from .variables import COUNTRIES
 from rest_framework import status
 from rest_framework.views import APIView
@@ -63,13 +63,12 @@ class ClientDetails(APIView):
         serialize2 = TravelPackagesApplicationSerializer(client_packages_data, many=True)
         serialize3 = TravelTicketsApplicationSerializer(client_ticket_data, many=True)
         
-        print(serialize1.data, serialize2.data, serialize3.data)
         Serializer_list = [serialize.data, serialize1.data, serialize2.data, serialize3.data]
         
         content = {
-        'status': 1, 
-        'responseCode' : status.HTTP_200_OK, 
-        'data': Serializer_list,
+            'status': 1, 
+            'responseCode' : status.HTTP_200_OK, 
+            'data': Serializer_list,
         }
         
         return JsonResponse(content)
@@ -91,9 +90,9 @@ class AgentsDetails(APIView):
         Serializer_list = [serialize.data, serialize1.data, serialize2.data, serialize3.data]
         
         content = {
-        'status': 1, 
-        'responseCode' : status.HTTP_200_OK, 
-        'data': Serializer_list,
+            'status': 1, 
+            'responseCode' : status.HTTP_200_OK, 
+            'data': Serializer_list,
         }
         
         return JsonResponse(content)
@@ -106,7 +105,9 @@ class TravelVISA(TemplateView):
         filter_visa_data = TravelVisaApplication.objects.filter(employee_ref=id)
         visa_data = TravelVisaApplication.objects.filter(employee_ref=id).order_by("handover_date")
 
-        return render(request, 'travel/visa/all_list.html', {"visa_data": visa_data, "filter_visa_data": filter_visa_data})
+        visa_followups = TravelFollowUps.objects.filter(application_type='visa')
+
+        return render(request, 'travel/visa/all_list.html', {"visa_data": visa_data, "filter_visa_data": filter_visa_data, 'visa_followups':visa_followups})
     
     def post(self, request):
         id = VBSEmployeeDetails.objects.get(employee_auth_user_ref_id=request.user.id)
@@ -183,7 +184,6 @@ class TVPaymentProcessing(TemplateView):
 
 # TRAVEL PACKAGE
 class TPPackageSelection(View):
-
     def get(self, request, *args, **kwargs):
 
         travel_packages_obj = None
@@ -237,7 +237,12 @@ class TravelPackages(TemplateView):
         id = VBSEmployeeDetails.objects.get(employee_auth_user_ref_id=request.user.id)
         filter_package_data = TravelPackagesApplication.objects.filter(employee_ref=id)
         package_data = TravelPackagesApplication.objects.filter(employee_ref=id).order_by("departure_date")
-        return render(request, "travel/packages/all_list.html", {"package_data": package_data, "filter_package_data": filter_package_data})
+
+        packages_followups = TravelFollowUps.objects.filter(application_type='packages')
+
+        return render(request, "travel/packages/all_list.html", {"package_data": package_data, "filter_package_data": filter_package_data, 'packages_followups':packages_followups})
+    
+        
     
     def post(self, request):
         id = VBSEmployeeDetails.objects.get(employee_auth_user_ref_id=request.user.id)
@@ -275,7 +280,10 @@ class TicketsPackages(TemplateView):
         id = VBSEmployeeDetails.objects.get(employee_auth_user_ref_id=request.user.id)
         filter_ticket_data = TravelTicketsApplication.objects.filter(employee_ref=id)
         ticket_data = TravelTicketsApplication.objects.filter(employee_ref=id).order_by("departure_date")
-        return render(request, "travel/tickets/all_list.html", {"ticket_data": ticket_data, "filter_ticket_data": filter_ticket_data})
+
+        tickets_followups = TravelFollowUps.objects.filter(application_type = 'tickets')
+
+        return render(request, "travel/tickets/all_list.html", {"ticket_data": ticket_data, "filter_ticket_data": filter_ticket_data, 'tickets_followups':tickets_followups})
     
     def post(self, request):
         id = VBSEmployeeDetails.objects.get(employee_auth_user_ref_id=request.user.id)

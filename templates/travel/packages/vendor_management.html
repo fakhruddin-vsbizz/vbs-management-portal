@@ -132,22 +132,31 @@
                     
                 </div>
                 <div uk-grid class="uk-child-width-1-3" style="width: 100%;">
+                    {% if travel_tickets_obj.status != "blocked" %}
                     <div>
                         <button class="uk-button uk-button-default" onclick="updatePackageApplication('{{ csrf_token }}', '{{ app_id }}', false, 'vendor_management')">Save Changes</button>
                     </div>
                     <div>
-                        <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary">Block Application</button>
+                        <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary uk-width-1-1">Block Application</button>
                         <div id="my-id" uk-modal>
                             <div class="uk-modal-dialog uk-modal-body">
                                 <h3 class="uk-modal-title">Block Application?</h3>
                                 <p>You are blocking the application, which means follow-up will be created for this client.</p>
                                 <p>
                                     Select the time at which the client would be available for call:
-                                    <input class="uk-input" type="time" style="width: 50%;">
+                                    <input class="uk-input" type="time" style="width: 50%;" id="followup_time">
+                                </p>
+                                <p>
+                                    Select the date at which the client would be available for call:
+                                    <input class="uk-input" type="date" style="width: 50%;" id="followup_date">
+                                </p>
+                                <p>
+                                    Remarks:
+                                    <input class="uk-input" type="text" id="followup_remarks">
                                 </p>
                                 <p class="uk-text-right">
                                     <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                                    <button class="uk-button uk-button-primary" type="button">Save</button>
+                                    <button class="uk-button uk-button-primary" type="button" onclick="createFollowUpForPackages('{{ csrf_token }}','{{ request.user.id }}','{{ travel_packages_obj.id }}')">Save</button>
                                 </p>
                             </div>
                         </div>
@@ -155,6 +164,20 @@
                     <div>
                         <button class="uk-button uk-button-primary" onclick="updatePackageApplication('{{ csrf_token }}', '{{ app_id }}', true, 'vendor_management')">Mark Closed</button>
                     </div>
+                    {% else %}
+                    
+                    <div class="uk-width-1-2">
+                        <button class="uk-button uk-button-secondary uk-width-1-1" onclick="updatePackageApplication('{{ csrf_token }}', '{{ app_id }}', false, 'unblock_application')">
+                            Unblock
+                        </button>
+                    </div>
+                    <div class="uk-width-1-2">
+                        <button class="uk-button uk-button-danger uk-width-1-1">
+                            Cancel
+                        </button>
+                    </div>
+
+                    {% endif %}
                 </div>
             </div>
         </div>

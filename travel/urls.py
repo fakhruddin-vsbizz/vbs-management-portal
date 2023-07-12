@@ -6,6 +6,7 @@ from travel.admin.apis.edit_agent import TAdminEditAgent
 from travel.visa.apis.visa_application__data_entry import TravelApplicationInitiateAPIView
 from travel.packages.apis.packages__create import TravelPackagesActionHandlerAPI
 from travel.tickets.apis.tickets__crud import TravelTicketsActionHandlerAPI
+from travel.followups.apis.followups__crud import TravelFollowupAPI
 
 urlpatterns = [
     path('auth/login', views.LoginView, name='login-view'), # type: ignore
@@ -47,5 +48,6 @@ urlpatterns = [
     path('api/agent_details/<int:id>', views.AgentsDetails.as_view(), name='agent_details-api'),
     path('api/travel_packages_crud', TravelPackagesActionHandlerAPI.as_view(), name='travel-packages-crud-api'),
     path('api/travel_tickets_crud', TravelTicketsActionHandlerAPI.as_view(), name='travel-tickets-crud-api'),
+    path('api/travel_followup_crud', TravelFollowupAPI.as_view(), name='travel-tickets-crud-api'),
     # TravelTicketsActionHandlerAPI
 ]
