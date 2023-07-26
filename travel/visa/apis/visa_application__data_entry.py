@@ -12,7 +12,7 @@ class TravelApplicationInitiateAPIView(APIView):
 
     # localize the dates
     def __return_datetime_object(self, stringified_date):
-        return datetime.datetime.strptime(stringified_date.replace(" GMT+0530 (India Standard Time)",""), '%a %b %d %Y %H:%M:%S') if stringified_date is not '' else None
+        return datetime.datetime.strptime(stringified_date.replace(" GMT+0530 (India Standard Time)",""), '%a %b %d %Y %H:%M:%S') if stringified_date != '' else None
 
 
     # POST request to initiate new visa application 
@@ -29,7 +29,7 @@ class TravelApplicationInitiateAPIView(APIView):
                 response_store.pop('csrfmiddlewaretoken')# type: ignore
                 print('here we go 2')
 
-                response_store['id'] = TravelVisaApplication.objects.count()+1 if data.get('id') is '0' else data.get('id')# type: ignore
+                response_store['id'] = TravelVisaApplication.objects.count()+1 if data.get('id') == '0' else data.get('id')# type: ignore
 
 
                 print('here we go 3')

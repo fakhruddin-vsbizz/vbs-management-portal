@@ -5,42 +5,6 @@
 
 <div style="width: 100%; ">
 
-    {% comment %} <div class="uk-card uk-card-primary uk-card-body">
-        <div uk-grid style="width: 100%;">
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Visa</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Packages</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Tickets</a></div>
-                </div>
-            </div>
-            <div class="uk-width-1-4@m">
-                <div class="uk-flex">
-                    <div><a href="#">Insurance</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#"><span uk-icon="icon:push"></span></a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#"><span uk-icon="icon:user"></span></a></div>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div> {% endcomment %}
-
 {% include '../agent_navbar.html' %}
 
 
@@ -110,7 +74,7 @@
                             Gross Total
                         </div>
                         <div style="font-size: 130%;">
-                            <center>Rs <label id="gross_total">{{ travel_tickets_obj.net_amount }}</label>/-</center>
+                            <center>Rs <label id="gross_amount">{{ travel_tickets_obj.gross_amount }}</label>/-</center>
                         </div>
                         <div>
                             Markup
@@ -137,7 +101,7 @@
                                 Total
                             </div>
                             <div>
-                                <center>Rs. <label id="net_total">{{ travel_tickets_obj.net_amount|add_numbers:travel_tickets_obj.markup }}</label>/-</center>
+                                <center>Rs. <label id="total_amount">{{ travel_tickets_obj.total_amount }}</label>/-</center>
                             </div>
                         </div>
                     </div>
@@ -148,8 +112,13 @@
                     <br/><br/>
                     <div class="uk-tile uk-tile-default" style="padding: 2% 2%; font-weight: 700; width: 60%; ">
                         <ul class="uk-tab-bottom" uk-tab>
+                            {% if travel_tickets_obj.invoice_status != True %}
+                            <li onclick="markInvoiceStatus(true)"><a href="#">Paid</a></li>
                             <li class="uk-active" onclick="markInvoiceStatus(false)"><a href="#">Unpaid</a></li>
-                            <li><a href="#" onclick="markInvoiceStatus(true)">Paid</a></li>
+                            {% else %}
+                            <li class="uk-active" onclick="markInvoiceStatus(true)"><a href="#">Paid</a></li>
+                            <li onclick="markInvoiceStatus(false)"><a href="#">Unpaid</a></li>
+                            {% endif %}
                         </ul>
                     </div>    
                 </div>
@@ -165,20 +134,28 @@
                             <h3 class="uk-modal-title">Block Application?</h3>
                             <p>You are blocking the application, which means follow-up will be created for this client.</p>
                             <p>
-                                Select the time at which the client would be available for call:
-                                <input class="uk-input" type="time" style="width: 50%;" id="followup_time">
+                                client's name:
+                                <input id="Cname" class="uk-input" type="text" value={{travel_tickets_obj.travel_client_ref.client_name}} style="width: 50%;">
+                            </p>
+                            <p>
+                                client's contact number for call:
+                                <input id="contact" class="uk-input" type="text" value={{travel_tickets_obj.travel_client_ref.contact_number}} style="width: 50%;">
                             </p>
                             <p>
                                 Select the date at which the client would be available for call:
-                                <input class="uk-input" type="date" style="width: 50%;" id="followup_date">
+                                <input id="followup_date" class="uk-input" type="date" style="width: 50%;">
                             </p>
                             <p>
-                                Remarks:
-                                <input class="uk-input" type="text" id="followup_remarks">
+                                Select the time at which the client would be available for call:
+                                <input id="followup_time" class="uk-input" type="time" style="width: 50%;">
+                            </p>
+                            <p>
+                                Remarks name:
+                                <input id="followup_remarks" class="uk-input" type="text" style="width: 50%;">
                             </p>
                             <p class="uk-text-right">
                                 <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                                <button class="uk-button uk-button-primary" type="button" onclick="createFollowUpForTickets('{{ csrf_token }}','{{ request.user.id }}','{{ travel_tickets_obj.id }}')">Save</button>
+                                <button class="uk-button uk-button-primary" type="button" onclick="createFollowUpForTickets('{{ csrf_token }}','{{ travel_tickets_obj.employee_ref_id }}','{{ travel_tickets_obj.id }}', '{{ travel_tickets_obj.travel_client_ref.id }}')">Save</button>
                             </p>
                         </div>
                     </div>

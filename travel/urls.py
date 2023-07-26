@@ -4,6 +4,7 @@ from travel.admin.apis.add_new_agent import CreateNewAgentView
 from travel.admin.apis.add_new_client import TAdminCreateClient
 from travel.admin.apis.edit_agent import TAdminEditAgent
 from travel.visa.apis.visa_application__data_entry import TravelApplicationInitiateAPIView
+from travel.visa.apis.block_application import TFollowUpCreate
 from travel.packages.apis.packages__create import TravelPackagesActionHandlerAPI
 from travel.tickets.apis.tickets__crud import TravelTicketsActionHandlerAPI
 from travel.followups.apis.followups__crud import TravelFollowupAPI
@@ -41,11 +42,12 @@ urlpatterns = [
     # apis path
     path('api/create_new_agent', CreateNewAgentView.as_view(), name='employee-creation-api'),
     path('api/create_new_client', TAdminCreateClient.as_view(), name='client-creation-api'),
-    path('api/create_new_client', TAdminCreateClient.as_view(), name='client-creation-api'),
+    path('api/create_follow_ups', TFollowUpCreate.as_view(), name='followup-creation-api'),
     path('api/edit_travel_agent_details', TAdminEditAgent.as_view(), name='agent-travel-edit-api'),
     path('api/travel_visa_stage_1', TravelApplicationInitiateAPIView.as_view(), name='travel-visa-stage1-api'),
     path('api/client_details/<int:id>', views.ClientDetails.as_view(), name='client_details-api'),
     path('api/agent_details/<int:id>', views.AgentsDetails.as_view(), name='agent_details-api'),
+    path('api/payment_details/<str:val>', views.PaymentDetails.as_view(), name='payment_details-api'),
     path('api/travel_packages_crud', TravelPackagesActionHandlerAPI.as_view(), name='travel-packages-crud-api'),
     path('api/travel_tickets_crud', TravelTicketsActionHandlerAPI.as_view(), name='travel-tickets-crud-api'),
     path('api/travel_followup_crud', TravelFollowupAPI.as_view(), name='travel-tickets-crud-api'),

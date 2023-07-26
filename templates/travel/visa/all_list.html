@@ -30,7 +30,7 @@
             
             <div uk-grid class="uk-child-width-1-3" style="padding: 2%; width: 90%; text-align: left;">
 
-                {{ visa_data.count }}
+                {% comment %} {{ visa_data.count }} {% endcomment %}
                 
                 {% for client_info in visa_data %}
                 
@@ -135,6 +135,11 @@
                                 <div><span class="uk-badge uk-padding-small">{{client_info.stage}}</span></div>
                                 <div><span class="uk-badge uk-padding-small">{{client_info.status}}</span></div>
                                 <div>{{client_info.created_on}}</div>
+                                {% if client_info.status == 'closed' %}
+
+                                <div><span class="uk-badge uk-padding-small">Closed</span></div>
+
+                                {% else %}
                                 {% if client_info.stage == 'detail processing' %}
                                 <div><a style="text-decoration:none; color:white" href={% url 'visa-detail-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary">Continue</button></a></div>
                                 {% elif client_info.stage == 'processing documents' %}
@@ -142,6 +147,8 @@
                                 {% elif client_info.stage == 'processing payments' %}
                                 <div><a style="text-decoration:none; color:white" href={% url 'visa-payment-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary">Continue</button></a></div>
                                 {% endif %}
+                                {% endif %}
+
                             </div>
                         </div>
                     </li>
@@ -157,12 +164,18 @@
                                 <div><span class="uk-badge uk-padding-small">{{client_info.stage}}</span></div>
                                 <div><span class="uk-badge uk-padding-small">{{client_info.status}}</span></div>
                                 <div>{{client_info.created_on}}</div>
+                                {% if client_info.status == 'closed' %}
+
+                                <div><span class="uk-badge uk-padding-small">Closed</span></div>
+
+                                {% else %}
                                 {% if client_info.stage == 'detail processing' %}
                                 <div><a style="text-decoration:none; color:white" href={% url 'visa-detail-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary">Continue</button></a></div>
                                 {% elif client_info.stage == 'processing documents' %}
                                 <div><a style="text-decoration:none; color:white" href={% url 'visa-document-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary">Continue</button></a></div>
                                 {% elif client_info.stage == 'processing payments' %}
                                 <div><a style="text-decoration:none; color:white" href={% url 'visa-payment-processing' app_pk=client_info.id %}><button class="uk-button uk-button-primary">Continue</button></a></div>
+                                {% endif %}
                                 {% endif %}
                             </div>
                         </div>
@@ -187,11 +200,14 @@
                     <div style="text-align: left;">
                         <div class="uk-tile uk-tile-muted" style="padding: 10px 10px; font-size: 120%;">Follow-ups</div>
                         <div uk-sortable="group: sortable-group" style="width: 100%; height: 500px; overflow-y: scroll; scroll-behavior: smooth;" id="in_followups">
+                            
                             {% for elem in visa_followups %}
                                 {% if elem.followup_stage == "in_followups" %}
                                     <div class="uk-margin" id="in_followups_{{ elem.id }}">
                                         <div class="uk-card uk-card-default uk-card-body uk-card-small">
                                             <label style="font-size: 150%; font-weight: 500;" class="client_info uk-drag" id="appl_followup_{{ elem.id }}">Application ID: {{ elem.appl_id }}</label><br/>
+                                            <label style="font-size: 120%; ">Client Name: {{ elem.name }}</label><br />
+                                            <label style="font-size: 120%; ">Contact: {{ elem.contact_number }}</label><br />
                                             <label style="font-size: 120%; ">Followup on {{ elem.date_for_followups }} at {{ elem.time_for_followups }}</label>
                                         </div>
                                     </div>
@@ -203,21 +219,20 @@
                     <div style="text-align: left;">
                         <div class="uk-tile uk-tile-secondary" style="padding: 10px 10px; font-size: 120%;">Not Reachable</div>
                         <div uk-sortable="group: sortable-group" style="width: 100%; height: 500px; overflow-y: scroll; scroll-behavior: smooth;" id="not_reachable">
-                            {% if visa_followups.count == 0 %}
-                                <br/><br/>
-                                <label style="font-size:130%">No non-contactable followups</label>
-                            {% else %}
+
                                 {% for elem in visa_followups %}
                                     {% if elem.followup_stage == "not_reachable" %}
                                         <div class="uk-margin" id="in_nc_{{ elem.id }}">
                                             <div class="uk-card uk-card-default uk-card-body uk-card-small">
                                                 <label style="font-size: 150%; font-weight: 500;" class="client_info uk-drag" id="appl_nc_{{ elem.id }}">Application ID: {{ elem.appl_id }}</label><br/>
+                                                <label style="font-size: 120%; ">Client Name: {{ elem.name }}</label><br />
+                                                <label style="font-size: 120%; ">Contact: {{ elem.contact_number }}</label><br />
                                                 <label style="font-size: 120%; ">Followup on {{ elem.date_for_followups }} at {{ elem.time_for_followups }}</label>
                                             </div>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
-                            {% endif %}
+                            
                             
                             
                             
@@ -226,23 +241,25 @@
                     <div style="text-align: left;">
                         <div class="uk-tile uk-tile-primary" style="padding: 10px 10px; font-size: 120%;">Contacted</div>
                         <div uk-sortable="group: sortable-group" style="width: 100%; height: 500px; overflow-y: scroll; scroll-behavior: smooth;" id="contacted">
-                            {% if visa_followups.count == 0 %}
+                            {% comment %} {% if visa_followups.count == 0 %}
                             <div class="uk-margin">
                                 <br/><br/>
                                 <label style="font-size:130%">No non-contactable followups</label>
                             </div>
-                            {% else %}
+                            {% else %} {% endcomment %}
                                 {% for elem in visa_followups %}
                                     {% if elem.followup_stage == "contacted" %}
                                         <div class="uk-margin" id="in_contacted_{{ elem.id }}">
                                             <div class="uk-card uk-card-default uk-card-body uk-card-small">
-                                                <label style="font-size: 150%; font-weight: 500;" class="client_info uk-drag" id="appl_contacted_{{ elem.id }}">Application ID: {{ elem.appl_id }}</label><br/>
+                                                <label style="" class="client_info uk-drag" id="appl_contacted_{{ elem.id }}">Application ID: {{ elem.appl_id }}</label><br/>
+                                                <label style="font-size: 120%; ">Client Name: {{ elem.name }}</label><br />
+                                                <label style="font-size: 120%; ">Contact: {{ elem.contact_number }}</label><br />
                                                 <label style="font-size: 120%; ">Followup on {{ elem.date_for_followups }} at {{ elem.time_for_followups }}</label>
                                             </div>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
-                            {% endif %}
+                            {% comment %} {% endif %} {% endcomment %}
                         </div>
                     </div>
                 </div>
