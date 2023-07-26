@@ -4,47 +4,12 @@
 
     <div style="width: 100%;">
     
-        {% comment %} <div class="uk-card uk-card-primary uk-card-body">
-            <div uk-grid style="width: 100%;">
-                <div>
-                    <div class="uk-flex">
-                        <div><a href="#">Visa</a></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-flex">
-                        <div><a href="#">Packages</a></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-flex">
-                        <div><a href="#">Tickets</a></div>
-                    </div>
-                </div>
-                <div class="uk-width-1-4@m">
-                    <div class="uk-flex">
-                        <div><a href="#">Insurance</a></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-flex">
-                        <div><a href="#"><span uk-icon="icon:push"></span></a></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-flex">
-                        <div><a href="#"><span uk-icon="icon:user"></span></a></div>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div> {% endcomment %}
 
 {% include '../agent_navbar.html' %}
 
 
         <center>
-            <div class="uk-card uk-card-default uk-card-body" style="width: 100%; border: 2px solid skyblue; background-color: rgb(201, 201, 201); ">
+            <div class="uk-card uk-card-default uk-card-body" style="width: 100%; border: 2px solid skyblue; background-color: rgb(201, 201, 201);">
                 <div uk-grid style="height: 60px;">
                     <div class="uk-width-1-2" style="text-align: left;">
                         Travel<br/>
@@ -66,16 +31,21 @@
                     <label style="font-size: 160%; font-weight: 600; color: rgb(0, 116, 161);"><u>Shortest Window to delivery applications</u></label>
                 </div>
                 {% for client_info in package_data %}
+
+                {% if client_info.status == "pending" or client_info.status == "open" or client_info.status == "blocked" %}
+
                 <div>
                     <div class="uk-card uk-card-primary uk-card-body">
                         <h3 class="uk-card-title">{{client_info.applicants_name}}</h3>
                         <p>Client: {{client_info.travel_client_ref.client_name}}</p>
                         <p><span uk-icon="icon:future"></span> &nbsp;&nbsp;&nbsp;Departure Date: {{client_info.departure_date.date}}</p>
-                        <a href="http://localhost:8000/travel/packages/application/{{ client_info.id }}/{{ client_info.stage }}"><button class="uk-button uk-button-secondary">
+                        <a href="/travel/packages/application/{{ client_info.id }}/{{ client_info.stage }}"><button class="uk-button uk-button-secondary">
                             Manage &nbsp;&nbsp;&nbsp; <span uk-icon="icon:chevron-right"></span>
                         </button></a>
                     </div>
                 </div>
+
+                {% endif %}
                 {% endfor %}
                     
             </div>
@@ -161,7 +131,13 @@
                                 <div><span class="uk-badge uk-padding-small">{{client_info.status}}</span></div>
                                 <div><span>{{client_info.service_fees}}</span></div>
                                 <div>{{client_info.created_on}}</div>
+                                {% if client_info.status == 'closed' %}
+
+                                <div><span class="uk-badge uk-padding-small">Closed</span></div>
+
+                                {% else %}
                                 <div><button class="uk-button uk-button-primary">Continue</button></div>
+                                {% endif %}
                             </div>
                         </div>
                     </li>
@@ -178,7 +154,11 @@
                                 <div><span class="uk-badge uk-padding-small">{{client_info.status}}</span></div>
                                 <div>{{client_info.service_fees}}</div>
                                 <div>{{client_info.created_on}}</div>
-                                <div><a href="http://localhost:8000/travel/packages/application/{{ client_info.id }}/{{ client_info.stage }}"><button class="uk-button uk-button-primary">Continue</button></a></div>
+                                {% if client_info.status == 'closed' %}
+                                <div><span class="uk-badge uk-padding-small">Closed</span></div>
+                                {% else %}
+                                <div><a href="/travel/packages/application/{{ client_info.id }}/{{ client_info.stage }}"><button class="uk-button uk-button-primary">Continue</button></a></div>
+                                {% endif %}
                             </div>
                         </div>
                     </li>
@@ -207,6 +187,8 @@
                                     <div class="uk-margin" id="in_followups_{{ elem.id }}">
                                         <div class="uk-card uk-card-default uk-card-body uk-card-small">
                                             <label style="font-size: 150%; font-weight: 500;" class="client_info uk-drag" id="appl_followup_{{ elem.id }}">Application ID: {{ elem.appl_id }}</label><br/>
+                                            <label style="font-size: 120%; ">Client Name: {{ elem.name }}</label><br />
+                                            <label style="font-size: 120%; ">Contact: {{ elem.contact_number }}</label><br />
                                             <label style="font-size: 120%; ">Followup on {{ elem.date_for_followups }} at {{ elem.time_for_followups }}</label>
                                         </div>
                                     </div>
@@ -219,9 +201,11 @@
                         <div uk-sortable="group: sortable-group" style="width: 100%; height: 500px; overflow-y: scroll; scroll-behavior: smooth;" id="not_reachable">
                             {% for elem in packages_followups %}
                                 {% if elem.followup_stage == "not_reachable" %}
-                                    <div class="uk-margin" id="in_followups_{{ elem.id }}">
+                                    <div class="uk-margin" id="in_nc_{{ elem.id }}">
                                         <div class="uk-card uk-card-default uk-card-body uk-card-small">
                                             <label style="font-size: 150%; font-weight: 500;" class="client_info uk-drag" id="appl_followup_{{ elem.id }}">Application ID: {{ elem.appl_id }}</label><br/>
+                                            <label style="font-size: 120%; ">Client Name: {{ elem.name }}</label><br />
+                                            <label style="font-size: 120%; ">Contact: {{ elem.contact_number }}</label><br />
                                             <label style="font-size: 120%; ">Followup on {{ elem.date_for_followups }} at {{ elem.time_for_followups }}</label>
                                         </div>
                                     </div>
@@ -234,9 +218,11 @@
                         <div uk-sortable="group: sortable-group" style="width: 100%; height: 500px; overflow-y: scroll; scroll-behavior: smooth;" id="contacted">
                             {% for elem in packages_followups %}
                                 {% if elem.followup_stage == "contacted" %}
-                                    <div class="uk-margin" id="in_followups_{{ elem.id }}">
+                                    <div class="uk-margin" id="in_contacted_{{ elem.id }}">
                                         <div class="uk-card uk-card-default uk-card-body uk-card-small">
                                             <label style="font-size: 150%; font-weight: 500;" class="client_info uk-drag" id="appl_followup_{{ elem.id }}">Application ID: {{ elem.appl_id }}</label><br/>
+                                            <label style="font-size: 120%; ">Client Name: {{ elem.name }}</label><br />
+                                            <label style="font-size: 120%; ">Contact: {{ elem.contact_number }}</label><br />
                                             <label style="font-size: 120%; ">Followup on {{ elem.date_for_followups }} at {{ elem.time_for_followups }}</label>
                                         </div>
                                     </div>

@@ -5,46 +5,13 @@
 
 <div style="width: 100%; ">
 
-    {% comment %} <div class="uk-card uk-card-primary uk-card-body">
-        <div uk-grid style="width: 100%;">
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Visa</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Packages</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Tickets</a></div>
-                </div>
-            </div>
-            <div class="uk-width-1-4@m">
-                <div class="uk-flex">
-                    <div><a href="#">Insurance</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#"><span uk-icon="icon:push"></span></a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#"><span uk-icon="icon:user"></span></a></div>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div> {% endcomment %}
+
 
 {% include '../agent_navbar.html' %}
 
 
     <center>
+        
 
         <br/>
         <ul class="uk-breadcrumb">
@@ -61,18 +28,22 @@
             </div>
             <div uk-grid class="uk-child-width-1-2">
                 <div>
-                    Package Name:<br/>
-                    <input class="uk-input" style="width: 70%;" type="text" id="package_name" value="{{ travel_tickets_obj.package_name }}">
-                </div>
-                <div>
                     Client Name:<br/>
                     <label style="font-size: 120%;" id="client_name">{% if travel_tickets_obj %}{{ travel_tickets_obj.travel_client_ref.client_name }}{% endif %}</label>
                     <button class="uk-button uk-button-primary" type="button" uk-toggle="target: #tickets-selection-client-selection">Scan</button>
                     {% include 'travel/tickets/dialogs/ticket_application__client_selection.html' %}
                 </div>
-                <div class="uk-width-1-1">
+                <div>
+                    Applicants Name:<br/>
+                    <input class="uk-input" style="width: 70%;" type="text" id="applicants_name" value="{{ travel_tickets_obj.applicants_name }}">
+                </div>
+                <div>
+                    Package Name:<br/>
+                    <input class="uk-input" style="width: 70%;" type="text" id="package_name" value="{{ travel_tickets_obj.package_name }}">
+                </div>
+                <div>
                     Contact number:<br/>
-                    <label style="font-size: 70%;">The number format is - +91XXXXXXXXXX</label><br/><br/>
+                    {% comment %} <span style="font-size: 70%;">The number format is - +91XXXXXXXXXX</span><br/> {% endcomment %}
                     <input class="uk-input" style="width: 50%;" type="number" id="contact_no" value="{{ travel_tickets_obj.contact_number }}"><br/>
                 </div>
                 <div class="uk-width-1-1">
@@ -110,7 +81,7 @@
                     <ul class="uk-list uk-list-divider" style="padding: 3%; background-color: white; width: 70%; height: 100px; overflow-y: scroll; scroll-behavior: smooth;">
                         {% for elem in all_cities %}
                             <li>
-                                <label onclick="selectDestination('{{ elem }}')">
+                                <label onclick="selectDestinationTicket('{{ elem }}')">
                                     {% if elem == travel_tickets_obj.destination %}
                                         <input class="uk-radio" type="radio" name="destination" value="{{ elem }}" checked>
                                     {% else %}
@@ -148,9 +119,23 @@
                     <label style="font-size: 130%; font-weight: 600; color: rgb(0, 116, 161);">MODE OF TRANSPORT</label><br/><br/>
                     <div class="uk-tile uk-tile-default" style="padding: 2% 2%; font-weight: 700; width: 60%; ">
                         <ul class="uk-tab-bottom" uk-tab>
+                            {% if travel_tickets_obj.mode_of_transport == 'Flight' %}
                             <li class="uk-active" onclick="selectTransportMode('Flight')"><a href="#">Flight</a></li>
                             <li onclick="selectTransportMode('Train')"><a href="#">Train</a></li>
                             <li onclick="selectTransportMode('Bus')"><a href="#">Bus</a></li>
+                            {% elif travel_tickets_obj.mode_of_transport == 'Train' %}
+                            <li onclick="selectTransportMode('Flight')"><a href="#">Flight</a></li>
+                            <li class="uk-active" onclick="selectTransportMode('Train')"><a href="#">Train</a></li>
+                            <li onclick="selectTransportMode('Bus')"><a href="#">Bus</a></li>
+                            {% elif travel_tickets_obj.mode_of_transport == 'Bus' %}
+                            <li onclick="selectTransportMode('Flight')"><a href="#">Flight</a></li>
+                            <li onclick="selectTransportMode('Train')"><a href="#">Train</a></li>
+                            <li  class="uk-active" onclick="selectTransportMode('Bus')"><a href="#">Bus</a></li>
+                            {% else %}
+                            <li onclick="selectTransportMode('Flight')"><a href="#">Flight</a></li>
+                            <li onclick="selectTransportMode('Train')"><a href="#">Train</a></li>
+                            <li onclick="selectTransportMode('Bus')"><a href="#">Bus</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                     
@@ -167,20 +152,28 @@
                             <h3 class="uk-modal-title">Block Application?</h3>
                             <p>You are blocking the application, which means follow-up will be created for this client.</p>
                             <p>
-                                Select the time at which the client would be available for call:
-                                <input class="uk-input" type="time" style="width: 50%;" id="followup_time">
+                                client's name:
+                                <input id="Cname" class="uk-input" type="text" value={{travel_tickets_obj.travel_client_ref.client_name}} style="width: 50%;">
+                            </p>
+                            <p>
+                                client's contact number for call:
+                                <input id="contact" class="uk-input" type="text" value={{travel_tickets_obj.travel_client_ref.contact_number}} style="width: 50%;">
                             </p>
                             <p>
                                 Select the date at which the client would be available for call:
-                                <input class="uk-input" type="date" style="width: 50%;" id="followup_date">
+                                <input id="followup_date" class="uk-input" type="date" style="width: 50%;">
                             </p>
                             <p>
-                                Remarks:
-                                <input class="uk-input" type="text" id="followup_remarks">
+                                Select the time at which the client would be available for call:
+                                <input id="followup_time" class="uk-input" type="time" style="width: 50%;">
+                            </p>
+                            <p>
+                                Remarks name:
+                                <input id="followup_remarks" class="uk-input" type="text" style="width: 50%;">
                             </p>
                             <p class="uk-text-right">
                                 <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                                <button class="uk-button uk-button-primary" type="button" onclick="createFollowUpForTickets('{{ csrf_token }}','{{ request.user.id }}','{{ travel_tickets_obj.id }}')">Save</button>
+                                <button class="uk-button uk-button-primary" type="button" onclick="createFollowUpForTickets('{{ csrf_token }}','{{ travel_tickets_obj.employee_ref_id }}','{{ travel_tickets_obj.id }}', '{{ travel_tickets_obj.travel_client_ref.id }}')">Save</button>
                             </p>
                         </div>
                     </div>

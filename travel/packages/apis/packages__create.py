@@ -73,16 +73,18 @@ class TravelPackagesActionHandlerAPI(APIView):
     def put(self, request, id=None):
 
         data = request.data.copy()
-
-        print(data)
-
+        
         response_msg = {'status': status.HTTP_204_NO_CONTENT, 'message':'In Progress'}
         travel_packages_obj = TravelPackagesApplication.objects.get(id=data.get('app_id'))
 
         try:
 
-            if data.get('stage') == 'customer_invoicing':
+            if data.get('stage') == 'customer_invoicing' and 'tentative_payment_date' in data:
                 data['tentative_payment_date'] = self.__return_datetime(data.get('tentative_payment_date'))
+                
+            if 'stage_changes' in data:
+                data['stage'] = data['stage_changes']
+                data.pop('stage_changes')
 
             travel_packages_serializer = TravelPackagesApplicationSerializer(travel_packages_obj, data=data, partial=True)
 

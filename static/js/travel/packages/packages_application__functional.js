@@ -45,6 +45,7 @@ function selectedClientIDForPackage(id, client_name) {
 
 function clientDetailAutofillForPackage() {
     document.getElementById('client_name').innerHTML = client_name_store;
+    $(".uk-modal-close").trigger('click');
 }
 
 function getSelectedPackageType(obj) {
@@ -53,15 +54,18 @@ function getSelectedPackageType(obj) {
 
 function selectBoarding(obj) {
     package_selection['boarding'] = obj.id
+    console.log(package_selection['boarding']);
 }
 
-function selectDestination(obj) {
+const selectDestination = (obj) => {
     package_selection['destination'] = obj.id
+    console.log(package_selection['destination'] = obj.id);
 }
 
-function createPackageApplication(csrf_token, id, stage_change, app_id, client_id) {
+function createPackageApplication(csrf_token, id, stage_change, app_id, client_id, boarding, destination) {
     package_selection['arrival_date'] = document.getElementById('arrival_date').value;
     package_selection['departure_date'] = document.getElementById('departure_date').value;
+    package_selection['applicants_name'] = document.getElementById('applicants_name').value;
 
     if(package_selection['package_type'] == null){
         package_selection['package_type'] = document.getElementById('form-horizontal-select').value;
@@ -71,14 +75,25 @@ function createPackageApplication(csrf_token, id, stage_change, app_id, client_i
         package_selection['travel_client_ref'] = Number(client_id)
     }
 
+    if (boarding != '') {
+        package_selection['boarding'] = boarding
+    }
+
+    if (destination != '') {
+        package_selection['destination'] = destination
+    }
+
     package_selection['arrival_date'] = new Date(package_selection['arrival_date']).toString()
     package_selection['departure_date'] = new Date(package_selection['departure_date']).toString()
 
     if(Number(app_id) != ''){
+        console.log("what the fuck")
         package_selection['boarding'] = document.querySelector('input[name="boarding"]:checked').value;
 
         package_selection['destination'] = document.querySelector('input[name="destination"]:checked').value;
     }
+
+    console.log(package_selection['destination']);
     
     package_selection['package_name'] = document.getElementById('package_name').value;
     package_selection['quantity_of_packages'] = document.getElementById('no_of_packages').value;
@@ -98,9 +113,11 @@ function createPackageApplication(csrf_token, id, stage_change, app_id, client_i
             
             alertbox.innerHTML = data.message;
             if(stage_change){
-
                 window.location.href = '/travel/packages/application/'+data.id+'/customer_invoicing'
+            }else{
+                // window.location.reload();
             }
+            
             
         },
         error: function(jqXHR, exception){
@@ -124,12 +141,12 @@ function resetTotal() {
 
     net_total = Number(net_total+net_total*0.18)
 
-    total_amount = net_total - Number(discount).toPrecision(6)
+    total_amount = net_total - Number(discount).toPrecision(2)
 
     customer_invoicing['gross_amount'] = gross_amount;
-    customer_invoicing['service_fees'] = service_fees
-    customer_invoicing['net_amount'] = net_total
-    customer_invoicing['discount'] = discount
+    customer_invoicing['service_fees'] = service_fees;
+    customer_invoicing['net_amount'] = net_total;
+    customer_invoicing['discount'] = discount;
 
     document.getElementById('net_amount').innerHTML = net_total;
     document.getElementById('total_amount').innerHTML = total_amount;
@@ -152,10 +169,18 @@ function updatePackageApplication(csrf_token, id, stage_change, stage_name) {
 
     console.log(stage_name)
 
-    
     pushable_data = {};
 
     switch (stage_name) {
+        case 'package_selection':
+
+            pushable_data = {
+                csrfmiddlewaretoken: csrf_token,
+                "app_id": id,
+                "stage": "customer_invoicing"
+            }
+            break;
+        
         case 'customer_invoicing':
 
             customer_invoicing['csrfmiddlewaretoken'] = csrf_token
@@ -163,6 +188,33 @@ function updatePackageApplication(csrf_token, id, stage_change, stage_name) {
             customer_invoicing['passport_no'] = document.getElementById('passport_no').value;
             customer_invoicing['tentative_payment_date'] = new Date(document.getElementById('tentative_payment_date').value);
             customer_invoicing['app_id'] = id;
+
+            gross_amount = document.getElementById('gross_amount').value;
+            service_fees = document.getElementById('service_fees').value;
+            discount = document.getElementById('discount').value;
+
+            net_total = Number(gross_amount)+Number(service_fees)
+
+            net_total = Number(net_total+net_total*0.18)
+
+            total_amount = net_total - Number(discount).toPrecision(2)
+
+            customer_invoicing['gross_amount'] = gross_amount;
+            customer_invoicing['service_fees'] = service_fees;
+            customer_invoicing['net_amount'] = net_total;
+            customer_invoicing['discount'] = discount;
+
+            const inv_stat = document.getElementsByClassName('uk-active')[0].firstElementChild.textContent
+
+            if (stage_change) {
+                customer_invoicing['stage_changes'] = "vendor_management";
+            }
+
+            if (inv_stat === 'Paid') {
+                customer_invoicing['invoice_status'] = true
+            }else{
+                customer_invoicing['invoice_status'] = false
+            }
 
             //assign to main data
             pushable_data = customer_invoicing
@@ -172,17 +224,26 @@ function updatePackageApplication(csrf_token, id, stage_change, stage_name) {
 
             vendor_management['csrfmiddlewaretoken'] = csrf_token
             vendor_management['vendor_name'] = document.getElementById('vendor_name').value;
-            vendor_management['total_vendor_payment'] = Number(document.getElementById('total_vendor_payment').value).toPrecision(5)
+            vendor_management['total_vendor_payment'] = Number(document.getElementById('total_vendor_payment').value).toPrecision(2)
             vendor_management['first_installment'] = document.getElementById('first_installment').value;
             vendor_management['second_installment'] = document.getElementById('second_installment').value;
             vendor_management['third_installment'] = document.getElementById('third_installment').value;
-            vendor_management['less_taxes'] = Number(document.getElementById('less_taxes').value).toPrecision(4);
+            vendor_management['less_taxes'] = Number(document.getElementById('less_taxes').value).toPrecision(2);
             vendor_management['app_id'] = id;
 
-            vendor_management['status'] = stage_change ? "completed" : "pending"
+            vendor_management['status'] = stage_change ? "closed" : "pending"
 
             //assign to main data
             pushable_data = vendor_management
+            break;
+
+        case 'block_application':
+
+            pushable_data = {
+                csrfmiddlewaretoken: csrf_token,
+                "app_id": id,
+                "status": "blocked"
+            }
             break;
 
         case 'unblock_application':
@@ -200,31 +261,65 @@ function updatePackageApplication(csrf_token, id, stage_change, stage_name) {
     
     console.log(pushable_data)
 
-    $.ajax({
-        url: 'http://localhost:8000/travel/api/travel_packages_crud',
-        type: 'PUT',
-        data: pushable_data,
-        success: function(data){
-            console.log(data)
-            alertbox.innerHTML = data.message;
-            page_url = ['package_selection','customer_invoicing','vendor_management']
-
-            if(stage_change){
-                if(page_url.indexOf(stage_name) == page_url.length-1){
-                    window.location.href = '/travel/packages/application';
+    if(stage_name === 'unblock_application'){
+        $.ajax({
+            url: 'http://localhost:8000/travel/api/travel_packages_crud',
+            type: 'PUT',
+            data: pushable_data,
+            success: function(data){
+                console.log(data)
+                alertbox.innerHTML = data.message;
+                page_url = ['package_selection','customer_invoicing','vendor_management']
+    
+                if(stage_change){
+                    if(page_url.indexOf(stage_name) == page_url.length-1){
+                        window.location.href = '/travel/packages/application';
+                    }else{
+                        window.location.href = '/travel/packages/application/'+id+'/'+page_url[page_url.indexOf(stage_name)+1]
+                    }
                 }else{
-                    window.location.href = '/travel/packages/application/'+data.id+'/'+page_url[page_url.indexOf(stage_name)+1]
-                }
-            }else{
-                window.location.reload();
-            }  
-            
-        },
-        error: function(jqXHR, exception){
-            console.log(jqXHR, ' | ', exception);
-            alertbox.innerHTML = "It seems server side erro has occured. Try again after some time. Still if problem persist, contact developer@vsbizz.com";
-        },
-    });
+                    // window.location.reload();
+                }  
+                
+            },
+            error: function(jqXHR, exception){
+                console.log(jqXHR, ' | ', exception);
+                alertbox.innerHTML = "It seems server side erro has occured. Try again after some time. Still if problem persist, contact developer@vsbizz.com";
+            },
+        }).then((response) => {
+            updateFollowUpStatusForPackages(csrf_token, id)
+        }).then((response) => {
+            window.location.reload()
+        })
+
+    }else{
+        $.ajax({
+            url: 'http://localhost:8000/travel/api/travel_packages_crud',
+            type: 'PUT',
+            data: pushable_data,
+            success: function(data){
+                console.log(data)
+                alertbox.innerHTML = data.message;
+                page_url = ['package_selection','customer_invoicing','vendor_management']
+    
+                if(stage_change){
+                    if(page_url.indexOf(stage_name) == page_url.length-1){
+                        window.location.href = '/travel/packages/application';
+                    }else{
+                        window.location.href = '/travel/packages/application/'+id+'/'+page_url[page_url.indexOf(stage_name)+1]
+                    }
+                }else{
+                    // window.location.reload();
+                }  
+                
+            },
+            error: function(jqXHR, exception){
+                console.log(jqXHR, ' | ', exception);
+                alertbox.innerHTML = "It seems server side erro has occured. Try again after some time. Still if problem persist, contact developer@vsbizz.com";
+            },
+        });
+    }
+
 
 }
 
@@ -246,8 +341,11 @@ function createFollowUpForPackages(csrf_token, emp_id, app_id) {
         csrfmiddlewaretoken: csrf_token,
         employee_id: emp_id,
         appl_id: app_id,
+        name: document.getElementById('Cname').value,
+        contact_number: document.getElementById('contact').value,
         application_type: "packages",
         followup_stage:"in_followups",
+        application_status: "blocked",
         time_for_followups: document.getElementById('followup_time').value,
         date_for_followups: document.getElementById('followup_date').value,
         remarks: document.getElementById('followup_remarks').value
@@ -256,25 +354,64 @@ function createFollowUpForPackages(csrf_token, emp_id, app_id) {
     if(validateField(followup_data['time_for_followups']) && validateField(followup_data['date_for_followups']) && validateField(followup_data['remarks'])){
 
         $.ajax({
-            url: 'http://localhost:8000/travel/api/travel_followup_crud',
+            url: 'http://localhost:8000/travel/api/create_follow_ups',
             type: 'POST',
             data: followup_data,
             success: function(data){
                 alertbox.innerHTML = data.message;
                 if(data.status == 200){
 
-                    window.location.reload()
+                    // window.location.reload()
                 }else{
                     console.log(data);
                 }
-                window.location.reload();
+                // window.location.reload();
             },
             error: function(jqXHR, exception){
                 console.log(jqXHR, ' | ', exception);
                 alertbox.innerHTML = "It seems server side erro has occured. Try again after some time. Still if problem persist, contact developer@vsbizz.com";
             },
-        });
+        }).then((response) => {
+            updatePackageApplication(csrf_token , app_id, false, 'block_application')
+        }).then((response) => {
+            window.location.reload()
+        })
 
     }
 
+}
+
+function updateFollowUpStatusForPackages(csrf_token, id){
+
+
+    pushable_data = {
+        csrfmiddlewaretoken: csrf_token,
+        "id": id,
+        "application_status": "open",
+        "application_type": 'packages'
+    }
+
+    $.ajax({
+        url: 'http://localhost:8000/travel/api/create_follow_ups',
+        type: 'PUT',
+        data: pushable_data,
+        success: function(data){
+            alertbox.innerHTML = data.message;
+            console.log(data.status);
+            // if(stage_change && data.status == 200){
+            //     // if(stage_name == 'processing payments'){
+            //     //     window.location.href = '/travel/visa/application'
+            //     // }else{
+            //     //     window.location.href = '/travel/visa/application/'+data.id+'/document_processing'
+            //     // }
+                
+            //     // console.log(data)
+            // }
+            // window.location.reload();
+        },
+        error: function(jqXHR, exception){
+            console.log(jqXHR, ' | ', exception);
+            alertbox.innerHTML = "It seems server side erro has occured. Try again after some time. Still if problem persist, contact developer@vsbizz.com";
+        },
+    });
 }

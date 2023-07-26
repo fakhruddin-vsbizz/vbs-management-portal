@@ -4,42 +4,6 @@
 
 <div style="width: 100%; ">
 
-    {% comment %} <div class="uk-card uk-card-primary uk-card-body">
-        <div uk-grid style="width: 100%;">
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Visa</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Packages</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Tickets</a></div>
-                </div>
-            </div>
-            <div class="uk-width-1-4@m">
-                <div class="uk-flex">
-                    <div><a href="#">Insurance</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#"><span uk-icon="icon:push"></span></a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#"><span uk-icon="icon:user"></span></a></div>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div> {% endcomment %}
-
 {% include '../agent_navbar.html' %}
 
 
@@ -71,7 +35,7 @@
                 </div>
                 <div>
                     Applicant Name:<br/>
-                    <input class="uk-input" id="applicant_name" style="width: 70%;" type="text" value="{{ travel_visa_obj.travel_client_ref.organization }}">
+                    <input class="uk-input" id="applicant_name" style="width: 70%;" type="text" value="{{ travel_visa_obj.applicants_name }}">
                 </div>
                 <div>
                     Passport number:<br/>
@@ -110,9 +74,15 @@
                 </div>
                 <div class="uk-width-1-1">&nbsp;</div>
                 {% if travel_visa_obj.status != "blocked" %}
+                {% if travel_visa_obj.visiting_country %}
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-default uk-width-1-1" onclick="createVisaApplication('{{ csrf_token }}','{{ request.user.id }}', false, '{{ travel_visa_obj.id }}', '{{ travel_visa_obj.travel_client_ref.id }}')">Save Changes</button>
+                    <button class="uk-button uk-button-default uk-width-1-1" onclick="createVisaApplication('{{ csrf_token }}','{{ request.user.id }}', false, '{{ travel_visa_obj.id }}', '{{ travel_visa_obj.travel_client_ref.id }}', '{{travel_visa_obj.visiting_country}}')">Save Changes</button>
                 </div>
+                {% else %}
+                <div class="uk-width-1-3">
+                    <button class="uk-button uk-button-default uk-width-1-1" onclick="createVisaApplication('{{ csrf_token }}','{{ request.user.id }}', false, '{{ travel_visa_obj.id }}', '{{ travel_visa_obj.travel_client_ref.id }}', '')">Save Changes</button>
+                </div>
+                {% endif %}
                 <div class="uk-width-1-3">
                     <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary uk-width-1-1">Block Application</button>
                     <div id="my-id" uk-modal>
@@ -120,27 +90,42 @@
                             <h3 class="uk-modal-title">Block Application?</h3>
                             <p>You are blocking the application, which means follow-up will be created for this client.</p>
                             <p>
-                                Select the time at which the client would be available for call:
-                                <input class="uk-input" type="time" style="width: 50%;" id="followup_time">
+                                client's name:
+                                <input id="Cname" class="uk-input" type="text" value={{travel_visa_obj.travel_client_ref.client_name}} style="width: 50%;">
+                            </p>
+                            <p>
+                                client's contact number for call:
+                                <input id="contact" class="uk-input" type="text" value={{travel_visa_obj.travel_client_ref.contact_number}} style="width: 50%;">
                             </p>
                             <p>
                                 Select the date at which the client would be available for call:
-                                <input class="uk-input" type="date" style="width: 50%;" id="followup_date">
+                                <input id="followup_date" class="uk-input" type="date" style="width: 50%;">
                             </p>
                             <p>
-                                Remarks:
-                                <input class="uk-input" type="text" id="followup_remarks">
+                                Select the time at which the client would be available for call:
+                                <input id="followup_time" class="uk-input" type="time" style="width: 50%;">
+                            </p>
+                            <p>
+                                Remarks name:
+                                <input id="followup_remarks" class="uk-input" type="text" style="width: 50%;">
                             </p>
                             <p class="uk-text-right">
                                 <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                                <button class="uk-button uk-button-primary" type="button" onclick="createFollowUp('{{ csrf_token }}','{{ request.user.id }}','{{ travel_visa_obj.id }}')">Save</button>
+                                <button class="uk-button uk-button-primary" type="button" onclick="createFollowUpVisa('{{ csrf_token }}', '{{ travel_visa_obj.employee_ref_id }}', '{{ app_id }}')">Save</button>
                             </p>
                         </div>
                     </div>
                 </div>
+                {% if travel_visa_obj %}
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-primary uk-width-1-1" onclick="createVisaApplication('{{ csrf_token }}','{{ request.user.id }}', true, '{{ travel_visa_obj.id }}', '{{ travel_visa_obj.travel_client_ref.id }}')">Continue</button>
+                    {{app_id}}
+                    <button class="uk-button uk-button-primary uk-width-1-1" onclick="updateDocumentProcessing('{{ csrf_token }}', '{{ app_id }}', true, 'detail processing', '')">Continue</button>
                 </div>
+                {% else %}
+                <div class="uk-width-1-3">
+                    <button class="uk-button uk-button-primary uk-width-1-1" onclick="createVisaApplication('{{ csrf_token }}','{{ request.user.id }}', true, '{{ travel_visa_obj.id }}', '{{ travel_visa_obj.travel_client_ref.id }}', 'detail processing')">Continue</button>
+                </div>
+                {% endif %}
                 {% else %}
                 <div class="uk-width-1-2">
                     <button class="uk-button uk-button-secondary uk-width-1-1" onclick="updateDocumentProcessing('{{ csrf_token }}', '{{ app_id }}', false, 'unblock_application')">

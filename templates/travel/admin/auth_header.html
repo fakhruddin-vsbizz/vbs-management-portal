@@ -1,48 +1,57 @@
+{% load static %}
+
 <div style="width: 100%;">
     
-    <div class="uk-card uk-card-primary uk-card-body">
-        <div uk-grid style="width: 100%;">
-            <div>
-                <div class="uk-flex">
-                    <div><a href="{% url 'admin-agents' %}">Agents</a></div>
+    <div class="uk-card uk-card-primary uk-card-body" style="border-radius: 1.5rem; margin: 1rem; padding: 10px 40px; height:99px;">
+        <div class="uk-flex" style="width: 100%; justify-content: space-between; align-items: center;">
+            <div class="uk-flex" style="display: flex; gap: 1.5rem; align-items: center; justify-content: space-evenly; font-size: 1.2rem; font-weight: 500;">
+                <div>
+                    <img src="{% static 'img/VBSWhite.png' %}" style="width:108px; height:77px;">
+                </div>
+                <div>
+                    <div class="uk-flex">
+                        <div {% if request.resolver_match.url_name == 'admin-agents' %}class="active"{% endif %} style="padding: 5px 0;"><a href="{% url 'admin-agents' %}">Agents</a></div>
+                    </div>
+                </div>
+                <div {% if request.resolver_match.url_name == 'admin-payments' %}class="active"{% endif %} style="padding: 5px 0;" >
+                    <div class="uk-flex">
+                        <div><a href="{% url 'admin-payments' %}">Payments</a></div>
+                    </div>
+                </div>
+                <div {% if request.resolver_match.url_name == 'admin-followups' %}class="active"{% endif %} style="padding: 5px 0;" >
+                    <div class="uk-flex">
+                        <div><a href="{% url 'admin-followups' %}">Follow-ups</a></div>
+                    </div>
+                </div>
+                <div {% if request.resolver_match.url_name == 'admin-clients' %}class="active"{% endif %} style="padding: 5px 0;" >
+                    <div class="uk-flex">
+                        <div><a href="{% url 'admin-clients' %}">Clients</a></div>
+                    </div>
+                </div>
+                <div style="padding: 5px 0;" >
+                    <div class="uk-flex">
+                        <div><a href="#">Transfer Control</a></div>
+                    </div>
+                </div>
+                <div {% if request.resolver_match.url_name == 'admin-agent-mgmt' %}class="active"{% endif %} style="padding: 5px 0;" >
+                    <div class="uk-flex">
+                        <div><a href="{% url 'admin-agent-mgmt' %}">Account Management</a></div>
+                    </div>
                 </div>
             </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="{% url 'admin-payments' %}">Payments</a></div>
+            <div class="uk-flex" style="gap:2rem;">
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="{% url 'logout-view' %}"><img src="{% static 'img/icon-park_logout.png' %}" style="width:39px; height:39px;"></a></div>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="{% url 'admin-followups' %}">Follow-ups</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="{% url 'admin-clients' %}">Clients</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Transfer Control</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="{% url 'admin-agent-mgmt' %}">Account Management</a></div>
+                <div>
+                    <div class="uk-flex">
+                        <div><a href="#"><img src="{% static 'img/iconamoon_profile-fill.png' %}" style="width:39px; height:39px;"></a></div>
+                    </div>
                 </div>
             </div>
             
-            <div>
-                <div class="uk-flex">
-                    <div><a href="{% url 'logout-view' %}"><span uk-icon="icon:push"></span></a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#"><span uk-icon="icon:user"></span></a></div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

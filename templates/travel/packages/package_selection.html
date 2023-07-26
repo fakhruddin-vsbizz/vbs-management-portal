@@ -5,41 +5,6 @@
 
 <div style="width: 100%; ">
 
-    {% comment %} <div class="uk-card uk-card-primary uk-card-body">
-        <div uk-grid style="width: 100%;">
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Visa</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Packages</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#">Tickets</a></div>
-                </div>
-            </div>
-            <div class="uk-width-1-4@m">
-                <div class="uk-flex">
-                    <div><a href="#">Insurance</a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#"><span uk-icon="icon:push"></span></a></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-flex">
-                    <div><a href="#"><span uk-icon="icon:user"></span></a></div>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div> {% endcomment %}
 
 {% include '../agent_navbar.html' %}
 
@@ -47,10 +12,15 @@
 
         <br/>
         <ul class="uk-breadcrumb">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Details Processing</a></li>
-            <li class="uk-disabled"><a>Document Processing</a></li>
-            <li class="uk-disabled"><a>Payment Processing</a></li>
+            <li><a href={% url 'package-application' %}>Home</a></li>
+            <li><span style="color: black;">Package Selection</span></li>
+            {% if app_id == 'new' %}
+            <li><span>Customer Invoicing</span></li>
+            <li><span>Vendor Management</span></li>
+            {% else %}
+            <li><a href={% url 'packages-customer-invoicing' app_pk=app_id %}>Customer Invoicing</a></li>
+            <li><a href={% url 'packages-vendor-payments' app_pk=app_id %}>Vendor Management</a></li>
+            {% endif %}
         </ul>
 
         <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224);font-family: Roboto; color: black;">
@@ -59,11 +29,16 @@
             <div class="uk-alert-primary" uk-alert id="alertbox">
             </div>
             <div uk-grid class="uk-child-width-1-2">
-                <div class="uk-width-1-1">
+                <div>
                     Client name:<br/>
                     <label style="font-size: 120%;" id="client_name">{% if travel_packages_obj %}{{ travel_packages_obj.travel_client_ref.client_name }}{% endif %}</label>
                     <button class="uk-button uk-button-primary" type="button" uk-toggle="target: #package-selection-client-selection">Scan</button>
                     {% include 'travel/packages/dialogs/package_selection__client_selection.html' %}
+                </div>
+                <div>
+                    Applicant's Name:<br/>
+                    <label style="font-size: 70%;">The package name to travel with</label><br/><br/>
+                    <input class="uk-input" id="applicants_name" style="width: 70%;" type="text" value="{{ travel_packages_obj.applicants_name }}">
                 </div>
                 <div>
                     Package Name:<br/>
@@ -130,38 +105,58 @@
                     <input class="uk-input" id="arrival_date"  style="width: 70%;" type="date" value="{{ travel_packages_obj.arrival_date|datetime_to_processable_date }}">
                 </div>
                 <div class="uk-width-1-1">&nbsp;</div>
-                {% if travel_tickets_obj.status != "blocked" %}
+                {% if travel_packages_obj.status != "blocked" %}
+                {% if travel_packages_obj.destination or travel_packages_obj.boarding %}
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-default" onclick="createPackageApplication('{{ csrf_token }}','{{ request.user.id }}', false, '{{ travel_packages_obj.id }}', '{{ travel_packages_obj.travel_client_ref.id }}')">Save Changes</button>
+                    <button class="uk-button uk-button-default" onclick="createPackageApplication('{{ csrf_token }}','{{ request.user.id }}', false, '{{ travel_packages_obj.id }}', '{{ travel_packages_obj.travel_client_ref.id }}', '{{travel_packages_obj.boarding}}', '{{travel_packages_obj.destination}}')">Save Changes</button>
                 </div>
+                {% else %}
+                <div class="uk-width-1-3">
+                    <button class="uk-button uk-button-default" onclick="createPackageApplication('{{ csrf_token }}','{{ request.user.id }}', false, '{{ travel_packages_obj.id }}', '{{ travel_packages_obj.travel_client_ref.id }}', '', '')">Save Changes</button>
+                </div>
+                {% endif %}
                 <div class="uk-width-1-3">
                     <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary uk-width-1-1">Block Application</button>
-                    <div id="my-id" uk-modal>
-                        <div class="uk-modal-dialog uk-modal-body">
-                            <h3 class="uk-modal-title">Block Application?</h3>
-                            <p>You are blocking the application, which means follow-up will be created for this client.</p>
-                            <p>
-                                Select the time at which the client would be available for call:
-                                <input class="uk-input" type="time" style="width: 50%;" id="followup_time">
-                            </p>
-                            <p>
-                                Select the date at which the client would be available for call:
-                                <input class="uk-input" type="date" style="width: 50%;" id="followup_date">
-                            </p>
-                            <p>
-                                Remarks:
-                                <input class="uk-input" type="text" id="followup_remarks">
-                            </p>
-                            <p class="uk-text-right">
-                                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                                <button class="uk-button uk-button-primary" type="button" onclick="createFollowUpForPackages('{{ csrf_token }}','{{ request.user.id }}','{{ travel_packages_obj.id }}')">Save</button>
-                            </p>
+                        <div id="my-id" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body">
+                                <h3 class="uk-modal-title">Block Application?</h3>
+                                <p>You are blocking the application, which means follow-up will be created for this client.</p>
+                                <p>
+                                    client's name:
+                                    <input id="Cname" class="uk-input" type="text" value={{travel_packages_obj.travel_client_ref.client_name}} style="width: 50%;">
+                                </p>
+                                <p>
+                                    client's contact number for call:
+                                    <input id="contact" class="uk-input" type="text" value={{travel_packages_obj.travel_client_ref.contact_number}} style="width: 50%;">
+                                </p>
+                                <p>
+                                    Select the date at which the client would be available for call:
+                                    <input id="followup_date" class="uk-input" type="date" style="width: 50%;">
+                                </p>
+                                <p>
+                                    Select the time at which the client would be available for call:
+                                    <input id="followup_time" class="uk-input" type="time" style="width: 50%;">
+                                </p>
+                                <p>
+                                    Remarks name:
+                                    <input id="followup_remarks" class="uk-input" type="text" style="width: 50%;">
+                                </p>
+                                <p class="uk-text-right">
+                                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                                    <button class="uk-button uk-button-primary" type="button" onclick="createFollowUpForPackages('{{ csrf_token }}','{{ travel_packages_obj.employee_ref_id }}','{{ travel_packages_obj.id }}')">Save</button>
+                                </p>
+                            </div>
                         </div>
-                    </div>
                 </div>
+                {% if travel_packages_obj %}
+                <div class="uk-width-1-3">
+                    <button class="uk-button uk-button-primary" onclick="updatePackageApplication('{{ csrf_token }}', '{{ app_id }}', true, 'package_selection')">Continue</button>
+                </div>
+                {% else %}
                 <div class="uk-width-1-3">
                     <button class="uk-button uk-button-primary" onclick="createPackageApplication('{{ csrf_token }}','{{ request.user.id }}', true, '{{ travel_packages_obj.id }}', '{{ travel_packages_obj.travel_client_ref.id }}')">Continue</button>
                 </div>
+                {% endif %}
                 {% else %}
                 <div class="uk-width-1-2">
                     <button class="uk-button uk-button-secondary uk-width-1-1" onclick="updatePackageApplication('{{ csrf_token }}', '{{ app_id }}', false, 'unblock_application')">
