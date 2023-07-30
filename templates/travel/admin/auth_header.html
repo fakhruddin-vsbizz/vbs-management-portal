@@ -18,21 +18,21 @@
                         <div><a href="{% url 'admin-payments' %}">Payments</a></div>
                     </div>
                 </div>
-                <div {% if request.resolver_match.url_name == 'admin-followups' %}class="active"{% endif %} style="padding: 5px 0;" >
+                {% comment %} <div {% if request.resolver_match.url_name == 'admin-followups' %}class="active"{% endif %} style="padding: 5px 0;" >
                     <div class="uk-flex">
                         <div><a href="{% url 'admin-followups' %}">Follow-ups</a></div>
                     </div>
-                </div>
+                </div> {% endcomment %}
                 <div {% if request.resolver_match.url_name == 'admin-clients' %}class="active"{% endif %} style="padding: 5px 0;" >
                     <div class="uk-flex">
                         <div><a href="{% url 'admin-clients' %}">Clients</a></div>
                     </div>
                 </div>
-                <div style="padding: 5px 0;" >
+                {% comment %} <div style="padding: 5px 0;" >
                     <div class="uk-flex">
                         <div><a href="#">Transfer Control</a></div>
                     </div>
-                </div>
+                </div> {% endcomment %}
                 <div {% if request.resolver_match.url_name == 'admin-agent-mgmt' %}class="active"{% endif %} style="padding: 5px 0;" >
                     <div class="uk-flex">
                         <div><a href="{% url 'admin-agent-mgmt' %}">Account Management</a></div>
@@ -45,11 +45,11 @@
                         <div><a href="{% url 'logout-view' %}"><img src="{% static 'img/icon-park_logout.png' %}" style="width:39px; height:39px;"></a></div>
                     </div>
                 </div>
-                <div>
+                {% comment %} <div>
                     <div class="uk-flex">
                         <div><a href="#"><img src="{% static 'img/iconamoon_profile-fill.png' %}" style="width:39px; height:39px;"></a></div>
                     </div>
-                </div>
+                </div> {% endcomment %}
             </div>
             
         </div>
