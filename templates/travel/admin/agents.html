@@ -54,7 +54,7 @@
                 
                     <div class="uk-card uk-card-default uk-card-body" style="padding-bottom: 2rem; border-radius: 43px; display: flex; align-items: flex-start; justify-content: left; width: 70vw;">
                         <div style="text-align: left; padding-left: 3%; width: 100%;">   
-                            <h4 style="font-size: 1.7rem; font-weight: 400;">Agent's applications at Payments stage</h4>
+                            <h4 style="font-size: 1.7rem; font-weight: 400;">Agent's pending applications at Payments stage</h4>
                             <div uk-slider style="width: 100%;">
                                 <ul id="application-payment" class="uk-slider-items uk-flex" style="gap: 1.5rem; list-style:none; justify-content: center;">
                                     <div style="text-align: center; margin-left: 5rem;">
@@ -128,8 +128,8 @@
                                     <div>
                                         <div class="" style="width: 203px; height: 150px;
                                         border-radius: 21px;border: 1px solid #E56509;display: flex; align-items: center; justify-content: center; flex-direction: column;">
-                                            <span style="color: #FE6666; font-size: 64px; font-weight: 700;">${data?.data[2].length}</span>
-                                            <span style="color: #FE6666; font-size: 24px; font-weight: 700;">Total Packages</span>
+                                            <span style="color: #E56509; font-size: 64px; font-weight: 700;">${data?.data[2].length}</span>
+                                            <span style="color: #E56509; font-size: 24px; font-weight: 700;">Total Packages</span>
                                         </div>
                                     </div>
                                     <div>
@@ -146,7 +146,7 @@
     
                                 <div style="max-height: 45vh; overflow-y: scroll; scroll-behavior: smooth; text-align: left;">
                                     <div class="" style="font-size: 20px; font-weight:700; padding: 3%;">
-                                        <div uk-grid class="uk-child-width-1-3" style="font-weight: 700; color: #000000;">
+                                        <div uk-grid class="uk-child-width-1-4" style="font-weight: 700; color: #000000;">
                                             <div>Client Name</div>
                                             <div>Category</div>
                                             <div>Stage</div>
@@ -154,31 +154,285 @@
                                         </div>
                                     </div>
                                     ${data?.data[1].map(item => `<div class="uk-card uk-card-default" style="height: 82px; background: #F5F5F5; border-radius: 18px; padding: 3%;">
-                                        <div uk-grid class="uk-child-width-1-3" style="justify-content: space-between;">
+                                        <div uk-grid class="uk-child-width-1-4" style="justify-content: space-between;">
                                             <div style="color: #000000;">${item?.travel_client_ref?.client_name}</div>
                                             <div style="width: 113px; border-radius: 8px; display: flex; background: #00AE31; color: white; align-items: center;"><span style="block">VISA</span></div>
                                             <div style="display: flex; justify-content: center; align-items: center; color: #000000;">${item?.stage}</div>
-                                            {% comment %} <div style="display: flex; justify-content: center; align-items: center;"><img class="btn" onClick='clicked({{i.id}})' src="{% static 'img/carbon_arrow-up-black.png' %}" style="width:32px; height:32px;" /></div> {% endcomment %}
+                                            <div style="display: flex; justify-content: center; align-items: center;"><img class="btn"  uk-toggle="target: #visa-application-details-modal-${item?.id}" src="{% static 'img/carbon_arrow-up-black.png' %}" style="width:32px; height:32px;" /></div>
+                                        </div>
+                                        <div id="visa-application-details-modal-${item?.id}" uk-modal>
+                                            <div class="uk-modal-dialog uk-modal-body">
+                                                <button class="uk-modal-close-default" type="button" uk-close></button>
+                                                <h2 class="uk-modal-title">Application details</h2>
+                                                <input type="hidden" id="id_employee" value=""/>
+                                                <div uk-grid class="uk-child-width-1-2">
+                                                    <div>
+                                                        Applicants Name:<br/>
+                                                        <span>${item?.applicants_name}</span>
+                                                     </div>
+                                                    <div>
+                                                        Passport Number:<br/>
+                                                        <span>${item?.passport_no}</span>
+                                                     </div>
+                                                    <div>
+                                                        Contact Number:<br/>
+                                                        <span>${item?.contact_number}</span>
+                                                     </div>
+                                                    <div>
+                                                        Visiting Country:<br/>
+                                                        <span>${item?.visiting_country}</span>
+                                                     </div>
+                                                     <div>
+                                                        Sub Location:<br/>
+                                                        <span>${item?.sub_location}</span>
+                                                     </div>
+                                                    <div>
+                                                        Stage:<br/>
+                                                        <span>${item?.stage}</span>
+                                                     </div>
+                                                    <div>
+                                                        Application Status:<br/>
+                                                        <span>${item?.status}</span>
+                                                     </div>
+                                                    <div>
+                                                        Invoice Status:<br/>
+                                                        <span>${item?.invoice_status ? "Paid": "Unpaid"}</span>
+                                                     </div>
+                                                    <div>
+                                                        Total Charges:<br/>
+                                                        <span>${item?.total_charges}</span>
+                                                     </div>
+                                                    <div>
+                                                        VBS Charges:<br/>
+                                                        <span>${item?.vbs_charges}</span>
+                                                     </div>
+                                                    <div>
+                                                        Express Charges:<br/>
+                                                        <span>${item?.express_charges}</span>
+                                                     </div>
+                                                    <div>
+                                                        Authority Fee:<br/>
+                                                        <span>${item?.authority_fee}</span>
+                                                     </div>
+                                                    <div>
+                                                        Visa Fee:<br/>
+                                                        <span>${item?.visa_fee}</span>
+                                                     </div>
+                                                    <div>
+                                                        Vendor Name:<br/>
+                                                        <span>${item?.vendor_name}</span>
+                                                     </div>
+                                                    <div>
+                                                        Handover Date:<br/>
+                                                        <span>${new Date(item?.handover_date).toDateString()}</span>
+                                                     </div>
+                                                    <div>
+                                                        Visa Status:<br/>
+                                                        <span>${item?.visa_status}</span>
+                                                     </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>`)}
                                     ${data?.data[2].map(item => `<div class="uk-card uk-card-default" style="height: 82px; background: #F5F5F5; border-radius: 18px; padding: 3%;">
-                                        <div uk-grid class="uk-child-width-1-3" style="justify-content: space-between;">
+                                        <div uk-grid class="uk-child-width-1-4" style="justify-content: space-between;">
                                             <div style="color: #000000;">${item?.travel_client_ref?.client_name}</div>
-                                            <div style="width: 113px; border-radius: 8px; display: flex; background: #BD08EA; color: white; align-items: center;"><span style="block">Packages</span></div>
+                                            <div style="width: 140px; border-radius: 8px; display: flex; background: #E56509; color: white; align-items: center;"><span style="block">Packages</span></div>
                                             <div style="display: flex; justify-content: center; align-items: center; color: #000000;">${item?.stage}</div>
-                                            {% comment %} <div style="display: flex; justify-content: center; align-items: center;"><img class="btn" onClick='clicked({{i.id}})' src="{% static 'img/carbon_arrow-up-black.png' %}" style="width:32px; height:32px;" /></div> {% endcomment %}
+                                            <div style="display: flex; justify-content: center; align-items: center;"><img class="btn" uk-toggle="target: #package-application-details-modal-${item?.id}"  src="{% static 'img/carbon_arrow-up-black.png' %}" style="width:32px; height:32px;" /></div>
+                                        </div>
+                                        <div id="package-application-details-modal-${item?.id}" uk-modal>
+                                            <div class="uk-modal-dialog uk-modal-body">
+                                                <button class="uk-modal-close-default" type="button" uk-close></button>
+                                                <h2 class="uk-modal-title">Application details</h2>
+                                                <input type="hidden" id="id_employee" value=""/>
+                                                <div uk-grid class="uk-child-width-1-2">
+                                                    <div>
+                                                        Applicants Name:<br/>
+                                                        <span>${item?.applicants_name}</span>
+                                                     </div>
+                                                    <div>
+                                                        Package Type:<br/>
+                                                        <span>${item?.package_type}</span>
+                                                     </div>
+                                                    <div>
+                                                        Quantity of Packages:<br/>
+                                                        <span>${item?.quantity_of_packages}</span>
+                                                     </div>
+                                                     <div>
+                                                        Package Name:<br/>
+                                                        <span>${item?.package_name}</span>
+                                                     </div>
+                                                     <div>
+                                                        Number of Days:<br/>
+                                                        <span>${item?.no_of_days}</span>
+                                                     </div>
+                                                     ${item?.passport_no && `<div>
+                                                        Passport Number:<br/>
+                                                        <span>${item?.passport_no}</span>
+                                                     </div>`}
+                                                    <div>
+                                                        Stage:<br/>
+                                                        <span>${item?.stage}</span>
+                                                     </div>
+                                                    <div>
+                                                        Application Status:<br/>
+                                                        <span>${item?.status}</span>
+                                                     </div>
+                                                    <div>
+                                                        Invoice Status:<br/>
+                                                        <span>${item?.invoice_status ? "Paid": "Unpaid"}</span>
+                                                     </div>
+                                                    <div>
+                                                        Total Charges:<br/>
+                                                        <span>${item?.net_amount}</span>
+                                                     </div>
+                                                    <div>
+                                                        Gross Amount:<br/>
+                                                        <span>${item?.gross_amount}</span>
+                                                     </div>
+                                                    <div>
+                                                        Service Fees:<br/>
+                                                        <span>${item?.service_fees}</span>
+                                                     </div>
+                                                    <div>
+                                                        Total Vendor Payment:<br/>
+                                                        <span>${item?.total_vendor_payment}</span>
+                                                     </div>
+                                                    <div>
+                                                        Vendor Name:<br/>
+                                                        <span>${item?.vendor_name}</span>
+                                                     </div>
+                                                    <div>
+                                                        Tentative Payment Date:<br/>
+                                                        <span>${new Date(item?.tentative_payment_date).toDateString()}</span>
+                                                     </div>
+                                                    <div>
+                                                        Arrival Date:<br/>
+                                                        <span>${new Date(item?.arrival_date).toDateString()}</span>
+                                                     </div>
+                                                    <div>
+                                                        Departure Date:<br/>
+                                                        <span>${new Date(item?.departure_date).toDateString()}</span>
+                                                     </div>
+                                                    <div>
+                                                        Destination:<br/>
+                                                        <span>${item?.destination}</span>
+                                                     </div>
+                                                    <div>
+                                                        Boarding:<br/>
+                                                        <span>${item?.boarding}</span>
+                                                     </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>`)}
                                     ${data?.data[3].map(item => `<div class="uk-card uk-card-default" style="height: 82px; background: #F5F5F5; border-radius: 18px; padding: 3%;">
-                                        <div uk-grid class="uk-child-width-1-3" style="justify-content: space-between;">
+                                        <div uk-grid class="uk-child-width-1-4" style="justify-content: space-between;">
                                             <div style="color: #000000;">${item?.travel_client_ref?.client_name}</div>
-                                            <div style="width: 113px; border-radius: 8px; display: flex; background: #BD08EA; color: white; align-items: center;"><span style="block">Tickets</span></div>
+                                            <div style="width: 130px; border-radius: 8px; display: flex; background: #BD08EA; color: white; align-items: center;"><span style="block">Tickets</span></div>
                                             <div style="display: flex; justify-content: center; align-items: center; color: #000000;">${item?.stage}</div>
-                                            {% comment %} <div style="display: flex; justify-content: center; align-items: center;"><img class="btn" onClick='clicked({{i.id}})' src="{% static 'img/carbon_arrow-up-black.png' %}" style="width:32px; height:32px;" /></div> {% endcomment %}
+                                            <div style="display: flex; justify-content: center; align-items: center;"><img class="btn" uk-toggle="target: #ticket-application-details-modal-${item?.id}" src="{% static 'img/carbon_arrow-up-black.png' %}" style="width:32px; height:32px;" /></div>
+                                        </div>
+                                        <div id="ticket-application-details-modal-${item?.id}" uk-modal>
+                                            <div class="uk-modal-dialog uk-modal-body">
+                                                <button class="uk-modal-close-default" type="button" uk-close></button>
+                                                <h2 class="uk-modal-title">Application details</h2>
+                                                <input type="hidden" id="id_employee" value=""/>
+                                                <div uk-grid class="uk-child-width-1-2">
+                                                    <div>
+                                                        Applicants Name:<br/>
+                                                        <span>${item?.applicants_name}</span>
+                                                     </div>
+                                                    <div>
+                                                        Package Type:<br/>
+                                                        <span>${item?.package_type}</span>
+                                                     </div>
+                                                    <div>
+                                                        Contact Number:<br/>
+                                                        <span>${item?.contact_number}</span>
+                                                     </div>
+                                                     <div>
+                                                        Package Name:<br/>
+                                                        <span>${item?.package_name}</span>
+                                                     </div>
+                                                     <div>
+                                                        Trip Type:<br/>
+                                                        <span>${item?.trip_type}</span>
+                                                     </div>
+                                                    <div>
+                                                        Stage:<br/>
+                                                        <span>${item?.stage}</span>
+                                                     </div>
+                                                    <div>
+                                                        Application Status:<br/>
+                                                        <span>${item?.status}</span>
+                                                     </div>
+                                                    <div>
+                                                        Invoice Status:<br/>
+                                                        <span>${item?.invoice_status ? "Paid": "Unpaid"}</span>
+                                                     </div>
+                                                    <div>
+                                                        Total Charges:<br/>
+                                                        <span>${item?.total_amount}</span>
+                                                     </div>
+                                                    <div>
+                                                        Gross Amount:<br/>
+                                                        <span>${item?.gross_amount}</span>
+                                                     </div>
+                                                    <div>
+                                                        Service Fees:<br/>
+                                                        <span>${item?.service_fees}</span>
+                                                     </div>
+                                                    <div>
+                                                        Ticket Number:<br/>
+                                                        <span>${item?.ticket_no}</span>
+                                                     </div>
+                                                    <div>
+                                                        Agent Ref:<br/>
+                                                        <span>${item?.agent_ref}</span>
+                                                     </div>
+                                                    <div>
+                                                        Issued From:<br/>
+                                                        <span>${item?.issued_from}</span>
+                                                     </div>
+                                                    <div>
+                                                        Travel Class:<br/>
+                                                        <span>${item?.travel_class}</span>
+                                                     </div>
+                                                    <div>
+                                                        Vehicle Number:<br/>
+                                                        <span>${item?.vehicle_no}</span>
+                                                     </div>
+                                                    <div>
+                                                        mode of Transport:<br/>
+                                                        <span>${item?.mode_of_transport}</span>
+                                                     </div>
+                                                    <div>
+                                                        Arrival Date:<br/>
+                                                        <span>${new Date(item?.arrival_date).toDateString()}</span>
+                                                     </div>
+                                                    <div>
+                                                        Departure Date:<br/>
+                                                        <span>${new Date(item?.departure_date).toDateString()}</span>
+                                                     </div>
+                                                    <div>
+                                                        Destination:<br/>
+                                                        <span>${item?.destination}</span>
+                                                     </div>
+                                                    <div>
+                                                        Boarding:<br/>
+                                                        <span>${item?.origin}</span>
+                                                     </div>
+                                                    <div>
+                                                        Via:<br/>
+                                                        <span>${item?.via}</span>
+                                                     </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>`)}                                    
                                 </div>
-                                
                             </div>`
                         }
 
@@ -200,8 +454,9 @@
                             pending_applications.innerHTML = data?.data[4].map(item => `<li>
                                 <div style="height: 120px; padding: 20px; color: white; background: #FE6666; min-width: 305px; display: flex; align-items: flex-start; justify-content: center; border-radius: 21px">
                                     <div class="uk-flex" style="flex-direction:column">
-                                        <div class="uk-flex" style="justify-content: space-between; gap: 3rem;">
-                                            <label style="font-size: 140%;">${item?.name}</label>
+                                        <div class="uk-flex" style="justify-content: space-between; gap: 1rem;">
+                                            <label style="font-size: 140%;">Client Name:</label>
+                                            <label style="font-size: 140%; text-transform: capitalize;">${item?.name}</label>
                                         </div>
                                         <div style="vertical-align: middle;">
                                             <label style="font-size: 180%;">${item?.count} Pending</label>
