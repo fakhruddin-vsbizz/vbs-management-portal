@@ -1,0 +1,1 @@
+web gunicorn vbs.wsgi:application --log-file -
