@@ -106,7 +106,7 @@ function createPackageApplication(csrf_token, id, stage_change, app_id, client_i
     console.log(package_selection)
 
     $.ajax({
-        url: 'http://localhost:8000/travel/api/travel_packages_crud',
+        url: '/travel/api/travel_packages_crud',
         type: 'POST',
         data: package_selection,
         success: function(data){
@@ -263,7 +263,7 @@ function updatePackageApplication(csrf_token, id, stage_change, stage_name) {
 
     if(stage_name === 'unblock_application'){
         $.ajax({
-            url: 'http://localhost:8000/travel/api/travel_packages_crud',
+            url: '/travel/api/travel_packages_crud',
             type: 'PUT',
             data: pushable_data,
             success: function(data){
@@ -294,7 +294,7 @@ function updatePackageApplication(csrf_token, id, stage_change, stage_name) {
 
     }else{
         $.ajax({
-            url: 'http://localhost:8000/travel/api/travel_packages_crud',
+            url: '/travel/api/travel_packages_crud',
             type: 'PUT',
             data: pushable_data,
             success: function(data){
@@ -354,7 +354,7 @@ function createFollowUpForPackages(csrf_token, emp_id, app_id) {
     if(validateField(followup_data['time_for_followups']) && validateField(followup_data['date_for_followups']) && validateField(followup_data['remarks'])){
 
         $.ajax({
-            url: 'http://localhost:8000/travel/api/create_follow_ups',
+            url: '/travel/api/create_follow_ups',
             type: 'POST',
             data: followup_data,
             success: function(data){
@@ -392,7 +392,7 @@ function updateFollowUpStatusForPackages(csrf_token, id){
     }
 
     $.ajax({
-        url: 'http://localhost:8000/travel/api/create_follow_ups',
+        url: '/travel/api/create_follow_ups',
         type: 'PUT',
         data: pushable_data,
         success: function(data){

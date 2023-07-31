@@ -21,7 +21,7 @@ function deactivateAgents(csrf_token, activation_status) {
 
     if(is_api_go){
         $.ajax({
-            url: 'http://localhost:8000/travel/api/edit_travel_agent_details',
+            url: '/travel/api/edit_travel_agent_details',
             type: 'PUT',
             data: {
                 csrfmiddlewaretoken: csrf_token,

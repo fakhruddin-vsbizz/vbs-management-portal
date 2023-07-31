@@ -185,7 +185,7 @@ function createTicketApplication(csrf_token, id, stage_change, app_id, client_id
     if(stage_name === 'unblock_application'){
     
     $.ajax({
-        url: 'http://localhost:8000/travel/api/travel_tickets_crud',
+        url: '/travel/api/travel_tickets_crud',
         type: 'POST',
         data: pushable_data,
         success: function(data){
@@ -216,7 +216,7 @@ function createTicketApplication(csrf_token, id, stage_change, app_id, client_id
     
 }else{
     $.ajax({
-        url: 'http://localhost:8000/travel/api/travel_tickets_crud',
+        url: '/travel/api/travel_tickets_crud',
         type: 'POST',
         data: pushable_data,
         success: function(data){
@@ -296,7 +296,7 @@ function createFollowUpForTickets(csrf_token, emp_id, app_id, client_id) {
     if(validateField(followup_data['time_for_followups']) && validateField(followup_data['date_for_followups']) && validateField(followup_data['remarks'])){
 
         $.ajax({
-            url: 'http://localhost:8000/travel/api/create_follow_ups',
+            url: '/travel/api/create_follow_ups',
             type: 'POST',
             data: followup_data,
             success: function(data){
@@ -334,7 +334,7 @@ function updateFollowUpStatusForTickets(csrf_token, id){
     }
 
     $.ajax({
-        url: 'http://localhost:8000/travel/api/create_follow_ups',
+        url: '/travel/api/create_follow_ups',
         type: 'PUT',
         data: pushable_data,
         success: function(data){
