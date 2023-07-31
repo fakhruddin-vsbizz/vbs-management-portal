@@ -89,7 +89,7 @@ function createVisaApplication(csrf_token, id, stage_change, app_id, client_id, 
         console.log(Number(app_id))
 
         $.ajax({
-            url: 'http://localhost:8000/travel/api/travel_visa_stage_1',
+            url: '/travel/api/travel_visa_stage_1',
             type: 'POST',
             data: {
                 csrfmiddlewaretoken: csrf_token,
@@ -359,7 +359,7 @@ function updateDocumentProcessing(csrf_token, id, stage_change, stage_name, new_
     if(validateField(vendor_name) || total_value > 0 || validateField(total_value) || stage_name == 'unblock_application' || stage_name == 'block_application' || stage_name == 'detail processing'){
         if(stage_name === 'unblock_application'){
             $.ajax({
-                url: 'http://localhost:8000/travel/api/travel_visa_stage_1',
+                url: '/travel/api/travel_visa_stage_1',
                 type: 'PUT',
                 data: pushable_data,
                 success: function(data){
@@ -390,7 +390,7 @@ function updateDocumentProcessing(csrf_token, id, stage_change, stage_name, new_
             
         }else{
             $.ajax({
-                url: 'http://localhost:8000/travel/api/travel_visa_stage_1',
+                url: '/travel/api/travel_visa_stage_1',
                 type: 'PUT',
                 data: pushable_data,
                 success: function(data){
@@ -440,7 +440,7 @@ function createFollowUpVisa(csrf_token, emp_id, app_id) {
     if(validateField(followup_data['time_for_followups']) && validateField(followup_data['date_for_followups']) && validateField(followup_data['remarks'])){
 
         $.ajax({
-            url: 'http://localhost:8000/travel/api/create_follow_ups',
+            url: '/travel/api/create_follow_ups',
             type: 'POST',
             data: followup_data,
             success: function(data){
@@ -478,7 +478,7 @@ function updateFollowUpStatus(csrf_token, id){
     }
 
     $.ajax({
-        url: 'http://localhost:8000/travel/api/create_follow_ups',
+        url: '/travel/api/create_follow_ups',
         type: 'PUT',
         data: pushable_data,
         success: function(data){

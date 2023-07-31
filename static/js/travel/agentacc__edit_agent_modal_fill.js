@@ -105,7 +105,7 @@ function editTravelAgent(csrf_token, tag) {
     if(is_api_go){
         console.log('api run mast')
         $.ajax({
-            url: 'http://localhost:8000/travel/api/edit_travel_agent_details',
+            url: '/travel/api/edit_travel_agent_details',
             type: 'PUT',
             data: pushable_data,
             success: function(data){

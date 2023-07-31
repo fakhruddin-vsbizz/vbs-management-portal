@@ -43,7 +43,7 @@ class followUpStateSwitcher {
             console.log('chk2');
 
             $.ajax({
-                url: 'http://localhost:8000/travel/api/travel_followup_crud',
+                url: '/travel/api/travel_followup_crud',
                 type: 'PUT',
                 data: {
                     csrfmiddlewaretoken: '{{ csrf_token }}',

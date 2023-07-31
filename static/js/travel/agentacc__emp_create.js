@@ -31,7 +31,7 @@ function createNewAgent(csrf_token) {
 
 
     $.ajax({
-        url: 'http://localhost:8000/travel/api/create_new_agent',
+        url: '/travel/api/create_new_agent',
         type: 'POST',
         data: {
             csrfmiddlewaretoken: csrf_token,

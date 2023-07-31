@@ -86,7 +86,7 @@
 
             if(id !== null){
                 $.ajax({
-                    url: `http://localhost:8000/travel/api/agent_details/${id}`,
+                    url: `/travel/api/agent_details/${id}`,
                     type: 'GET',
                     success: function(data){
                         console.log('api run response', data)

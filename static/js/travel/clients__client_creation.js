@@ -31,7 +31,7 @@ function createNewClient(csrf_token) {
 
     if(is_api_go){
         $.ajax({
-            url: 'http://localhost:8000/travel/api/create_new_client',
+            url: '/travel/api/create_new_client',
             type: 'POST',
             data: {
                 csrfmiddlewaretoken: csrf_token,
