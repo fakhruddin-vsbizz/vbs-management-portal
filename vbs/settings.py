@@ -27,9 +27,10 @@ SECRET_KEY = 'django-insecure-izu@c(_o1b)%-pubh-e*z3&cx4fl4(45$!-6l$*1b8dzeb@gow
 # SECURITY WARNING: don't run with debug turned on in production!
 IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 
-if not IS_HEROKU_APP:
-    DEBUG = True
-    
+# if not IS_HEROKU_APP:
+#     DEBUG = True
+DEBUG = True
+
     
 if IS_HEROKU_APP:
     ALLOWED_HOSTS = ["*"]
@@ -122,7 +123,7 @@ if IS_HEROKU_APP:
             engine='django.db.backends.mysql',
             conn_max_age=600,
             conn_health_checks=True,
-            ssl_require=True,
+            ssl_require=False,
             test_options={'ssl': True, 'sslmode': 'require'}
         ),
     }
