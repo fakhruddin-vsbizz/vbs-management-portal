@@ -109,8 +109,9 @@ function createVisaApplication(csrf_token, id, stage_change, app_id, client_id, 
                 if(stage_change){
 
                     window.location.href = '/travel/visa/application/'+data.id+'/document_processing'
+                }else{
+                    window.location.href = '/travel/visa/application/'+data.id+'/detail_processing'
                 }
-                // window.location.reload();
             },
             error: function(jqXHR, exception){
                 console.log(jqXHR, ' | ', exception);
@@ -168,6 +169,7 @@ function markDates(tag, obj) {
         default:
             break;
     }
+    // window.location.reload();
 }
 
 
@@ -222,16 +224,20 @@ function visaStatus(status) {
     visa_status = status;
 }
 
+// function updateDocumentProcessing(csrf_token, id, stage_change, stage_name, new_stat){
+//     console.log(processing_dates);
+// }
+
 
 function updateDocumentProcessing(csrf_token, id, stage_change, stage_name, new_stat) {
 
     var vendor_name = null;
     var total_value = null;
 
-    let newStage = "processing documents"
+    let newStage = false
 
     if (stage_change) {
-        newStage = "processing payments"
+        newStage = true
     }
 
     pushable_data = null;
@@ -254,8 +260,11 @@ function updateDocumentProcessing(csrf_token, id, stage_change, stage_name, new_
                 csrfmiddlewaretoken: csrf_token,
                 "vendor_name": vendor_name,
                 "app_id": id,
-                "stage":newStage
+                "stage": "processing documents",
+                "new_stage": newStage
+
             }
+
 
             for (const [key, value] of Object.entries(processing_dates)) {
                 if(value == null){
@@ -406,6 +415,10 @@ function updateDocumentProcessing(csrf_token, id, stage_change, stage_name, new_
                         }
                         
                         
+                    }else if(!stage_change && data.status == 200){
+                        if(stage_name == 'processing documents'){
+                            window.location.href = '/travel/visa/application/'+data.id+'/document_processing'
+                        }
                     }
                     // window.location.reload();
                 },
