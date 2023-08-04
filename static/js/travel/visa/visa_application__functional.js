@@ -234,12 +234,6 @@ function updateDocumentProcessing(csrf_token, id, stage_change, stage_name, new_
     var vendor_name = null;
     var total_value = null;
 
-    let newStage = false
-
-    if (stage_change) {
-        newStage = true
-    }
-
     pushable_data = null;
     switch (stage_name) {
         case 'detail processing':
@@ -256,15 +250,23 @@ function updateDocumentProcessing(csrf_token, id, stage_change, stage_name, new_
 
             vendor_name = document.getElementById('vendor_name').value;
 
-            pushable_data = {
-                csrfmiddlewaretoken: csrf_token,
-                "vendor_name": vendor_name,
-                "app_id": id,
-                "stage": "processing documents",
-                "new_stage": newStage
-
+            if (stage_change) {
+                pushable_data = {
+                    csrfmiddlewaretoken: csrf_token,
+                    "vendor_name": vendor_name,
+                    "app_id": id,
+                    "stage": "processing documents",
+                    "new_stage": true
+    
+                }
+            }else{
+                pushable_data = {
+                    csrfmiddlewaretoken: csrf_token,
+                    "vendor_name": vendor_name,
+                    "app_id": id,
+                    "stage": "processing documents",    
+                }
             }
-
 
             for (const [key, value] of Object.entries(processing_dates)) {
                 if(value == null){

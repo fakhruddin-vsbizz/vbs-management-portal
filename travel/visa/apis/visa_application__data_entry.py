@@ -81,9 +81,10 @@ class TravelApplicationInitiateAPIView(APIView):
             if(data.get('handover_date')):
                 data['handover_date'] = self.__return_datetime_object(data['handover_date'])
                 
-            if(data.get('new_stage')):
-                data['stage'] = "processing payments"
-                data.pop('new_stage')
+            if 'new_stage' in data:
+                if(data.get('new_stage')):
+                    data['stage'] = "processing payments"
+                    data.pop('new_stage')
 
         try:
             travel_visa_serializer = TravelVisaApplicationSerializer(travel_visa_appl, data=data, partial=True)

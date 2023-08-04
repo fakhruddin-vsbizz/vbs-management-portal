@@ -3,16 +3,12 @@
         
         <h2 class="uk-modal-title">Select the client</h2>
         <hr>
-        <br/>
-        Search for the client:
-        <input class="uk-input" onchange=""/>
-
         <ul class="uk-list">
             {% if all_travel_clients %}
             
                 {% for elem in all_travel_clients %}
                 
-                    <li> {{elem.id}} <input class="uk-radio" type="radio" name="selected_client" onchange="selectedClientID('{{ elem.id }}','{{ elem.organization }}' ,'{{ elem.client_name }}','{{ elem.contact_number }}')"> &nbsp;&nbsp;&nbsp;{{ elem.client_name }}</li>
+                    <li><input class="uk-radio" type="radio" name="selected_client" onchange="selectedClientID('{{ elem.id }}','{{ elem.organization }}' ,'{{ elem.client_name }}','{{ elem.contact_number }}')"> &nbsp;&nbsp;&nbsp;{{ elem.client_name }}</li>
 
                 {% endfor %}
 
