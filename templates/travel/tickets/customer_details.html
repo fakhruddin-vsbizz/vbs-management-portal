@@ -52,10 +52,14 @@
                 <div class="uk-width-1-1">
                     <label style="font-size: 130%; font-weight: 600; color: rgb(0, 116, 161);">TRIP DETAILS</label><br/><br/>
                     Trip Type:<br/>
-                    <select class="uk-select" onchange="selectTripType(this)" id="form-horizontal-select" style="width: 50%;">
-                        {% for elem in tickets_type %}
+                    <select class="uk-select" value="{{travel_tickets_obj.trip_type}}" id="form-horizontal-select" style="width: 50%;">
+                    {% for elem in tickets_type %}
+                        {% if travel_tickets_obj.trip_type == elem %}
+                            <option value="{{ elem }}" selected>{{ elem }}</option>
+                        {% else %}
                             <option value="{{ elem }}">{{ elem }}</option>
-                        {% endfor %}
+                        {% endif %}
+                    {% endfor %}
                     </select>
                 </div>
                 

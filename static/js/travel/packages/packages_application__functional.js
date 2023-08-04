@@ -115,7 +115,7 @@ function createPackageApplication(csrf_token, id, stage_change, app_id, client_i
             if(stage_change){
                 window.location.href = '/travel/packages/application/'+data.id+'/customer_invoicing'
             }else{
-                // window.location.reload();
+                window.location.href = '/travel/packages/application/'+data.id+'/package_selection'
             }
             
             
