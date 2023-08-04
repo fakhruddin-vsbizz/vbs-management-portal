@@ -83,8 +83,7 @@ class TravelApplicationInitiateAPIView(APIView):
                 
             if(data.get('new_stage')):
                 data['stage'] = "processing payments"
-                
-            data.pop('new_stage')
+                data.pop('new_stage')
 
         try:
             travel_visa_serializer = TravelVisaApplicationSerializer(travel_visa_appl, data=data, partial=True)
