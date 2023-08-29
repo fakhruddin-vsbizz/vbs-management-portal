@@ -180,8 +180,8 @@
                             {% for elem in tickets_followups %}
                                 {% if elem.followup_stage == "in_followups" %}
                                 <div class="uk-card uk-card-default uk-card-body uk-card-small">
-                                    <label style="font-size: 150%; font-weight: 500;" class="client_info uk-drag" id="appl_followup_{{ elem.id }}">Application ID: {{ elem.appl_id }}</label><br/>
                                     <label style="font-size: 120%; ">Client Name: {{ elem.name }}</label><br />
+                                    <label style="font-size: 150%; font-weight: 500;" class="client_info uk-drag" id="appl_followup_{{ elem.id }}">Remark: {{ elem.remarks }}</label><br/>
                                     <label style="font-size: 120%; ">Contact: {{ elem.contact_number }}</label><br />
                                     <label style="font-size: 120%; ">Followup on {{ elem.date_for_followups }} at {{ elem.time_for_followups }}</label>
                                 </div>
@@ -196,8 +196,8 @@
                                 {% if elem.followup_stage == "not_reachable" %}
                                     <div class="uk-margin" id="in_nc_{{ elem.id }}">
                                         <div class="uk-card uk-card-default uk-card-body uk-card-small">
-                                            <label style="font-size: 150%; font-weight: 500;" class="client_info uk-drag" id="appl_followup_{{ elem.id }}">Application ID: {{ elem.appl_id }}</label><br/>
                                             <label style="font-size: 120%; ">Client Name: {{ elem.name }}</label><br />
+                                            <label style="font-size: 150%; font-weight: 500;" class="client_info uk-drag" id="appl_followup_{{ elem.id }}">Remark: {{ elem.remarks }}</label><br/>
                                             <label style="font-size: 120%; ">Contact: {{ elem.contact_number }}</label><br />
                                             <label style="font-size: 120%; ">Followup on {{ elem.date_for_followups }} at {{ elem.time_for_followups }}</label>
                                         </div>
@@ -213,8 +213,8 @@
                                 {% if elem.followup_stage == "contacted" %}
                                     <div class="uk-margin" id="in_contacted_{{ elem.id }}">
                                         <div class="uk-card uk-card-default uk-card-body uk-card-small">
-                                            <label style="font-size: 150%; font-weight: 500;" class="client_info uk-drag" id="appl_followup_{{ elem.id }}">Application ID: {{ elem.appl_id }}</label><br/>
                                             <label style="font-size: 120%; ">Client Name: {{ elem.name }}</label><br />
+                                            <label style="font-size: 150%; font-weight: 500;" class="client_info uk-drag" id="appl_followup_{{ elem.id }}">Remark: {{ elem.remarks }}</label><br/>
                                             <label style="font-size: 120%; ">Contact: {{ elem.contact_number }}</label><br />
                                             <label style="font-size: 120%; ">Followup on {{ elem.date_for_followups }} at {{ elem.time_for_followups }}</label>
                                         </div>

@@ -11,6 +11,10 @@ def datetime_to_processable_date(value):
     return value.date().strftime('%Y-%m-%d') if value not in [''," ", None] else ""
 
 @register.filter
+def datetime_to_processable_time(value):
+    return str(value) if value not in [''," ", None] else ""
+
+@register.filter
 def get_total_amount(value, arg):
     return value-arg
 

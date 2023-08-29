@@ -12,9 +12,9 @@
         <br/>
         <ul class="uk-breadcrumb">
             <li><a href="{% url 'tickets-application' %}">Home</a></li>
-            <li><a href="{% url 'tickets-customer-details' app_pk=app_id %}">Customer Details</a></li>
-            <li><a>Travel Details</a></li>
-            <li class="uk-disabled"><a href="{% url 'tickets-payments' app_pk=app_id %}">Payments</a></li>
+            <li><a href={% url 'tickets-customer-details' app_pk=app_id %}>Customer Details</a></li>
+            <li><a>Transport Details</a></li>
+            <li><a href={% url 'tickets-payments' app_pk=app_id %}>Payments</a></li>
         </ul>
 
         <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224);font-family: Roboto; color: black;">
@@ -27,7 +27,7 @@
                     <label style="font-size: 120%; font-weight: 600; color: rgb(0, 116, 161);"><u>Ticket Details</u></label>
                 </div>
                 <div>
-                    Flight/Bus/Train no.:<br/>
+                    Flight:<br/>
                     <input class="uk-input" style="width: 70%;" type="number" id="vehicle_no" value="{{ travel_tickets_obj.vehicle_no }}">
                 </div>
                 <div>
@@ -57,8 +57,16 @@
                     <input class="uk-input" style="width: 70%;" type="date" id="departure_date" value="{{ travel_tickets_obj.departure_date|datetime_to_processable_date }}">
                 </div>
                 <div>
+                    Time of Department:<br/>
+                    <input id="departure_time" class="uk-input" type="time" style="width: 50%;" value="{{travel_tickets_obj.departure_time|datetime_to_processable_time}}">
+                </div>
+                <div>
                     Date of Arrival:<br/>
                     <input class="uk-input" style="width: 70%;" type="date" id="arrival_date" value="{{ travel_tickets_obj.arrival_date|datetime_to_processable_date }}">
+                </div>
+                <div>
+                    Time of Arrival:<br/>
+                    <input id="arrival_time" class="uk-input" type="time" style="width: 50%;" value="{{travel_tickets_obj.arrival_time|datetime_to_processable_time}}">
                 </div>
                 
                 <div class="uk-width-1-1">&nbsp;</div>

@@ -94,6 +94,7 @@
                                 </ul>
                             </div>
                         </div>
+                       
                         <div>
                             <label style="font-size: 120%; font-weight: 600; color: rgb(0, 116, 161);"><u>VISA status</u></label>
                             <br/>
@@ -114,6 +115,10 @@
                                     {% endif %}
                                 </ul>
                             </div>
+                        </div>
+                        <div>
+                            Invoice Date:<br/>
+                            <input class="uk-input" id="invoice_date" style="width: 70%;" type="date" value="{{ travel_visa_obj.invoice_date }}"/>
                         </div>
                     </div>
                 </div>

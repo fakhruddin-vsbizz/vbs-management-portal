@@ -5,16 +5,17 @@ from travel.models import VBSEmployeeDetails
 
 class OrgEmployeeCreation:
 
-    email = None
-    __password = None
+    email = ""
+    password = ""
     user_group = None
     first_name = None
     last_name = None
     employee_id = None
+    new_password = ""
 
     def __init__(self, **kwargs) -> None:
         self.email = kwargs['email']
-        self.__password = kwargs['password']
+        self.password = kwargs['password']
         self.user_group = kwargs['user_group']
         self.first_name = kwargs['first_name']
         self.last_name = kwargs['last_name']
@@ -22,9 +23,10 @@ class OrgEmployeeCreation:
 
     def __generate_pbdkf2_code(self):
         try:
-            validate_password(self.__password)
-            self.__password = make_password(self.__password)
-            print(self.__password)
+            validate_password(self.password)
+            self.new_password = make_password(self.password)
+            print(self.password)
+            print(self.new_password)
             return True
         except Exception as e:
             print(e)
@@ -38,7 +40,7 @@ class OrgEmployeeCreation:
     def add_user_to_db(self):
         if self.__generate_pbdkf2_code():
             try:
-                user_obj = User.objects.create_user(email=self.email, username=self.__generate_username(), password=self.__password, is_active=True, first_name=self.first_name, last_name = self.last_name)
+                user_obj = User.objects.create_user(email=self.email, username=self.__generate_username(), password=self.password, is_active=True, first_name=self.first_name, last_name = self.last_name)
 
                 VBSEmployeeDetails.objects.create(employee_auth_user_ref=user_obj, org_employee_id=self.employee_id)
                 

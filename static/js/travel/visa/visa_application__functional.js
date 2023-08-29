@@ -3,12 +3,15 @@ var org_store = null;
 var client_name_store = null;
 var contact_number_store = null;
 var selected_country = null;
+var ref_num = "";
+var receipt_date = "";
 
 var processing_dates = {
     document_collection_date: null,
     courier_out_date: null,
     courier_in_date: null,
-    handover_date: null
+    handover_date: null,
+    submission_date: null
 }
 
 var payment_fees = {
@@ -57,6 +60,8 @@ function createVisaApplication(csrf_token, id, stage_change, app_id, client_id, 
     org_store = document.getElementById('applicant_name').value;
     client_name_store = document.getElementById('client_name').innerHTML;
     contact_number_store = document.getElementById('contact_number').value;
+    ref_num = document.getElementById('ref_num').value;
+    receipt_date = document.getElementById('receipt_date').value;
 
     // console.log(document.querySelector('input[name="radio1"]:checked').value);
     // console.log(document.querySelector('input[name="radio1"]').value);
@@ -95,6 +100,8 @@ function createVisaApplication(csrf_token, id, stage_change, app_id, client_id, 
                 csrfmiddlewaretoken: csrf_token,
                 "travel_client_ref": parseInt(id_for_selection),
                 "employee_ref":parseInt(id),
+                "ref_num": ref_num,
+                "receipt_date": receipt_date,
                 "applicants_name": org_store,
                 "passport_no":passport_number,
                 "contact_number": contact_number_store,
@@ -142,6 +149,14 @@ function markDates(tag, obj) {
             obj.style.display = 'none'
             break;
         
+        case "submission_date":
+            processing_dates[tag] = new Date()
+
+            document.getElementById(tag+'_status').innerHTML = 'Marked done on '+processing_dates[tag].toLocaleDateString();
+
+            obj.style.display = 'none'
+            break;
+
         case "courier_out_date":
             processing_dates[tag] = new Date()
 
@@ -238,11 +253,29 @@ function updateDocumentProcessing(csrf_token, id, stage_change, stage_name, new_
     switch (stage_name) {
         case 'detail processing':
 
+        org_store = document.getElementById('applicant_name').value;
+        client_name_store = document.getElementById('client_name').innerHTML;
+        contact_number_store = document.getElementById('contact_number').value;
+        ref_num = document.getElementById('ref_num').value;
+        receipt_date = document.getElementById('receipt_date').value;
+        passport_number = document.getElementById('passport_number').value;
+        sub_location = document.getElementById('sub_location').value;
+        selected_country = document.querySelector('input[name="radio1"]:checked').value;
+
             pushable_data = {
                 csrfmiddlewaretoken: csrf_token,
+                "ref_num": ref_num,
+                "receipt_date": receipt_date,
+                "applicants_name": org_store,
+                "passport_no":passport_number,
+                "contact_number": contact_number_store,
+                "visiting_country":selected_country,
+                "sub_location": sub_location,
                 "app_id": id,
-                "stage": 'processing documents'
+                "stage": stage_change ? 'processing documents' : 'detail processing'
             }
+
+            console.log(pushable_data);
 
             break;
 
@@ -285,6 +318,7 @@ function updateDocumentProcessing(csrf_token, id, stage_change, stage_name, new_
             const authority_service_fees = document.getElementById('authority_service_fees').value
             const express_fees = document.getElementById('express_fees').value
             const vbs_fees = document.getElementById('vbs_fees').value
+            const invoice_date = document.getElementById('invoice_date').value
 
             const inv_stat = document.getElementsByClassName('uk-active')[0].firstElementChild.textContent
 
@@ -335,6 +369,7 @@ function updateDocumentProcessing(csrf_token, id, stage_change, stage_name, new_
                 "cgst_fees": Number(cgst_fees),
                 "sgst_fees": Number(sgst_fees),
                 "invoice_status": invoice_status,
+                "invoice_date": invoice_date,
                 "app_id": id,
                 "stage":stage_name,
                 "status": app_status,

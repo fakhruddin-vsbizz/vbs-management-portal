@@ -17,8 +17,15 @@
         <ul class="uk-breadcrumb">
             <li><a href="{% url 'tickets-application' %}">Home</a></li>
             <li><a href="#">Customer Details</a></li>
-            <li class="uk-disabled">Travel Details</li>
+            {% if app_id != 'new' %}
+            <li><a href={% url 'tickets-transport-details' app_pk=app_id %}>Transport Details</a></li>
+            <li><a href={% url 'tickets-payments' app_pk=app_id %}>Payments</a></li>
+            
+            {% else %}
+            <li class="uk-disabled">Transport Details</li>
             <li class="uk-disabled">Payments</li>
+            
+            {% endif %}
         </ul>
 
         <div class="uk-card uk-card-default uk-card-body" style="text-align: left;width: 70%; margin-top: 5%; background-color: rgb(224, 224, 224);font-family: Roboto; color: black;">
@@ -34,12 +41,8 @@
                     {% include 'travel/tickets/dialogs/ticket_application__client_selection.html' %}
                 </div>
                 <div>
-                    Applicants Name:<br/>
+                    Name:<br/>
                     <input class="uk-input" style="width: 70%;" type="text" id="applicants_name" value="{{ travel_tickets_obj.applicants_name }}">
-                </div>
-                <div>
-                    Package Name:<br/>
-                    <input class="uk-input" style="width: 70%;" type="text" id="package_name" value="{{ travel_tickets_obj.package_name }}">
                 </div>
                 <div>
                     Contact number:<br/>
@@ -50,7 +53,9 @@
                     <hr style="border-color: black;">
                 </div>
                 <div class="uk-width-1-1">
-                    <label style="font-size: 130%; font-weight: 600; color: rgb(0, 116, 161);">TRIP DETAILS</label><br/><br/>
+                    <label style="font-size: 130%; font-weight: 600; color: rgb(0, 116, 161);">TRIP DETAILS</label>
+                </div>
+                <div>
                     Trip Type:<br/>
                     <select class="uk-select" value="{{travel_tickets_obj.trip_type}}" id="form-horizontal-select" style="width: 50%;">
                     {% for elem in tickets_type %}
@@ -61,6 +66,10 @@
                         {% endif %}
                     {% endfor %}
                     </select>
+                </div>
+                <div>
+                    Onwards:<br/>
+                    <input class="uk-input" style="width: 70%;" type="text" id="onwards" value="{{ travel_tickets_obj.onwards }}">
                 </div>
                 
                 <div>
@@ -119,7 +128,7 @@
                 <div class="uk-width-1-1">
                     <hr style="border-color: black;">
                 </div>
-                <div class="uk-width-1-1">
+                {% comment %} <div class="uk-width-1-1">
                     <label style="font-size: 130%; font-weight: 600; color: rgb(0, 116, 161);">MODE OF TRANSPORT</label><br/><br/>
                     <div class="uk-tile uk-tile-default" style="padding: 2% 2%; font-weight: 700; width: 60%; ">
                         <ul class="uk-tab-bottom" uk-tab>
@@ -143,7 +152,7 @@
                         </ul>
                     </div>
                     
-                </div>
+                </div> {% endcomment %}
                 <div class="uk-width-1-1">&nbsp;</div>
                 {% if travel_tickets_obj.status != "blocked" %}
                 <div class="uk-width-1-3">
