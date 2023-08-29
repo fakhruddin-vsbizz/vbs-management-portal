@@ -27,9 +27,9 @@ SECRET_KEY = 'django-insecure-izu@c(_o1b)%-pubh-e*z3&cx4fl4(45$!-6l$*1b8dzeb@gow
 # SECURITY WARNING: don't run with debug turned on in production!
 IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 
-if not IS_HEROKU_APP:
-    DEBUG = True
-# DEBUG = True
+# if not IS_HEROKU_APP:
+#     DEBUG = True
+DEBUG = True
 
     
 if IS_HEROKU_APP:
@@ -57,7 +57,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -197,4 +197,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 django_heroku.settings(locals())
 
-# del DATABASES['default']['OPTIONS']['sslmode']  # type: ignore
+del DATABASES['default']['OPTIONS']['sslmode']  # type: ignore
