@@ -184,7 +184,7 @@ class TravelVISA(TemplateView):
         filter_visa_data = TravelVisaApplication.objects.filter(employee_ref=id)
         visa_data = TravelVisaApplication.objects.filter(employee_ref=id).order_by("handover_date")
 
-        visa_followups = TravelFollowUps.objects.filter(application_type='visa', application_status='blocked')
+        visa_followups = TravelFollowUps.objects.filter(application_type='visa', application_status='blocked', employee_id=id)
 
         return render(request, 'travel/visa/all_list.html', {"visa_data": visa_data, "filter_visa_data": filter_visa_data, 'visa_followups':visa_followups})
     
@@ -323,7 +323,7 @@ class TravelPackages(TemplateView):
         filter_package_data = TravelPackagesApplication.objects.filter(employee_ref=id)
         package_data = TravelPackagesApplication.objects.filter(employee_ref=id).order_by("departure_date")
 
-        packages_followups = TravelFollowUps.objects.filter(application_type='packages', application_status='blocked')
+        packages_followups = TravelFollowUps.objects.filter(application_type='packages', application_status='blocked', employee_id=id)
 
         return render(request, "travel/packages/all_list.html", {"package_data": package_data, "filter_package_data": filter_package_data, 'packages_followups':packages_followups})
     
@@ -366,7 +366,7 @@ class TicketsPackages(TemplateView):
         filter_ticket_data = TravelTicketsApplication.objects.filter(employee_ref=id)
         ticket_data = TravelTicketsApplication.objects.filter(employee_ref=id).order_by("departure_date")
 
-        tickets_followups = TravelFollowUps.objects.filter(application_type = 'tickets', application_status='blocked')
+        tickets_followups = TravelFollowUps.objects.filter(application_type = 'tickets', application_status='blocked', employee_id=id)
 
         return render(request, "travel/tickets/all_list.html", {"ticket_data": ticket_data, "filter_ticket_data": filter_ticket_data, 'tickets_followups':tickets_followups})
     
