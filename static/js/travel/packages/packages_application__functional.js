@@ -87,7 +87,6 @@ function createPackageApplication(csrf_token, id, stage_change, app_id, client_i
     package_selection['departure_date'] = new Date(package_selection['departure_date']).toString()
 
     if(Number(app_id) != ''){
-        console.log("what the fuck")
         package_selection['boarding'] = document.querySelector('input[name="boarding"]:checked').value;
 
         package_selection['destination'] = document.querySelector('input[name="destination"]:checked').value;

@@ -14,7 +14,7 @@
         <ul class="uk-breadcrumb">
             <li><a href={% url 'tickets-application' %}>Home</a></li>
             <li><a href={% url 'tickets-customer-details' app_pk=app_id %}>Customer Details</a></li>
-            <li class="uk-disabled"><a href={% url 'tickets-transport-details' app_pk=app_id %}>Transport Details</a></li>
+            <li><a href={% url 'tickets-transport-details' app_pk=app_id %}>Transport Details</a></li>
             <li class="uk-disabled"><a>Payments</a></li>
         </ul>
 
@@ -93,6 +93,12 @@
                         </div>
                         <div>
                             <center><input class="uk-input" type="text" style="width: 50%;" id="agent_ref" value="{{ travel_tickets_obj.agent_ref }}"></center>
+                        </div>
+                        <div>
+                            ENTITY
+                        </div>
+                        <div>
+                            <center><input class="uk-input" type="text" style="width: 50%;" id="entity" value="{{ travel_tickets_obj.entity }}"></center>
                         </div>
                     </div>
                     <div class="uk-card uk-card-body uk-card-secondary" style="font-size: 140%; font-weight: 600;">

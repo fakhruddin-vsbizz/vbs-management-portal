@@ -34,12 +34,12 @@
                     <!-- <input class="uk-input" id="visa_client_name" style="width: 70%;" type="text"> -->
                 </div>
                 <div>
-                    Applicant Name:<br/>
+                    Customer Name:<br/>
                     <input class="uk-input" id="applicant_name" style="width: 70%;" type="text" value="{{ travel_visa_obj.applicants_name }}">
                 </div>
                 <div>
                     Passport number:<br/>
-                    <label style="font-size: 70%;">The passport is of the format - A2096457 and of 8 characters</label><br/><br/>
+                    <label style="font-size: 70%;">The passport is of the format - 5452407DH and of 8 characters</label><br/><br/>
                     <input class="uk-input" id="passport_number" style="width: 70%;" type="text" value="{{ travel_visa_obj.passport_no }}"/>
                 </div>
                 <div>
@@ -55,9 +55,9 @@
                             <li>
                                 <label id="{{ elem }}" onclick="setSelectedCountry(this)">
                                     {% if elem == travel_visa_obj.visiting_country %}
-                                    <input class="uk-radio" type="radio" id="radio1" name="radio1" checked>
+                                    <input class="uk-radio" type="radio" id="radio1" name="radio1" value="{{elem}}" checked>
                                     {% else %}
-                                    <input class="uk-radio" type="radio" id="radio1" name="radio1">
+                                    <input class="uk-radio" type="radio" id="radio1" name="radio1" value="{{elem}}">
                                     {% endif %}
                                     {{ elem }}
                                 </label>
@@ -72,11 +72,21 @@
                     <label style="font-size: 70%;">Use the same if te location comes within Schengen Agreement</label><br/><br/>
                     <input class="uk-input" id="sub_location" style="width: 70%;" type="text" value="{{ travel_visa_obj.sub_location }}"/>
                 </div>
+                <div>
+                    Receipt Date:<br/>
+                    <label style="font-size: 70%;">Use the same if te location comes within Schengen Agreement</label><br/><br/>
+                    <input class="uk-input" id="receipt_date" style="width: 70%;" type="date" value="{{ travel_visa_obj.receipt_date }}"/>
+                </div>
+                <div>
+                    Ref Number:<br/>
+                    <label style="font-size: 70%;">Use the same if te location comes within Schengen Agreement</label><br/><br/>
+                    <input class="uk-input" id="ref_num" style="width: 70%;" type="text" value="{{ travel_visa_obj.ref_num }}"/>
+                </div>
                 <div class="uk-width-1-1">&nbsp;</div>
                 {% if travel_visa_obj.status != "blocked" %}
                 {% if travel_visa_obj.visiting_country %}
                 <div class="uk-width-1-3">
-                    <button class="uk-button uk-button-default uk-width-1-1" onclick="createVisaApplication('{{ csrf_token }}','{{ request.user.id }}', false, '{{ travel_visa_obj.id }}', '{{ travel_visa_obj.travel_client_ref.id }}', '{{travel_visa_obj.visiting_country}}')">Save Changes</button>
+                    <button class="uk-button uk-button-default uk-width-1-1" onclick="updateDocumentProcessing('{{ csrf_token }}', '{{ app_id }}', false, 'detail processing', '')">Save Changes</button>
                 </div>
                 {% else %}
                 <div class="uk-width-1-3">

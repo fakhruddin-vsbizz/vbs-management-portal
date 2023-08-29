@@ -72,6 +72,9 @@ class TravelApplicationInitiateAPIView(APIView):
             if(data.get('document_collection_date')):
                 data['document_collection_date'] = self.__return_datetime_object(data['document_collection_date'])
             
+            if(data.get('submission_date')):
+                data['submission_date'] = self.__return_datetime_object(data['submission_date'])
+            
             if(data.get('courier_out_date')):
                 data['courier_out_date'] = self.__return_datetime_object(data['courier_out_date'])
 

@@ -20,6 +20,8 @@ var transport_details = {
     airline_pnr_no: null,
     departure_date: null,
     arrival_date: null,
+    arrival_time: null,
+    departure_time:null,
     app_id: null,
     stage:'transport_details',
     status:'pending'
@@ -47,6 +49,7 @@ function selectedClientIDForTickets(id, client_name, contact_number) {
 function clientDetailAutofillForTickets() {
     document.getElementById('client_name').innerHTML = customer_details['client_name'];
     document.getElementById('contact_no').setAttribute('value', customer_details['contact_number'])
+    $(".uk-modal-close").trigger('click');
 }
 
 function selectTripType(obj) {
@@ -93,7 +96,6 @@ function createTicketApplication(csrf_token, id, stage_change, app_id, client_id
         case 'customer_details':
             customer_details['csrfmiddlewaretoken'] = csrf_token;
             customer_details['employee_ref'] = Number(id)
-            customer_details['package_name'] = document.getElementById('package_name').value;
             customer_details['client_name'] = document.getElementById('client_name').innerHTML;
             customer_details['applicants_name'] = document.getElementById('applicants_name').value;
             customer_details['contact_number'] = document.getElementById('contact_no').value;
@@ -101,8 +103,10 @@ function createTicketApplication(csrf_token, id, stage_change, app_id, client_id
             customer_details['origin'] = document.querySelector('input[name="origin"]:checked').value;
             customer_details['via'] = document.getElementById('via').value;
             customer_details['trip_type'] = document.getElementById('form-horizontal-select').value;
+            customer_details['onwards'] = document.getElementById('onwards').value;
+            console.log(customer_details);
             
-            customer_details['mode_of_transport'] = document.querySelector('li[class="uk-active"]').firstChild.innerHTML
+            // customer_details['mode_of_transport'] = document.querySelector('li[class="uk-active"]').firstChild.innerHTML
 
             if(app_id != ''){
                 customer_details['app_id'] = Number(app_id)
@@ -126,7 +130,9 @@ function createTicketApplication(csrf_token, id, stage_change, app_id, client_id
             transport_details['gds_pnr_no'] = document.getElementById('gds_pnr').value;
             transport_details['airline_pnr_no'] = document.getElementById('airline_pnr').value;
             transport_details['departure_date'] = document.getElementById('departure_date').value;
+            transport_details['departure_time'] = document.getElementById('departure_time').value;
             transport_details['arrival_date'] = document.getElementById('arrival_date').value;
+            transport_details['arrival_time'] = document.getElementById('arrival_time').value;
             transport_details['ticket_no'] = document.getElementById('ticket_no').value;
             transport_details['app_id'] = Number(app_id);
 
@@ -138,13 +144,19 @@ function createTicketApplication(csrf_token, id, stage_change, app_id, client_id
             break;
         
         case 'payments':
+            let base_fees = document.getElementById('base_fees').value;
+            let service_fees = document.getElementById('service_fees').value;
+
+            let gross = Number(Number(base_fees) + Number(service_fees)) + Number((Number(base_fees)+Number(service_fees))*0.18) 
+
             payments['base_fees'] = Number(Number(document.getElementById('base_fees').value).toPrecision(2));
             payments['service_fees'] = Number(Number(document.getElementById('service_fees').value).toPrecision(2));
-            payments['gross_amount'] = Number(Number(document.getElementById('gross_amount').textContent).toPrecision(2)) - Number(Number(document.getElementById('markup').value).toPrecision(2));
-            payments['total_amount'] = Number(Number(document.getElementById('total_amount').textContent).toPrecision(2));
+            payments['gross_amount'] = gross
+            payments['total_amount'] = gross + Number(Number(document.getElementById('markup').value).toPrecision(2));
             payments['markup'] = Number(Number(document.getElementById('markup').value).toPrecision(2));
             payments['issued_from'] = document.getElementById('issued_from').value;
             payments['agent_ref'] = document.getElementById('agent_ref').value;
+            payments['entity'] = document.getElementById('entity').value;
             payments['app_id'] = Number(app_id);
 
             if(stage_change){

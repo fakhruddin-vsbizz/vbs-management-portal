@@ -229,12 +229,15 @@ class TVDetailProcessing(View):
         else:
             app_id = int(kwargs['app_pk'])
             travel_visa_obj = TravelVisaApplication.objects.get(id=app_id)
+            travel_visa_obj.receipt_date = str(travel_visa_obj.receipt_date) # type: ignore
 
         context = {}
         context['app_id'] = kwargs['app_pk']
         context['all_travel_clients'] = TravelClient.objects.all()
         context['countries'] = COUNTRIES
         context['travel_visa_obj'] = travel_visa_obj
+        
+        print(travel_visa_obj)
 
 
         return render(request, 'travel/visa/detail_processing.html', context)
@@ -257,6 +260,7 @@ class TVPaymentProcessing(TemplateView):
         context['app_id'] = kwargs['app_pk']
 
         travel_visa_obj = TravelVisaApplication.objects.get(id=kwargs['app_pk'])
+        travel_visa_obj.invoice_date = str(travel_visa_obj.invoice_date) # type: ignore
         context['travel_visa_obj'] = travel_visa_obj
         print(context)
 
